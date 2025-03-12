@@ -8,6 +8,7 @@ namespace DataDeclaration
     
     public enum UIType
     {
+        None,
         Lobby,
         Setting,
     }

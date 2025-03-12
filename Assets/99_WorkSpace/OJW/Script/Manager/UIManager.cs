@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     private bool isCursorOn;
+    private CanvasGroup fader;
 
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
@@ -18,6 +20,16 @@ public class UIManager : Singleton<UIManager>
         
         LobbyUI = InitUI<LobbyUI>();
         SettingUI = InitUI<SettingUI>();
+    }
+
+    private void Start()
+    {
+        fader = FindObjectOfType<CanvasGroup>();
+        if (fader != null) return;
+        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/UI/Prefab/Fader");
+        fader = Instantiate(go).GetComponent<CanvasGroup>();
+        
+        Debug.Log(fader);
     }
 
     /// <summary>
@@ -35,6 +47,19 @@ public class UIManager : Singleton<UIManager>
         {
             ui.ActiveUI(type);
         }
+    }
+    
+    public IEnumerator Fade(float startAlpha, float endAlpha, float fadeTime, System.Action onComplete = null)
+    {
+        var elapsedTime = 0f;
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            fader.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeTime);
+            yield return null;
+        }
+        fader.alpha = endAlpha;
+        onComplete?.Invoke();
     }
 
     private T InitUI<T>() where T : BaseUI

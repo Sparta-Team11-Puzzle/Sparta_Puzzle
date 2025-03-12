@@ -10,6 +10,9 @@ public class GameManager : Singleton<GameManager>
 
     public static void ChangeScene(SceneType sceneType)
     {
+        //TODO: 임시로 추가한 메서드임
+        UIManager.Instance.ChangeUIState(UIType.None);
+        
         SceneManager.LoadScene((int)sceneType);
     }
 }
