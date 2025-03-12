@@ -18,12 +18,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minRotX;
     [SerializeField] Transform fpsCameraTransform;
 
+    [Header("Jump Info")]
+    [SerializeField] float jumpCooldown;
+    private bool readyToJump;
+
     [Header("Ground Check")]
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float groundDrag;
     [SerializeField] float distanceToGround;
-    bool isGround;
-
+    private bool isGround;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +37,9 @@ public class PlayerController : MonoBehaviour
         rigidbody.freezeRotation = true;
         camera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
-        
+
+        inputHandler.OnJump += Jump;
+
     }
 
     private void Update()
@@ -46,7 +51,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        LimitSpeed();
+
+        if(isGround)
+            LimitSpeed();
     }
 
     // Update is called once per frame
@@ -64,6 +71,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
         {
             isGround = true;
+            readyToJump = true;
         }
         else
         {
@@ -110,6 +118,28 @@ public class PlayerController : MonoBehaviour
         camera.transform.position = fpsCameraTransform.position;
         camera.transform.rotation = Quaternion.Euler(camRotX, camRotY, 0);
         transform.rotation = Quaternion.Euler(0, camRotY, 0);
+    }
+
+    void Jump()
+    {
+        if (readyToJump)
+        {
+            Debug.Log("Jump");
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+
+            rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
+            readyToJump = false;
+
+            StartCoroutine(ResetJump());
+        }
+    }
+
+    IEnumerator ResetJump()
+    {
+        yield return new WaitForSeconds(jumpCooldown);
+
+        if(!readyToJump)
+            readyToJump = true;
     }
 
     private void OnDrawGizmos()
