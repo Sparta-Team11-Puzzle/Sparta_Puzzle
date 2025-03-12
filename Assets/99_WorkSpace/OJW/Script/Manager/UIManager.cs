@@ -29,7 +29,7 @@ public class UIManager : Singleton<UIManager>
         var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/UI/Prefab/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
         
-        Debug.Log(fader);
+        ChangeUIState(UIType.Lobby);
     }
 
     /// <summary>

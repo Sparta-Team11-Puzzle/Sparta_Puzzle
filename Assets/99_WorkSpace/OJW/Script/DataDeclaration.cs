@@ -12,4 +12,11 @@ namespace DataDeclaration
         Lobby,
         Setting,
     }
+
+    public enum SettingType
+    {
+        General,
+        Sound,
+        Key,
+    }
 }

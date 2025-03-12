@@ -15,6 +15,12 @@ public class LobbyUI : BaseUI
         exitBtn.onClick.AddListener(Application.Quit);
     }
 
+    public override void Init(UIManager manager)
+    {
+        base.Init(manager);
+        uiType = UIType.Lobby;
+    }
+
     public override void ActiveUI(UIType type)
     {
         gameObject.SetActive(type == UIType.Lobby);

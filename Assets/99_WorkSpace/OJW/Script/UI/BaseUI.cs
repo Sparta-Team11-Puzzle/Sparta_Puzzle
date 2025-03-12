@@ -6,7 +6,7 @@ public abstract class BaseUI : MonoBehaviour
     protected UIManager uiManager;
     protected UIType uiType;
 
-    public void Init(UIManager manager)
+    public virtual void Init(UIManager manager)
     {
         this.uiManager = manager;
         uiManager.UIList.Add(this);
