@@ -12,6 +12,9 @@ public abstract class BaseRoom : MonoBehaviour
 
     protected DungeonManager dungeonManager;
 
-    public abstract void InitRoom(DungeonManager manager);
+    public virtual void InitRoom(DungeonManager manager)
+    {
+        dungeonManager = manager;
+    }
     public abstract void UpdateRoom();
 }
