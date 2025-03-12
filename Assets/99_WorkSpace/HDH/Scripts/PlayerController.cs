@@ -6,6 +6,8 @@ using UnityEngine.Rendering;
 public class PlayerController : MonoBehaviour
 {
     private InputHandler inputHandler;
+    private Rigidbody rigidbody;
+    private PlayerData playerData;
 
     [Header("Camera Info")]
     [SerializeField] float cameraSensitivity;
@@ -21,9 +23,23 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         inputHandler = GetComponent<InputHandler>();
+        rigidbody = GetComponent<Rigidbody>();
+        playerData = GetComponent<PlayerData>();
+        rigidbody.freezeRotation = true;
         camera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
         
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    void Move()
+    {
+        Vector3 moveDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
+        rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
     }
 
     // Update is called once per frame

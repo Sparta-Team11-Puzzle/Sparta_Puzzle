@@ -34,7 +34,7 @@ public class InputHandler : MonoBehaviour
         jumpAction.started += context => OnJump?.Invoke();
 
         InputAction lookAction = playerActionMap.FindAction("Mouse");
-        lookAction.performed += context => mouseDelta = context.ReadValue<Vector2>();
+        lookAction.performed += context => mouseDelta = context.ReadValue<Vector2>().normalized;
         lookAction.canceled += context => mouseDelta = Vector2.zero;
 
 
