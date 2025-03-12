@@ -11,8 +11,8 @@ public enum Stage
 }
 public class DungeonManager : MonoBehaviour
 {
-    private BaseRoom[] baseRooms;
-    private BaseRoom currentRoom;
+    [SerializeField] private BaseRoom[] baseRooms;
+    [SerializeField] private BaseRoom currentRoom;
     
     void Start()
     {
@@ -20,6 +20,8 @@ public class DungeonManager : MonoBehaviour
         {
             baseRooms[i].InitRoom(this);
         }
+
+        ChangeRoom(Stage.Stage1);
     }
 
     void Update()
@@ -30,7 +32,8 @@ public class DungeonManager : MonoBehaviour
         currentRoom.UpdateRoom();
     }
 
-    // #TODO
-    // 룸 변경 함수 추가하기
-    // 
+    public void ChangeRoom(Stage stage)
+    {
+        currentRoom = baseRooms[(int)stage];
+    }
 }
