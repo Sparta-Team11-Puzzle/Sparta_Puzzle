@@ -51,9 +51,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-
-        if(isGround)
-            LimitSpeed();
+        LimitSpeed();
     }
 
     // Update is called once per frame
@@ -64,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+        Ray ray = new Ray(transform.position, Vector3.down);
 
         RaycastHit hit;
 
@@ -101,7 +99,7 @@ public class PlayerController : MonoBehaviour
         if(horizontalVelocity.magnitude > playerData.Speed)
         {
             Vector3 limitedVelocity = horizontalVelocity.normalized * playerData.Speed;
-            rigidbody.velocity = limitedVelocity;
+            rigidbody.velocity = new Vector3(limitedVelocity.x, rigidbody.velocity.y, limitedVelocity.z);
         }
     }
 
