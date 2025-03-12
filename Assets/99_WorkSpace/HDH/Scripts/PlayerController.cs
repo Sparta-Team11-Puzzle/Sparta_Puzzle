@@ -50,8 +50,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        LimitSpeed();
+        if (inputHandler.movementInput == Vector2.zero) return;
+
+        Move(inputHandler.movementInput);
     }
 
     // Update is called once per frame
@@ -85,11 +86,15 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move()
+    void Move( Vector2 movementInput )
     {
-        Vector3 moveDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
+        Debug.Log(movementInput);
+
+        Vector3 moveDirection = transform.forward * movementInput.y + transform.right * movementInput.x;
         
         rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
+
+        LimitSpeed();
     }
 
     void LimitSpeed()
