@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
         rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
 
         LimitSpeed();
+
     }
 
     void LimitSpeed()

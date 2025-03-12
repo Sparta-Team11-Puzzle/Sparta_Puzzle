@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/99_WorkSpace/HDH/testScene.unity.meta
 guid: 30c167f711bf65a458364538471a4854
+========
+guid: ecd928568e10b864fb0b3802a5c51bd6
+folderAsset: yes
+>>>>>>>> develop:Assets/99_WorkSpace/HDH.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
