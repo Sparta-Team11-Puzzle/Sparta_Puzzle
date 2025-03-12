@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minRotX;
     [SerializeField] Transform fpsCameraTransform;
 
+    [Header("Ground Check")]
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] float groundDrag;
+    [SerializeField] float distanceToGround;
+    bool isGround;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,21 +37,64 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        GroundCheck();
+        ApplyDragForce();
+    }
+
     private void FixedUpdate()
     {
         Move();
-    }
-
-    void Move()
-    {
-        Vector3 moveDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
-        rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
+        LimitSpeed();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         Look();
+    }
+
+    void GroundCheck()
+    {
+        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
+        {
+            isGround = true;
+        }
+        else
+        {
+            isGround = false;
+        }
+    }
+
+    void ApplyDragForce()
+    {
+        if (isGround)
+            rigidbody.drag = groundDrag;
+        else
+            rigidbody.drag = 0;
+    }
+
+    void Move()
+    {
+        Vector3 moveDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
+        
+        rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
+    }
+
+    void LimitSpeed()
+    {
+        Vector3 horizontalVelocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+
+        if(horizontalVelocity.magnitude > playerData.Speed)
+        {
+            Vector3 limitedVelocity = horizontalVelocity.normalized * playerData.Speed;
+            rigidbody.velocity = limitedVelocity;
+        }
     }
 
     void Look()
@@ -61,5 +110,12 @@ public class PlayerController : MonoBehaviour
         camera.transform.position = fpsCameraTransform.position;
         camera.transform.rotation = Quaternion.Euler(camRotX, camRotY, 0);
         transform.rotation = Quaternion.Euler(0, camRotY, 0);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position,
+            transform.position + Vector3.down * distanceToGround);
     }
 }
