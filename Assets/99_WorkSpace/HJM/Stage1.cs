@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stage1 : MonoBehaviour
+public class Stage1 : BaseRoom
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void InitRoom(DungeonManager manager)
     {
-        
+        base.InitRoom(manager);
+
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void UpdateRoom()
     {
         
     }
