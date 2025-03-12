@@ -4,11 +4,41 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    public Player[] Players;
+    private static CharacterManager instance;
 
-    // Start is called before the first frame update
-    void Start()
+    public static CharacterManager Instance
     {
-        Players = FindObjectsOfType<Player>();
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameObject("CharacterManager").AddComponent<CharacterManager>();
+            }
+
+            return instance;
+        }
+    }
+
+    private Player player;
+    public Player Player
+    {
+        get { return player; }
+        set { player = value; }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        CharacterManager.Instance.Player = this;
         Controller = GetComponent<PlayerController>();
         Data = GetComponent<PlayerData>();
     }
