@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        Look();
+    }
+
+    void Look()
+    {
         float mouseX = inputHandler.mouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.mouseDelta.y * Time.deltaTime * cameraSensitivity;
 

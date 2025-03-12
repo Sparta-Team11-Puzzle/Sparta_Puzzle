@@ -35,6 +35,8 @@ public class InputHandler : MonoBehaviour
 
         InputAction lookAction = playerActionMap.FindAction("Mouse");
         lookAction.performed += context => mouseDelta = context.ReadValue<Vector2>();
+        lookAction.canceled += context => mouseDelta = Vector2.zero;
+
 
         InputAction runAction = playerActionMap.FindAction("Run");
         runAction.performed += context => isRun = true;
