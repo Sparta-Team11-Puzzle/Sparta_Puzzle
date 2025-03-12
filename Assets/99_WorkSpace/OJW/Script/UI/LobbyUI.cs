@@ -1,6 +1,5 @@
 using DataDeclaration;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyUI : BaseUI
@@ -11,7 +10,7 @@ public class LobbyUI : BaseUI
 
     private void Start()
     {
-        startBtn.onClick.AddListener(() => SceneManager.LoadScene(1));
+        startBtn.onClick.AddListener(() => GameManager.ChangeScene(SceneType.Main));
         settingBtn.onClick.AddListener(() => uiManager.ChangeUIState(UIType.Setting));
         exitBtn.onClick.AddListener(Application.Quit);
     }
