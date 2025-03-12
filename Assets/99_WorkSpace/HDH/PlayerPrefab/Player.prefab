@@ -176,11 +176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcbfce87ecd5d548a71f331ad8db636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSensitivity: 100
-  maxRotX: 80
-  minRotX: -80
+  cameraSensitivity: 150
+  maxRotX: 60
+  minRotX: -60
   fpsCameraTransform: {fileID: 4792245113053924602}
-  jumpCooldown: 0
+  jumpCooldown: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
