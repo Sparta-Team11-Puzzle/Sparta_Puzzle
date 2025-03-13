@@ -37,9 +37,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGround;
 
     [Header("Push Info")]
-    [SerializeField] float pushSpeed;
+    [SerializeField] float pushPower;
     [SerializeField] private GameObject pushingObject;
     [SerializeField] private bool isPushing;
+    [SerializeField] private float pushingDistance;
 
     /// <summary>
     /// 플레이어의 정면 방향을 반환
@@ -232,7 +233,6 @@ public class PlayerController : MonoBehaviour
         transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
 
     }
-    
 
     void Jump()
     {
@@ -273,8 +273,23 @@ public class PlayerController : MonoBehaviour
 
     void HandlePushing()
     {
+        if(pushingObject == null)
+        {
+            isPushing = false;
+            return;
+        }
+
+        float distanceToObject = Vector3.Distance(transform.position, pushingObject.transform.position);
+
+        // 밀 수 있는 거리 안에 있어야함
+        if(distanceToObject > pushingDistance)
+        {
+            isPushing = false;
+            return;
+        }
+
         // 밀기 감지
-        if (Input.GetKeyDown(KeyCode.W) && pushingObject != null)
+        if (Input.GetKeyDown(KeyCode.W))
         {
             isPushing = true;
         }
@@ -286,10 +301,11 @@ public class PlayerController : MonoBehaviour
         }
 
         // 오브젝트 이동
-        if (isPushing && pushingObject != null)
+        if (isPushing)
         {
             Vector3 pushDirection = Forward; // 플레이어의 앞 방향
-            pushingObject.transform.Translate(pushDirection * pushSpeed * Time.deltaTime);
+            float pushForce = pushPower / (distanceToObject * distanceToObject);
+            pushingObject.transform.Translate(pushDirection * pushForce * Time.deltaTime, Space.World);
         }
     }
 
@@ -306,7 +322,7 @@ public class PlayerController : MonoBehaviour
         // 밀 수 있는 오브젝트와 미접촉 시
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Pushsable"))
+        if (other.CompareTag("Pushable"))
         {
             pushingObject = null;
         }

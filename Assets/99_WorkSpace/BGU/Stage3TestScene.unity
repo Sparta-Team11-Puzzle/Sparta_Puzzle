@@ -2488,7 +2488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1838383629823476457, guid: 4806b64503d3b1a4fa1643b0baaa05be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.9
+      value: 0.97
       objectReference: {fileID: 0}
     - target: {fileID: 1838383629823476457, guid: 4806b64503d3b1a4fa1643b0baaa05be, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2496,7 +2496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1838383629823476457, guid: 4806b64503d3b1a4fa1643b0baaa05be, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.9
+      value: -20.71
       objectReference: {fileID: 0}
     - target: {fileID: 1838383629823476457, guid: 4806b64503d3b1a4fa1643b0baaa05be, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2731,6 +2731,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1096958023}
     - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: pushPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
       propertyPath: pushSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -2738,6 +2742,10 @@ PrefabInstance:
       propertyPath: pushingObject
       value: 
       objectReference: {fileID: 748245661}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: pushingDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 429038244949044194, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
