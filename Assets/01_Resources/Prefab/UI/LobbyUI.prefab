@@ -55,6 +55,7 @@ MonoBehaviour:
   startBtn: {fileID: 7383821233599503156}
   settingBtn: {fileID: 8051298836554193503}
   exitBtn: {fileID: 8031824678277816012}
+  destination: {fileID: 0}
 --- !u!1 &3555356719207590130
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DataDeclaration;
@@ -40,14 +41,6 @@ public class UIManager : Singleton<UIManager>
         ChangeUIState(UIType.Lobby);
     }
 
-    private void OnDestroy()
-    {
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.RemoveSFXAudioSource(audioSource);
-        }
-    }
-
     /// <summary>
     /// 마우스 커서 On/Off 기능
     /// </summary>
@@ -70,7 +63,12 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public IEnumerator Fade(float startAlpha, float endAlpha, float fadeTime, System.Action onComplete = null)
+    public void Fade(float startAlpha, float endAlpha, float fadeTime, Action onComplete = null)
+    {
+        StartCoroutine(FadeCoroutine(startAlpha,  endAlpha, fadeTime, onComplete));
+    }
+
+    private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float fadeTime, Action onComplete)
     {
         var elapsedTime = 0f;
         while (elapsedTime < fadeTime)
