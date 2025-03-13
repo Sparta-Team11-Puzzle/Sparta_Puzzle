@@ -16,6 +16,7 @@ public class UIManager : Singleton<UIManager>
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
     public SettingUI SettingUI { get; private set; }
+    public MainUI MainUI { get; private set; }
 
     protected override void Awake()
     {
@@ -35,6 +36,7 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
+        GameManager.Instance.InitializeMain += InitializeMain;
         AudioManager.Instance.AddSFXAudioSource(audioSource);
 
         InitFader();
@@ -106,9 +108,10 @@ public class UIManager : Singleton<UIManager>
         var ui = GetComponentInChildren<T>(true);
         if (ui == null)
         {
-            var go = new GameObject(nameof(T));
-            go.transform.SetParent(transform);
-            ui = go.AddComponent<T>();
+            var prefab = Resources.Load<GameObject>("Prefab/UI/" +  typeof(T).Name);
+            var go = Instantiate(prefab);
+            ui = go.GetComponent<T>();
+            go.transform.SetParent(transform, false);
         }
 
         ui.Init(this);
@@ -124,5 +127,11 @@ public class UIManager : Singleton<UIManager>
         if (fader != null) return;
         var go = Resources.Load<GameObject>("Prefab/UI/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
+    }
+
+    private void InitializeMain()
+    {
+        MainUI = InitUI<MainUI>();
+        ChangeUIState(UIType.Main);
     }
 }
