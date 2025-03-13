@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
         {
             float curDegree = camRotY;
 
-            float x = Mathf.Sin(camRotY * Mathf.Deg2Rad);
-            float z = Mathf.Cos(camRotY * Mathf.Deg2Rad);
+            float x = Mathf.Sin(curDegree * Mathf.Deg2Rad);
+            float z = Mathf.Cos(curDegree * Mathf.Deg2Rad);
 
             return new Vector3(x, 0, z).normalized;
         }
@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
         {
             float curDegree = camRotY - 90f;
 
-            float x = Mathf.Cos(camRotY * Mathf.Deg2Rad);
-            float z = Mathf.Sin(camRotY * Mathf.Deg2Rad);
+            float x = Mathf.Sin(curDegree * Mathf.Deg2Rad);
+            float z = Mathf.Cos(curDegree * Mathf.Deg2Rad);
 
             return new Vector3(x, 0, z).normalized;
         }
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         if(!canMove || movementInput == Vector2.zero) return;
 
-        Vector3 moveDirection = Forward * movementInput.y + Right * movementInput.x;
+        Vector3 moveDirection = Forward * movementInput.y + Right * -movementInput.x;
         
         rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
 
@@ -162,11 +162,8 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        Debug.Log(readyToJump);
-
         if (readyToJump)
         {
-            Debug.Log("Jump");
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
 
             rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
