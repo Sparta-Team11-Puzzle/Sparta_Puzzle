@@ -8,10 +8,10 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     private bool isCursorOn;
-    private CanvasGroup fader;
-    [SerializeField] private AudioClip buttonSound;
+    private CanvasGroup fader; // Fade 연출 오브젝트
+    [SerializeField] private AudioClip buttonSound; // 버튼 클릭 SFX
 
-    private AudioSource audioSource;
+    private AudioSource audioSource; // SFX용 AudioSource
 
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
@@ -50,11 +50,18 @@ public class UIManager : Singleton<UIManager>
         Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    /// <summary>
+    /// 버튼 클릭 SFX 출력
+    /// </summary>
     public void PlayButtonSound()
     {
         audioSource.PlayOneShot(buttonSound);
     }
 
+    /// <summary>
+    /// UI 변경 기능
+    /// </summary>
+    /// <param name="type">활성화 하고 싶은 UI 타입</param>
     public void ChangeUIState(UIType type)
     {
         foreach (var ui in UIList)
@@ -63,9 +70,16 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    /// <summary>
+    /// Fade 연출 기능
+    /// </summary>
+    /// <param name="startAlpha">시작 알파값</param>
+    /// <param name="endAlpha">종료 알파값</param>
+    /// <param name="fadeTime">연출 시간</param>
+    /// <param name="onComplete">연출 종료 시 호출할 함수<para>기본값: null</para></param>
     public void Fade(float startAlpha, float endAlpha, float fadeTime, Action onComplete = null)
     {
-        StartCoroutine(FadeCoroutine(startAlpha,  endAlpha, fadeTime, onComplete));
+        StartCoroutine(FadeCoroutine(startAlpha, endAlpha, fadeTime, onComplete));
     }
 
     private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float fadeTime, Action onComplete)
@@ -82,6 +96,11 @@ public class UIManager : Singleton<UIManager>
         onComplete?.Invoke();
     }
 
+    /// <summary>
+    /// UIManager에 UI 저장 기능
+    /// </summary>
+    /// <typeparam name="T">BaseUI</typeparam>
+    /// <returns>BaseUI를 상속받은 UI 클래스</returns>
     private T InitUI<T>() where T : BaseUI
     {
         var ui = GetComponentInChildren<T>(true);
@@ -96,6 +115,9 @@ public class UIManager : Singleton<UIManager>
         return ui;
     }
 
+    /// <summary>
+    /// Fader 초기화
+    /// </summary>
     private void InitFader()
     {
         fader = FindObjectOfType<CanvasGroup>();

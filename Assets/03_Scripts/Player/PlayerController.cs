@@ -98,12 +98,15 @@ public class PlayerController : MonoBehaviour
     {
         GroundCheck();
         ApplyDragForce();
-        HandlePushing();
     }
 
     private void FixedUpdate()
     {
-        Move(inputHandler.MovementInput);
+        if (FPSmode)
+            FPSMove(inputHandler.MovementInput);
+        else
+            TPSMove(inputHandler.MovementInput);
+
     }
 
     void LateUpdate()
@@ -141,7 +144,21 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move(Vector2 movementInput)
+    void FPSMove(Vector2 movementInput)
+    {
+        if (!canMove || movementInput == Vector2.zero) return;
+
+        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+
+        transform.forward = moveDirection;
+
+        rigidbody.AddForce(transform.forward * playerData.Speed, ForceMode.Force);
+
+        LimitSpeed();
+
+    }
+
+    void TPSMove(Vector2 movementInput)
     {
         if (!canMove || movementInput == Vector2.zero) return;
 
@@ -247,9 +264,6 @@ public class PlayerController : MonoBehaviour
 
         camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
 
-        //transform.rotation = Quaternion.Euler(0, tpsCameraRotY, 0);
-        //transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
-
     }
 
     void Jump()
@@ -287,44 +301,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
-    }
-
-    void HandlePushing()
-    {
-        if(pushingObject == null)
-        {
-            isPushing = false;
-            return;
-        }
-
-        float distanceToObject = Vector3.Distance(transform.position, pushingObject.transform.position);
-
-        // 밀 수 있는 거리 안에 있어야함
-        if(distanceToObject > pushingDistance)
-        {
-            isPushing = false;
-            return;
-        }
-
-        // 밀기 감지
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            isPushing = true;
-        }
-
-        // 밀기 중단
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            isPushing = false;
-        }
-
-        // 오브젝트 이동
-        if (isPushing)
-        {
-            Vector3 pushDirection = Forward; // 플레이어의 앞 방향
-            float pushForce = pushPower / (distanceToObject * distanceToObject);
-            pushingObject.transform.Translate(pushDirection * pushForce * Time.deltaTime, Space.World);
-        }
     }
 
     // 밀 수 있는 오브젝트와 접촉 시

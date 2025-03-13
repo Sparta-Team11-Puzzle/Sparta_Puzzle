@@ -6,18 +6,24 @@ public class WalkBehaviour : StateMachineBehaviour
 {
     private NavMeshAgent agent;
 
-    private readonly Vector3[] path = new Vector3[]
-    {
-        new Vector3(-8.86f, 0f, -16.54f), new Vector3(2.84f, 0f, -9.74f), new Vector3(4.71f, 0f, 0f),
-        new Vector3(4f, 0f, 30f)
-    };
+    private Vector3[] path; // AI 경로
 
-    private int curPathIndex = 0;
-    private bool isTrigger = false;
+    private int curPathIndex; // 현재 경로 인덱스
+    private bool isTrigger;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         agent = animator.GetComponent<NavMeshAgent>();
+
+        path = new[]
+        {
+            new Vector3(-8.86f, 0f, -16.54f), new Vector3(2.84f, 0f, -9.74f), new Vector3(4.71f, 0f, 0f),
+            new Vector3(4f, 0f, 30f)
+        };
+
+        curPathIndex = 0;
+        isTrigger = false;
+
         Move();
     }
 
@@ -35,6 +41,9 @@ public class WalkBehaviour : StateMachineBehaviour
         }
     }
 
+    /// <summary>
+    /// 지정된 경로 탐색 기능
+    /// </summary>
     private void Move()
     {
         if (path.Length == 0) return;
