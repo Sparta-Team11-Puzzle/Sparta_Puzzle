@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour
         input = GetComponent<PlayerInput>();
         playerActionMap = input.actions.FindActionMap("Player");
 
-        InitInputActions();
+        //InitInputActions();
     }
 
     void InitInputActions()
@@ -45,5 +45,27 @@ public class InputHandler : MonoBehaviour
         InputAction useAction = playerActionMap.FindAction("Use");
         useAction.performed += context => isUse = true;
         useAction.canceled += context => isUse = false;
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Performed)
+            movementInput = context.ReadValue<Vector2>();
+        else if(context.phase == InputActionPhase.Canceled)
+            movementInput = Vector2.zero;
+    }
+
+    public void OnDoJump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            OnJump?.Invoke();
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            mouseDelta = context.ReadValue<Vector2>().normalized;
+        else if (context.phase == InputActionPhase.Canceled)
+            mouseDelta = Vector2.zero;
     }
 }

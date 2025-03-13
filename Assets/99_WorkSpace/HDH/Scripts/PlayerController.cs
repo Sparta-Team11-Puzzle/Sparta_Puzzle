@@ -11,12 +11,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Camera Info")]
     [SerializeField] float cameraSensitivity;
-    private float camRotX;
-    private float camRotY;
+    
+    [SerializeField]private float camRotX;
+    [SerializeField]private float camRotY;
+    
     private Camera camera;
     [SerializeField] private float maxRotX;
     [SerializeField] private float minRotX;
     [SerializeField] Transform fpsCameraTransform;
+
+    [Header("Move Info")]
+    [SerializeField] private bool canMove;
 
     [Header("Jump Info")]
     [SerializeField] float jumpCooldown;
@@ -26,9 +31,39 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float groundDrag;
     [SerializeField] float distanceToGround;
-    private bool isGround;
+    [SerializeField] private bool isGround;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// 플레이어의 정면 방향을 반환
+    /// </summary>
+    public Vector3 Forward
+    {
+        get
+        {
+            float curDegree = camRotY;
+
+            float x = Mathf.Sin(camRotY * Mathf.Deg2Rad);
+            float z = Mathf.Cos(camRotY * Mathf.Deg2Rad);
+
+            return new Vector3(x, 0, z).normalized;
+        }
+    }
+    /// <summary>
+    /// 플레이어의 오른쪽 90도 방향을 반환
+    /// </summary>
+    public Vector3 Right
+    {
+        get
+        {
+            float curDegree = camRotY - 90f;
+
+            float x = Mathf.Cos(camRotY * Mathf.Deg2Rad);
+            float z = Mathf.Sin(camRotY * Mathf.Deg2Rad);
+
+            return new Vector3(x, 0, z).normalized;
+        }
+    }
+
     void Start()
     {
         inputHandler = GetComponent<InputHandler>();
@@ -50,11 +85,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        LimitSpeed();
+        Move(inputHandler.movementInput);
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         Look();
@@ -62,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
     void GroundCheck()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
 
         RaycastHit hit;
 
@@ -85,11 +118,16 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move()
+    void Move( Vector2 movementInput )
     {
-        Vector3 moveDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
+        if(!canMove || movementInput == Vector2.zero) return;
+
+        Vector3 moveDirection = Forward * movementInput.y + Right * movementInput.x;
         
         rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
+
+        LimitSpeed();
+
     }
 
     void LimitSpeed()
@@ -111,15 +149,21 @@ public class PlayerController : MonoBehaviour
         camRotY += mouseX;
         camRotX -= mouseY;
 
+        camRotY %= 360f;
+
         camRotX = Mathf.Clamp(camRotX, minRotX, maxRotX);
 
         camera.transform.position = fpsCameraTransform.position;
+
         camera.transform.rotation = Quaternion.Euler(camRotX, camRotY, 0);
+
         transform.rotation = Quaternion.Euler(0, camRotY, 0);
     }
 
     void Jump()
     {
+        Debug.Log(readyToJump);
+
         if (readyToJump)
         {
             Debug.Log("Jump");
@@ -140,10 +184,19 @@ public class PlayerController : MonoBehaviour
             readyToJump = true;
     }
 
+    /// <summary>
+    /// 플레이어의 이동 가능 상태를 변경
+    /// </summary>
+    /// <param name="value">이동 가능 상태 (true: 이동 가능, false: 이동 불가)</param>
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position,
-            transform.position + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
+            transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
     }
 }
