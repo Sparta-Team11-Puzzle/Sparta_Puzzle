@@ -76,7 +76,7 @@ public class UIManager : Singleton<UIManager>
     {
         fader = FindObjectOfType<CanvasGroup>();
         if (fader != null) return;
-        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/UI/Prefab/Fader");
+        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/Prefab/UI/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
     }
 }
