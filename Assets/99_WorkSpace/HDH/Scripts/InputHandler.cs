@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour
     public float MouseZoom { get; private set; }
     public event Action JumpTrigger;
     public event Action UseTrigger;
+    public event Action CameraChangeTrigger;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -54,6 +55,12 @@ public class InputHandler : MonoBehaviour
         {
             MouseZoom = 0f;
         }
+    }
+
+    public void OnCameraChange(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            CameraChangeTrigger?.Invoke();
     }
 
 }

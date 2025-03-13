@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float camRotX; // 카메라 X 회전
     private float camRotY; // 카메라 Y 회전
     private Camera camera; // 카메라 객체
+    [SerializeField] private bool FPSmode;
     [SerializeField] private Transform cameraTransform; // 카메라 트랜스폼
     [SerializeField] private float cameraSensitivity; // 카메라 감도
     [Header("Camera Settings-FPS")]
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         inputHandler.JumpTrigger += Jump;
+        inputHandler.CameraChangeTrigger += CameraChange;
 
     }
 
@@ -94,15 +96,20 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Move(inputHandler.MovementInput);
-        Move2(inputHandler.MovementInput);
+        if(FPSmode)
+            Move(inputHandler.MovementInput);
+        else
+            Move2(inputHandler.MovementInput);
     }
 
     void LateUpdate()
     {
         CameraZoom();
-        //FPSLook();
-        TPSLook();
+
+        if(FPSmode)
+            FPSLook();
+        else
+            TPSLook();
     }
 
     void GroundCheck()
@@ -165,6 +172,11 @@ public class PlayerController : MonoBehaviour
             Vector3 limitedVelocity = horizontalVelocity.normalized * playerData.Speed;
             rigidbody.velocity = new Vector3(limitedVelocity.x, rigidbody.velocity.y, limitedVelocity.z);
         }
+    }
+
+    void CameraChange()
+    {
+        FPSmode = !FPSmode;
     }
 
     void FPSLook()
