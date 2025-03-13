@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MaterialChanger : MonoBehaviour
 {
-    public Material glassMaterial;  // Glass Material
-    public Material ghostMaterial;  // Blood Material
+    public Material originalMaterial;  // 원래 Material
+    public Material ghostMaterial;  // 바뀐 Material
     private Renderer objectRenderer; // Mesh Renderer
 
     void Awake()
@@ -13,15 +13,15 @@ public class MaterialChanger : MonoBehaviour
 
     public void ChangeMaterialTemporarily()
     {
-        // Blood로 변경
+        // Ghost로 변경
         objectRenderer.material = ghostMaterial;
 
-        // 1초 후에 다시 Glass로 변경
-        Invoke("RestoreMaterial", 10f);
+        // 5초 후에 다시 원래대로 변경
+        Invoke("RestoreMaterial", 5f);
     }
 
     void RestoreMaterial()
     {
-        objectRenderer.material = glassMaterial;
+        objectRenderer.material = originalMaterial;
     }
 }
