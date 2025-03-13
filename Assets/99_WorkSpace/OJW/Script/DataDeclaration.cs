@@ -26,4 +26,10 @@ namespace DataDeclaration
         public const string BGM_VOL = "bgmVol";
         public const string SFX_VOL = "sfxVol";
     }
+
+    public interface ISettingUI
+    {
+        public void OnClickCancelButton();
+        public void OnClickApplyButton();
+    }
 }

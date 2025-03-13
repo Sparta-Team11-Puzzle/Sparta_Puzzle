@@ -6,18 +6,22 @@ using UnityEngine.UI;
 public class SettingUI : BaseUI
 {
     [SerializeField] private Button closeBtn;
-    
+    [Space]
     [SerializeField] private Button generalBtn;
     [SerializeField] private Button soundBtn;
     [SerializeField] private Button keyBtn;
-    
+    [Space]
     [SerializeField] private GameObject generalPanel;
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject keyPanel;
+    [Space]
+    [SerializeField] private Button cancelBtn;
+    [SerializeField] private Button applyBtn;
     
     private Dictionary<SettingType, GameObject> settingDict;
 
-    private SettingType curSetting;
+    private SettingType curSettingType;
+    private ISettingUI curSettingUI;
 
     private void Awake()
     {
@@ -58,10 +62,20 @@ public class SettingUI : BaseUI
 
     private void ToggleSetting(SettingType type)
     {
-        curSetting = type;
+        curSettingType = type;
         foreach (var setting in settingDict)
         {
-            setting.Value.SetActive(curSetting == setting.Key);
+            if (curSettingType == setting.Key)
+            {
+                setting.Value.SetActive(true);
+                curSettingUI =  setting.Value.GetComponent<ISettingUI>();
+                cancelBtn.onClick.AddListener(curSettingUI.OnClickCancelButton);
+                applyBtn.onClick.AddListener(curSettingUI.OnClickApplyButton);
+            }
+            else
+            {
+                setting.Value.SetActive(false);
+            }
         }
     }
 }
