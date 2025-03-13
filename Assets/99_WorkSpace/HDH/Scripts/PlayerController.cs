@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         camera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
 
-        inputHandler.OnJump += Jump;
+        inputHandler.JumpTrigger += Jump;
 
     }
 
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(inputHandler.movementInput);
+        Move(inputHandler.MovementInput);
     }
 
     void LateUpdate()
@@ -143,8 +143,8 @@ public class PlayerController : MonoBehaviour
 
     void Look()
     {
-        float mouseX = inputHandler.mouseDelta.x * Time.deltaTime * cameraSensitivity;
-        float mouseY = inputHandler.mouseDelta.y * Time.deltaTime * cameraSensitivity;
+        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
+        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
         camRotY += mouseX;
         camRotX -= mouseY;
