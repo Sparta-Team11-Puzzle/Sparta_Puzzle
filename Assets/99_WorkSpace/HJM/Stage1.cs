@@ -14,16 +14,19 @@ public class Stage1 : BaseRoom
             (-90, new Vector3(-1, 0, 0))  // 왼쪽
         };
 
-    [Header("Brake")]
-    private RaycastHit hit;
-    [SerializeField] private float brakeDistance;
-    [SerializeField] private Vector3 brakeDistaceOffset;
-    [SerializeField] private LayerMask obstacleLayer;
+    // ===== 핵심 로직 =====
+    private RaycastHit hit; 
+    [SerializeField] private float brakeDistance;           // 브레이크 탐지 거리
+    [SerializeField] private Vector3 brakeDistaceOffset;    // 브레이크 Ray Offset
+    [SerializeField] private LayerMask obstacleLayer;       // 브레이크 LayerMask
 
-    [Header("Object")]
-    [SerializeField] private IceGround iceGround;
-    [SerializeField] private Rigidbody playerRigidbody;
+    // ===== Object =====
+    [SerializeField] private IceGround iceGround;           // 미끄러지는 바닥
 
+    // ===== Player =====
+    private Rigidbody playerRigidbody;                      // 플레이어 RigidBody
+
+    // ===== Get / Set =====
     public Vector3 moveDirection { get; set; }
     public bool isSlide { get; set; }
 
@@ -31,15 +34,16 @@ public class Stage1 : BaseRoom
     {
         base.InitRoom(manager);
         iceGround.InitObject(this);
-
         isSlide = false;
+
+        // CharacterManager에서 받아오도록 수정하기
         playerRigidbody = FindObjectOfType<Rigidbody>();
         player = playerRigidbody.transform;
     }
 
     public override void UpdateRoom()
     {
-        // 플레이어가 iceGround 위에 없으면
+        // 플레이어가 iceGround 위에 없으면 return
         if (!iceGround.stayPlayer)
             return;
 

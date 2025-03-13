@@ -7,8 +7,8 @@ public class IceGround : MonoBehaviour
     private string playerTag = "Player";
 
     private Stage1 stage;
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private Rigidbody playerRigidbody;
+    private PlayerController playerController;
+    private Rigidbody playerRigidbody;
 
     public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
 
