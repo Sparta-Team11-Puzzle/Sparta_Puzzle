@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+interface IInteractable
+{
+    public void Active();
+}
+
 public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask targetLayer;
@@ -10,10 +15,12 @@ public class InteractionHandler : MonoBehaviour
 
     GameObject curInteraction;
     Camera camera;
+    InputHandler inputHandler;
 
     private void Start()
     {
         camera = Camera.main;
+        inputHandler = GetComponent<InputHandler>();
     }
 
     private void Update()
@@ -31,6 +38,13 @@ public class InteractionHandler : MonoBehaviour
             if (hit.collider.gameObject != curInteraction)
             {
                 curInteraction = hit.collider.gameObject;
+
+                IInteractable interactable;
+
+                if(curInteraction.TryGetComponent<IInteractable>(out interactable))
+                {
+                    inputHandler.UseTrigger += interactable.Active;
+                }
 
             }
         }

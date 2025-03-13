@@ -20,7 +20,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minRotX;
     [SerializeField] Transform fpsCameraTransform;
 
+    [SerializeField] float TPSCameraDistance;
+
     [Header("Move Info")]
+    [SerializeField] private float rotationSpeed;
     [SerializeField] private bool canMove;
 
     [Header("Jump Info")]
@@ -73,7 +76,7 @@ public class PlayerController : MonoBehaviour
         camera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
 
-        inputHandler.OnJump += Jump;
+        inputHandler.JumpTrigger += Jump;
 
     }
 
@@ -85,12 +88,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(inputHandler.movementInput);
+        Move(inputHandler.MovementInput);
     }
 
     void LateUpdate()
     {
-        Look();
+        FPSLook();
+        //TPSLook();
     }
 
     void GroundCheck()
@@ -122,9 +126,23 @@ public class PlayerController : MonoBehaviour
     {
         if(!canMove || movementInput == Vector2.zero) return;
 
-        Vector3 moveDirection = Forward * movementInput.y + Right * -movementInput.x;
-        
-        rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
+        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+
+        rigidbody.AddForce(moveDirection * playerData.Speed, ForceMode.Force);
+
+        LimitSpeed();
+
+    }
+
+    void Move2(Vector2 movementInput)
+    {
+        if (!canMove || movementInput == Vector2.zero) return;
+
+        Vector3 moveDirection = (transform.forward * movementInput.y + transform.right * -movementInput.x).normalized;
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
+
+        rigidbody.AddForce(transform.forward * playerData.Speed, ForceMode.Force);
 
         LimitSpeed();
 
@@ -141,10 +159,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Look()
+    void FPSLook()
     {
-        float mouseX = inputHandler.mouseDelta.x * Time.deltaTime * cameraSensitivity;
-        float mouseY = inputHandler.mouseDelta.y * Time.deltaTime * cameraSensitivity;
+        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
+        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
         camRotY += mouseX;
         camRotX -= mouseY;
@@ -159,6 +177,56 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, camRotY, 0);
     }
+
+    /// <summary>
+    /// 3인칭 시점 개발 중...
+    /// </summary>
+    void TPSLook()
+    {
+        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
+        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
+
+        camRotY += mouseX;
+        camRotX -= mouseY;
+
+        SetPositionTPSCamera();
+        RotateTPSCamera();
+    }
+
+    void SetPositionTPSCamera()
+    {
+        //현재 카메라가 바라보는 방향과 반대인 각도를 바라봄
+        Vector2 tpsCameraDir = new Vector2(camRotY + 180, camRotX + 180);
+        float tpsCameraPosX = Mathf.Sin(tpsCameraDir.x * Mathf.Deg2Rad);
+        float tpsCameraPosZ = Mathf.Cos(tpsCameraDir.x * Mathf.Deg2Rad);
+        float tpsCameraPosY = Mathf.Sin(tpsCameraDir.y * Mathf.Deg2Rad);
+
+        Vector3 tpsCameraPos = new Vector3(tpsCameraPosX, tpsCameraPosY, tpsCameraPosZ) * TPSCameraDistance;
+
+        camera.transform.position = fpsCameraTransform.position + tpsCameraPos;
+    }
+
+    void RotateTPSCamera()
+    {
+        Vector3 playerDir = fpsCameraTransform.position - camera.transform.position;
+
+        playerDir.Normalize();
+
+        //카메라의 y축 회전
+        float tpsCameraRotY = Mathf.Atan2(playerDir.x, playerDir.z) * Mathf.Rad2Deg;
+
+        //카메라의 x축 회전
+        Vector2 horizontalDirection = new Vector2(playerDir.x, playerDir.z);
+
+        float tpsCameraRotX = Mathf.Atan(playerDir.y / horizontalDirection.magnitude) * Mathf.Rad2Deg;
+
+        camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
+
+        //transform.rotation = Quaternion.Euler(0, tpsCameraRotY, 0);
+        transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
+
+    }
+    
 
     void Jump()
     {
