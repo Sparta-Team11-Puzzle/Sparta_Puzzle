@@ -229,6 +229,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &501865032 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4218986993582208010, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+  m_PrefabInstance: {fileID: 5793007778865648979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b0f94f0987dee429003ccfe7fdefa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &528259342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4792245113053924602, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+  m_PrefabInstance: {fileID: 5793007778865648979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &678925781
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 2041323487}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 9.17, z: -13.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -423,6 +439,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
+      value: 60391a36-7646-42e7-be91-6949fdbfa075
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
+      value: Player/Zoom[/Mouse/scroll]
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 501865032}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnZoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InputHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 38621288314558403, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: maxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: minDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 528259342}
+    - target: {fileID: 79718107991541533, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: TPSCameraDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 429038244949044194, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -462,6 +534,14 @@ PrefabInstance:
     - target: {fileID: 429038244949044194, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4144023858836463904, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: speed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5368709616402247010, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
+      propertyPath: m_Name
+      value: CameraPos
       objectReference: {fileID: 0}
     - target: {fileID: 6130233239702927447, guid: f0b12cf20f4a8a0428b54bc77c8813bc, type: 3}
       propertyPath: m_Name
