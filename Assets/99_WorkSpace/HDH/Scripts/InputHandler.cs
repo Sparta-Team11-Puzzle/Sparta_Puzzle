@@ -12,6 +12,7 @@ public class InputHandler : MonoBehaviour
     public bool IsUse { get; private set; }
 
     public event Action JumpTrigger;
+    public event Action UseTrigger;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -33,5 +34,13 @@ public class InputHandler : MonoBehaviour
             MouseDelta = context.ReadValue<Vector2>().normalized;
         else if (context.phase == InputActionPhase.Canceled)
             MouseDelta = Vector2.zero;
+    }
+
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            UseTrigger?.Invoke();
+        }
     }
 }
