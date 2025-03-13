@@ -12,6 +12,10 @@ public class IceGround : MonoBehaviour
 
     public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
 
+    /// <summary>
+    /// 오브젝트 초기화
+    /// </summary>
+    /// <param name="stage">스테이지 참조</param>
     public void InitObject(Stage1 stage)
     {
         this.stage = stage;

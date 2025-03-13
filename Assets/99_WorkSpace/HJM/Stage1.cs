@@ -35,6 +35,7 @@ public class Stage1 : BaseRoom
 
     public override void UpdateRoom()
     {
+        // 플레이어가 iceGround 위에 없으면
         if (!iceGround.stayPlayer)
             return;
 
@@ -48,17 +49,27 @@ public class Stage1 : BaseRoom
             isSlide = false;
         }
 
+        // 미끄러지는중이 아닐때 R 입력
         else if(Input.GetKeyDown(KeyCode.R))
         {
+            // 1. 방향구하기
             moveDirection = GetDirection(player.transform);
+            // 2. 장애물 확인
             if (CheckObstacle(player.transform, moveDirection))
                 return;
 
+            // 3. 장애물이없다면 AddForce
             playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
             isSlide = true;
         }
     }
 
+    /// <summary>
+    /// 이동방향 장애물 확인 함수
+    /// </summary>
+    /// <param name="target">장애물을 확인하는 주체</param>
+    /// <param name="direction">이동방향</param>
+    /// <returns></returns>
     public bool CheckObstacle(Transform target, Vector3 direction)
     {
         // Ray 시작점 오프셋
@@ -85,10 +96,17 @@ public class Stage1 : BaseRoom
         return false;
     }
 
+    /// <summary>
+    /// 가장 가까운 방향(4방향) 을 얻는 함수
+    /// </summary>
+    /// <param name="target">대상 오브젝트</param>
+    /// <returns></returns>
     public Vector3 GetDirection(Transform target)
     {
+        // target이 바라보는 방향의 Y축 회전값 ( -180 ~ 180 )
         float angle = Mathf.Atan2(target.forward.x, target.forward.z) * Mathf.Rad2Deg;
 
+        // 가장 가까운 각도 찾기
         float closestAngle = snapData[0].angle;
         Vector3 closestDirection = snapData[0].direction;
         float minDiff = Mathf.Infinity;
@@ -104,6 +122,7 @@ public class Stage1 : BaseRoom
             }
         }
 
+        // 가장 가까운 방향 반환
         return closestDirection;
     }
 }
