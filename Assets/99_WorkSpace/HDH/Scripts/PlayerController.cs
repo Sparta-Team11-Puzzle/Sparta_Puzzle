@@ -9,32 +9,39 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidbody;
     private PlayerData playerData;
 
-    [Header("Camera Info")]
-    [SerializeField] float cameraSensitivity;
-    
-    [SerializeField]private float camRotX;
-    [SerializeField]private float camRotY;
-    
-    private Camera camera;
-    [SerializeField] private float maxRotX;
-    [SerializeField] private float minRotX;
-    [SerializeField] Transform fpsCameraTransform;
+    // Camera Settings
+    [Header("Camera Settings")]
+    private float camRotX; // 카메라 X 회전
+    private float camRotY; // 카메라 Y 회전
+    private Camera camera; // 카메라 객체
+    [SerializeField] private bool FPSmode;
+    [SerializeField] private Transform cameraTransform; // 카메라 트랜스폼
+    [SerializeField] private float cameraSensitivity; // 카메라 감도
+    [Header("Camera Settings-FPS")]
+    [SerializeField] private float maxRotX; // 최대 X 회전 각도
+    [SerializeField] private float minRotX; // 최소 X 회전 각도
+    [Header("Camera Settings-TPS")]
+    [SerializeField] private float minDistance; // 최소 거리
+    [SerializeField] private float maxDistance; // 최대 거리
+    [SerializeField] private float TPSCameraDistance; // 3인칭 카메라 거리
+    private const float ZOOM_RATIO = 0.1f; // 줌 비율
 
-    [SerializeField] float TPSCameraDistance;
+    // Movement Settings
+    [Header("Movement Settings")]
+    [SerializeField] private float rotationSpeed; // 회전 속도
+    [SerializeField] private bool canMove; // 이동 가능 여부
 
-    [Header("Move Info")]
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private bool canMove;
+    // Jump Settings
+    [Header("Jump Settings")]
+    [SerializeField] private float jumpCooldown; // 점프 쿨타임
+    private bool readyToJump; // 점프 준비 상태
 
-    [Header("Jump Info")]
-    [SerializeField] float jumpCooldown;
-    private bool readyToJump;
-
-    [Header("Ground Check")]
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] float groundDrag;
-    [SerializeField] float distanceToGround;
-    [SerializeField] private bool isGround;
+    // Ground Check Settings
+    [Header("Ground Check Settings")]
+    [SerializeField] private LayerMask groundLayer; // 바닥 레이어
+    [SerializeField] private float groundDrag; // 바닥에서의 드래그
+    [SerializeField] private float distanceToGround; // 바닥까지의 거리
+    [SerializeField] private bool isGround; // 바닥에 닿아 있는지 여부
 
     /// <summary>
     /// 플레이어의 정면 방향을 반환
@@ -77,6 +84,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         inputHandler.JumpTrigger += Jump;
+        inputHandler.CameraChangeTrigger += CameraChange;
 
     }
 
@@ -93,8 +101,12 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        FPSLook();
-        //TPSLook();
+        CameraZoom();
+
+        if(FPSmode)
+            FPSLook();
+        else
+            TPSLook();
     }
 
     void GroundCheck()
@@ -122,23 +134,11 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move( Vector2 movementInput )
-    {
-        if(!canMove || movementInput == Vector2.zero) return;
-
-        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
-
-        rigidbody.AddForce(moveDirection * playerData.Speed, ForceMode.Force);
-
-        LimitSpeed();
-
-    }
-
-    void Move2(Vector2 movementInput)
+    void Move(Vector2 movementInput)
     {
         if (!canMove || movementInput == Vector2.zero) return;
 
-        Vector3 moveDirection = (transform.forward * movementInput.y + transform.right * -movementInput.x).normalized;
+        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
 
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
 
@@ -159,8 +159,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void CameraChange()
+    {
+        FPSmode = !FPSmode;
+    }
+
     void FPSLook()
     {
+        camera.cullingMask &= ~LayerMask.GetMask("Player");
+
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
@@ -171,11 +178,20 @@ public class PlayerController : MonoBehaviour
 
         camRotX = Mathf.Clamp(camRotX, minRotX, maxRotX);
 
-        camera.transform.position = fpsCameraTransform.position;
+        camera.transform.position = cameraTransform.position;
 
         camera.transform.rotation = Quaternion.Euler(camRotX, camRotY, 0);
 
         transform.rotation = Quaternion.Euler(0, camRotY, 0);
+    }
+
+    void CameraZoom()
+    {
+        if (inputHandler.MouseZoom == 0) return;
+
+        float mouseZoomDelta = inputHandler.MouseZoom > 0 ? -ZOOM_RATIO : ZOOM_RATIO; 
+
+        TPSCameraDistance = Mathf.Clamp(TPSCameraDistance + mouseZoomDelta, minDistance, maxDistance);
     }
 
     /// <summary>
@@ -183,6 +199,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void TPSLook()
     {
+        camera.cullingMask = -1;
+
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
@@ -203,12 +221,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 tpsCameraPos = new Vector3(tpsCameraPosX, tpsCameraPosY, tpsCameraPosZ) * TPSCameraDistance;
 
-        camera.transform.position = fpsCameraTransform.position + tpsCameraPos;
+        camera.transform.position = cameraTransform.position + tpsCameraPos;
     }
 
     void RotateTPSCamera()
     {
-        Vector3 playerDir = fpsCameraTransform.position - camera.transform.position;
+        Vector3 playerDir = cameraTransform.position - camera.transform.position;
 
         playerDir.Normalize();
 
@@ -223,7 +241,7 @@ public class PlayerController : MonoBehaviour
         camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
 
         //transform.rotation = Quaternion.Euler(0, tpsCameraRotY, 0);
-        transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
+        //transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
 
     }
     
