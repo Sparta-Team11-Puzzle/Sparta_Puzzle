@@ -6,7 +6,8 @@ TagManager:
   tags:
   - Ground
   - Wall
-  - Pushable
+  - Plane
+  - Fake
   layers:
   - Default
   - TransparentFX
