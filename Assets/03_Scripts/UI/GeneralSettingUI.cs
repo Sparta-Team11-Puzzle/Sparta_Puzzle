@@ -1,6 +1,7 @@
 using DataDeclaration;
 using UnityEngine;
 
+//TODO: 아직 미구현
 public class GeneralSettingUI : MonoBehaviour, ISettingUI
 {
     void ISettingUI.OnClickCancelButton()

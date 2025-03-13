@@ -7,8 +7,8 @@ public class LobbyUI : BaseUI
     [SerializeField] private Button startBtn;
     [SerializeField] private Button settingBtn;
     [SerializeField] private Button exitBtn;
-    
-    private Animator characterAnimator;
+
+    private Animator characterAnimator; // 배경에 있는 캐릭터의 애니메이터
 
     private void Start()
     {
@@ -31,18 +31,27 @@ public class LobbyUI : BaseUI
         gameObject.SetActive(type == UIType.Lobby);
     }
 
+    /// <summary>
+    /// 게임 시작 클릭시 실행할 로직
+    /// </summary>
     private void OnClickStartButton()
     {
         UIManager.Instance.PlayButtonSound();
         characterAnimator.SetTrigger("IsStart");
     }
 
+    /// <summary>
+    /// 환경 설정 클릭시 실행할 로직
+    /// </summary>
     private void OnClickSettingButton()
     {
         UIManager.Instance.PlayButtonSound();
         uiManager.ChangeUIState(UIType.Setting);
     }
 
+    /// <summary>
+    /// 게임 종료 클릭시 실행할 로직
+    /// </summary>
     private void OnClickExitButton()
     {
 #if UNITY_EDITOR
