@@ -1,0 +1,128 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using DataDeclaration;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class UIManager : Singleton<UIManager>
+{
+    private bool isCursorOn;
+    private CanvasGroup fader; // Fade 연출 오브젝트
+    [SerializeField] private AudioClip buttonSound; // 버튼 클릭 SFX
+
+    private AudioSource audioSource; // SFX용 AudioSource
+
+    public List<BaseUI> UIList { get; private set; }
+    public LobbyUI LobbyUI { get; private set; }
+    public SettingUI SettingUI { get; private set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (buttonSound == null)
+        {
+            buttonSound = Resources.Load<AudioClip>("Audio/button_press_1");
+        }
+
+        audioSource = GetComponent<AudioSource>();
+
+        UIList = new List<BaseUI>();
+        LobbyUI = InitUI<LobbyUI>();
+        SettingUI = InitUI<SettingUI>();
+    }
+
+    private void Start()
+    {
+        AudioManager.Instance.AddSFXAudioSource(audioSource);
+
+        InitFader();
+        ChangeUIState(UIType.Lobby);
+    }
+
+    /// <summary>
+    /// 마우스 커서 On/Off 기능
+    /// </summary>
+    /// <param name="isActive">True: 마우스활성화 False: 마우스 비활성화</param>
+    public static void ToggleCursor(bool isActive)
+    {
+        Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    /// <summary>
+    /// 버튼 클릭 SFX 출력
+    /// </summary>
+    public void PlayButtonSound()
+    {
+        audioSource.PlayOneShot(buttonSound);
+    }
+
+    /// <summary>
+    /// UI 변경 기능
+    /// </summary>
+    /// <param name="type">활성화 하고 싶은 UI 타입</param>
+    public void ChangeUIState(UIType type)
+    {
+        foreach (var ui in UIList)
+        {
+            ui.ActiveUI(type);
+        }
+    }
+
+    /// <summary>
+    /// Fade 연출 기능
+    /// </summary>
+    /// <param name="startAlpha">시작 알파값</param>
+    /// <param name="endAlpha">종료 알파값</param>
+    /// <param name="fadeTime">연출 시간</param>
+    /// <param name="onComplete">연출 종료 시 호출할 함수<para>기본값: null</para></param>
+    public void Fade(float startAlpha, float endAlpha, float fadeTime, Action onComplete = null)
+    {
+        StartCoroutine(FadeCoroutine(startAlpha, endAlpha, fadeTime, onComplete));
+    }
+
+    private IEnumerator FadeCoroutine(float startAlpha, float endAlpha, float fadeTime, Action onComplete)
+    {
+        var elapsedTime = 0f;
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            fader.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeTime);
+            yield return null;
+        }
+
+        fader.alpha = endAlpha;
+        onComplete?.Invoke();
+    }
+
+    /// <summary>
+    /// UIManager에 UI 저장 기능
+    /// </summary>
+    /// <typeparam name="T">BaseUI</typeparam>
+    /// <returns>BaseUI를 상속받은 UI 클래스</returns>
+    private T InitUI<T>() where T : BaseUI
+    {
+        var ui = GetComponentInChildren<T>(true);
+        if (ui == null)
+        {
+            var go = new GameObject(nameof(T));
+            go.transform.SetParent(transform);
+            ui = go.AddComponent<T>();
+        }
+
+        ui.Init(this);
+        return ui;
+    }
+
+    /// <summary>
+    /// Fader 초기화
+    /// </summary>
+    private void InitFader()
+    {
+        fader = FindObjectOfType<CanvasGroup>();
+        if (fader != null) return;
+        var go = Resources.Load<GameObject>("Prefab/UI/Fader");
+        fader = Instantiate(go).GetComponent<CanvasGroup>();
+    }
+}
