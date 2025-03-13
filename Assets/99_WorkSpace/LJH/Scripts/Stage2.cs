@@ -46,7 +46,7 @@ public class Stage2 : BaseRoom
         if (collision.gameObject.CompareTag("Plane"))
         {
             Debug.Log("게임오버");
-            RestartGame();
+            Invoke("RestartGame", 1f);
         }
 
         
