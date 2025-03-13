@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class UIManager : Singleton<UIManager>
 {
     private bool isCursorOn;
     private CanvasGroup fader;
+    [SerializeField] private AudioClip buttonSound;
+
+    private AudioSource audioSource;
 
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
@@ -15,17 +19,33 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
+        if (buttonSound == null)
+        {
+            buttonSound = Resources.Load<AudioClip>("Audio/button_press_1");
+        }
+
+        audioSource = GetComponent<AudioSource>();
+
         UIList = new List<BaseUI>();
-        
         LobbyUI = InitUI<LobbyUI>();
         SettingUI = InitUI<SettingUI>();
     }
 
     private void Start()
     {
+        AudioManager.Instance.AddSFXAudioSource(audioSource);
+
         InitFader();
         ChangeUIState(UIType.Lobby);
+    }
+
+    private void OnDestroy()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.RemoveSFXAudioSource(audioSource);
+        }
     }
 
     /// <summary>
@@ -37,6 +57,11 @@ public class UIManager : Singleton<UIManager>
         Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    public void PlayButtonSound()
+    {
+        audioSource.PlayOneShot(buttonSound);
+    }
+
     public void ChangeUIState(UIType type)
     {
         foreach (var ui in UIList)
@@ -44,7 +69,7 @@ public class UIManager : Singleton<UIManager>
             ui.ActiveUI(type);
         }
     }
-    
+
     public IEnumerator Fade(float startAlpha, float endAlpha, float fadeTime, System.Action onComplete = null)
     {
         var elapsedTime = 0f;
@@ -54,6 +79,7 @@ public class UIManager : Singleton<UIManager>
             fader.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeTime);
             yield return null;
         }
+
         fader.alpha = endAlpha;
         onComplete?.Invoke();
     }
@@ -66,8 +92,8 @@ public class UIManager : Singleton<UIManager>
             var go = new GameObject(nameof(T));
             go.transform.SetParent(transform);
             ui = go.AddComponent<T>();
-            
         }
+
         ui.Init(this);
         return ui;
     }
@@ -76,7 +102,7 @@ public class UIManager : Singleton<UIManager>
     {
         fader = FindObjectOfType<CanvasGroup>();
         if (fader != null) return;
-        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/Prefab/UI/Fader");
+        var go = Resources.Load<GameObject>("Prefab/UI/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
     }
 }

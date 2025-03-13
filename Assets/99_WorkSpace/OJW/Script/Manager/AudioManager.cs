@@ -12,7 +12,7 @@ public class AudioManager : Singleton<AudioManager>
     private float sfxVol;
 
     private AudioSource bgm;
-    public AudioClip bgmClip;
+    [SerializeField] private AudioClip bgmClip;
     
     protected override void Awake()
     {
@@ -38,6 +38,11 @@ public class AudioManager : Singleton<AudioManager>
         bgm.Play();
     }
 
+    private void OnDestroy()
+    {
+        sfxList.RemoveAll(x => x == null);
+    }
+
     public void ChangeMasterVol(float figure)
     {
         masterVol = figure;
@@ -54,12 +59,27 @@ public class AudioManager : Singleton<AudioManager>
         bgm.volume = bgmVol * masterVol;
     }
     
-    public void ChangeSFXVolume(float figure)
+    public void ChangeSFXVol(float figure)
     {
         sfxVol = figure;
         foreach (var sfx in sfxList)
         {
             sfx.volume = sfxVol * masterVol;
+        }
+    }
+
+    public void AddSFXAudioSource(AudioSource audioSource)
+    {
+        if (sfxList.Contains(audioSource)) return;
+        sfxList.Add(audioSource);
+        audioSource.volume = sfxVol * masterVol;
+    }
+
+    public void RemoveSFXAudioSource(AudioSource audioSource)
+    {
+        if (sfxList.Contains(audioSource))
+        {
+            sfxList.Remove(audioSource);
         }
     }
 }
