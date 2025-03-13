@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorSwitchHJM : MonoBehaviour, IInteractable
+public class DoorSwitch : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject targetObject;
     private IEventTrigger targetEvent;
