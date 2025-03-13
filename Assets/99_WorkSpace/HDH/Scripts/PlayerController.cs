@@ -122,9 +122,6 @@ public class PlayerController : MonoBehaviour
     {
         if(!canMove || movementInput == Vector2.zero) return;
 
-        //Debug.Log(movementInput);
-        Debug.Log(transform.rotation.eulerAngles.y);
-
         Vector3 moveDirection = Forward * movementInput.y + Right * movementInput.x;
         
         rigidbody.AddForce(moveDirection.normalized * playerData.Speed, ForceMode.Force);
