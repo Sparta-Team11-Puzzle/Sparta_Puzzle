@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4792245113053924602}
   m_Layer: 6
-  m_Name: FPSCameraPos
+  m_Name: CameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 489466721889134792}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,11 +212,35 @@ MonoBehaviour:
     m_ActionId: 410cb037-cdc0-4116-a616-1cfaa3ea89be
     m_ActionName: Player/Use[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4218986993582208010}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
+        m_MethodName: OnZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 60391a36-7646-42e7-be91-6949fdbfa075
     m_ActionName: Player/Zoom[/Mouse/scroll]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4218986993582208010}
+        m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
+        m_MethodName: OnCameraChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 88b21bdf-db7c-4258-8e63-f328d2ec2787
     m_ActionName: Player/CameraChange[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
@@ -249,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FPSmode: 1
-  cameraTransform: {fileID: 0}
+  cameraTransform: {fileID: 4792245113053924602}
   cameraSensitivity: 150
   maxRotX: 60
   minRotX: -60
