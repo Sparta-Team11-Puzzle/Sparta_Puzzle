@@ -26,6 +26,14 @@ public class InteractionHandler : MonoBehaviour
     private void Update()
     {
         CheckObject();
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if (curInteraction == null)
+                return;
+
+            curInteraction.GetComponent<IInteractable>().Interact();
+        }
     }
 
     void CheckObject()
