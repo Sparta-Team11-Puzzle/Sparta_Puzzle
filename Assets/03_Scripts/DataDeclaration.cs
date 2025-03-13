@@ -20,6 +20,7 @@ namespace DataDeclaration
         None,
         Lobby,
         Setting,
+        Main,
     }
 
     /// <summary>
