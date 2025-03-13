@@ -101,7 +101,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(inputHandler.MovementInput);
+        if (FPSmode)
+            FPSMove(inputHandler.MovementInput);
+        else
+            TPSMove(inputHandler.MovementInput);
+
     }
 
     void LateUpdate()
@@ -139,7 +143,21 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move(Vector2 movementInput)
+    void FPSMove(Vector2 movementInput)
+    {
+        if (!canMove || movementInput == Vector2.zero) return;
+
+        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+
+        transform.forward = moveDirection;
+
+        rigidbody.AddForce(transform.forward * playerData.Speed, ForceMode.Force);
+
+        LimitSpeed();
+
+    }
+
+    void TPSMove(Vector2 movementInput)
     {
         if (!canMove || movementInput == Vector2.zero) return;
 
@@ -244,9 +262,6 @@ public class PlayerController : MonoBehaviour
         float tpsCameraRotX = Mathf.Atan(playerDir.y / horizontalDirection.magnitude) * Mathf.Rad2Deg;
 
         camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
-
-        //transform.rotation = Quaternion.Euler(0, tpsCameraRotY, 0);
-        //transform.forward = new Vector3(playerDir.x, 0, playerDir.z).normalized;
 
     }
     
