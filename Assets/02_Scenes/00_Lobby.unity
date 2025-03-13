@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: a61ea68ff1a8e4444bfa04a75da29f7d, type: 2}
---- !u!4 &266597240 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8500385218888512668, guid: 71a5483c07587f34d9446f3a633aaa23, type: 3}
-  m_PrefabInstance: {fileID: 3197200233942677789}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1068204986
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,10 +784,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1951968498075110617, guid: e52afaf5e893ab54aa8bf28252e7944f, type: 3}
-      propertyPath: destination
-      value: 
-      objectReference: {fileID: 266597240}
     - target: {fileID: 2603032370792712737, guid: e52afaf5e893ab54aa8bf28252e7944f, type: 3}
       propertyPath: m_Name
       value: LobbyUI

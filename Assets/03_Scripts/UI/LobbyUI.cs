@@ -10,8 +10,6 @@ public class LobbyUI : BaseUI
     
     private Animator characterAnimator;
 
-    [SerializeField] private Transform destination;
-
     private void Start()
     {
         startBtn.onClick.AddListener(OnClickStartButton);
@@ -37,7 +35,6 @@ public class LobbyUI : BaseUI
     {
         UIManager.Instance.PlayButtonSound();
         characterAnimator.SetTrigger("IsStart");
-        //StartCoroutine(UIManager.Instance.Fade(0, 1, 2, () => GameManager.ChangeScene(SceneType.Main)));
     }
 
     private void OnClickSettingButton()
