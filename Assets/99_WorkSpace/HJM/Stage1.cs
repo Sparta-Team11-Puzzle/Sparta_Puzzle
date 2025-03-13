@@ -13,15 +13,19 @@ public class Stage1 : BaseRoom
             (180, new Vector3(0, 0, -1)), // µÚÂÊ
             (-90, new Vector3(-1, 0, 0))  // ¿ÞÂÊ
         };
+
+    [Header("Brake")]
     private RaycastHit hit;
     [SerializeField] private float brakeDistance;
     [SerializeField] private Vector3 brakeDistaceOffset;
     [SerializeField] private LayerMask obstacleLayer;
-    public Vector3 moveDirection { get; set; }
-    public bool isSlide { get; set; }
 
+    [Header("Object")]
     [SerializeField] private IceGround iceGround;
     [SerializeField] private Rigidbody playerRigidbody;
+
+    public Vector3 moveDirection { get; set; }
+    public bool isSlide { get; set; }
 
     public override void InitRoom(DungeonManager manager)
     {
