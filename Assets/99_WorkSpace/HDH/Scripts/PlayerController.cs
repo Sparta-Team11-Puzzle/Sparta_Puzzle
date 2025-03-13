@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float distanceToGround;
     [SerializeField] private bool isGround;
 
+    [Header("Push Info")]
+    [SerializeField] float pushSpeed;
+    [SerializeField] private GameObject pushingObject;
+    [SerializeField] private bool isPushing;
+
     /// <summary>
     /// 플레이어의 정면 방향을 반환
     /// </summary>
@@ -84,6 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         GroundCheck();
         ApplyDragForce();
+        HandlePushing();
     }
 
     private void FixedUpdate()
@@ -263,5 +269,46 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
+    }
+
+    void HandlePushing()
+    {
+        // 밀기 감지
+        if (Input.GetKeyDown(KeyCode.W) && pushingObject != null)
+        {
+            isPushing = true;
+        }
+
+        // 밀기 중단
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            isPushing = false;
+        }
+
+        // 오브젝트 이동
+        if (isPushing && pushingObject != null)
+        {
+            Vector3 pushDirection = Forward; // 플레이어의 앞 방향
+            pushingObject.transform.Translate(pushDirection * pushSpeed * Time.deltaTime);
+        }
+    }
+
+    // 밀 수 있는 오브젝트와 접촉 시
+    private void OnTriggerEnter(Collider other)
+    {
+        // 밀 수 있는 오브젝트 태그
+        if (other.CompareTag("Pushable"))
+        {
+            pushingObject = other.gameObject;
+        }
+    }
+
+        // 밀 수 있는 오브젝트와 미접촉 시
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Pushsable"))
+        {
+            pushingObject = null;
+        }
     }
 }
