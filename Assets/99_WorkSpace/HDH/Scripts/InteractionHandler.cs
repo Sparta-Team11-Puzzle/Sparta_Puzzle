@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IInteractable
-{
-    public void Active();
-}
-
 public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask targetLayer;
@@ -41,12 +36,13 @@ public class InteractionHandler : MonoBehaviour
             {
                 curInteraction = hit.collider.gameObject;
 
-                IInteractable interactable;
+                //상호작용 처리
+                //IInteractable interactable;
 
-                if(curInteraction.TryGetComponent<IInteractable>(out interactable))
-                {
-                    inputHandler.UseTrigger += interactable.Active;
-                }
+                //if(curInteraction.TryGetComponent<IInteractable>(out interactable))
+                //{
+                //    inputHandler.UseTrigger += interactable.Active;
+                //}
 
             }
         }
