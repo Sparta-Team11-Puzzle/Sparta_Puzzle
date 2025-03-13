@@ -236,12 +236,14 @@ MonoBehaviour:
   maxRotX: 60
   minRotX: -60
   fpsCameraTransform: {fileID: 4792245113053924602}
+  canMove: 1
   jumpCooldown: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
   groundDrag: 2
   distanceToGround: 0.2
+  isGround: 0
 --- !u!114 &4144023858836463904
 MonoBehaviour:
   m_ObjectHideFlags: 0
