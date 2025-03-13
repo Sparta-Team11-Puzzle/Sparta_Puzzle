@@ -11,8 +11,8 @@ public enum Stage
 }
 public class DungeonManager : MonoBehaviour
 {
-    private BaseRoom[] baseRooms;
-    private BaseRoom currentRoom;
+    [SerializeField] private BaseRoom[] baseRooms;
+    [SerializeField] private BaseRoom currentRoom;
     
     void Start()
     {
