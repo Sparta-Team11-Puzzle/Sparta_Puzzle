@@ -19,4 +19,10 @@ public class DoorSwitch : MonoBehaviour, IInteractable
     {
         targetEvent?.EventTrigger();
     }
+
+    public void Active()
+    {
+        Debug.Log("DoorSwitch activated!");
+        Interact(); // 필요하면 기존 Interact() 호출
+    }
 }

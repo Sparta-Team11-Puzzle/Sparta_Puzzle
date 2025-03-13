@@ -5,6 +5,7 @@ using UnityEngine;
 interface IInteractable
 {
     public void Active();
+    void Interact();
 }
 
 public class InteractionHandler : MonoBehaviour
