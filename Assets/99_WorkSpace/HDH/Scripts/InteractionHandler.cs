@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IInteractable
-{
-    public void Active();
-    void Interact();
-}
-
 public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask targetLayer;
@@ -27,14 +21,6 @@ public class InteractionHandler : MonoBehaviour
     private void Update()
     {
         CheckObject();
-
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            if (curInteraction == null)
-                return;
-
-            curInteraction.GetComponent<IInteractable>().Interact();
-        }
     }
 
     void CheckObject()
