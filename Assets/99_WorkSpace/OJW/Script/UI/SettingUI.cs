@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
@@ -22,6 +23,9 @@ public class SettingUI : BaseUI
 
     private SettingType curSettingType;
     private ISettingUI curSettingUI;
+    
+    private Action cancelBtnAction;
+    private Action applyBtnAction;
 
     private void Awake()
     {
@@ -42,11 +46,14 @@ public class SettingUI : BaseUI
 
     private void Start()
     {
-        closeBtn.onClick.AddListener(() => uiManager.ChangeUIState(UIType.Lobby));
+        closeBtn.onClick.AddListener(OnCloseButtonClick);
         
-        generalBtn.onClick.AddListener(() => ToggleSetting(SettingType.General));
-        soundBtn.onClick.AddListener(() => ToggleSetting(SettingType.Sound));
-        keyBtn.onClick.AddListener(() => ToggleSetting(SettingType.Key));
+        generalBtn.onClick.AddListener(OnGeneralButtonClick);
+        soundBtn.onClick.AddListener(OnSoundButtonClick);
+        keyBtn.onClick.AddListener(OnKeyButtonClick);
+        
+        cancelBtn.onClick.AddListener(() => cancelBtnAction?.Invoke());
+        applyBtn.onClick.AddListener(() => applyBtnAction?.Invoke());
     }
     
     public override void Init(UIManager manager)
@@ -60,6 +67,30 @@ public class SettingUI : BaseUI
         gameObject.SetActive(type == UIType.Setting);
     }
 
+    private void OnCloseButtonClick()
+    {
+        uiManager.PlayButtonSound();
+        uiManager.ChangeUIState(UIType.Lobby);
+    }
+    
+    private void OnGeneralButtonClick()
+    {
+        uiManager.PlayButtonSound();
+        ToggleSetting(SettingType.General);
+    }
+
+    private void OnSoundButtonClick()
+    {
+        uiManager.PlayButtonSound();
+        ToggleSetting(SettingType.Sound);
+    }
+
+    private void OnKeyButtonClick()
+    {
+        uiManager.PlayButtonSound();
+        ToggleSetting(SettingType.Key);
+    }
+
     private void ToggleSetting(SettingType type)
     {
         curSettingType = type;
@@ -69,8 +100,8 @@ public class SettingUI : BaseUI
             {
                 setting.Value.SetActive(true);
                 curSettingUI =  setting.Value.GetComponent<ISettingUI>();
-                cancelBtn.onClick.AddListener(curSettingUI.OnClickCancelButton);
-                applyBtn.onClick.AddListener(curSettingUI.OnClickApplyButton);
+                cancelBtnAction = curSettingUI.OnClickCancelButton;
+                applyBtnAction = curSettingUI.OnClickApplyButton;
             }
             else
             {

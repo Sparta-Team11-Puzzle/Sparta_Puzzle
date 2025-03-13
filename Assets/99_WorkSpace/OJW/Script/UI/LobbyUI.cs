@@ -11,7 +11,7 @@ public class LobbyUI : BaseUI
     private void Start()
     {
         startBtn.onClick.AddListener(OnClickStartButton);
-        settingBtn.onClick.AddListener(() => uiManager.ChangeUIState(UIType.Setting));
+        settingBtn.onClick.AddListener(OnClickSettingButton);
         exitBtn.onClick.AddListener(Application.Quit);
     }
 
@@ -28,6 +28,13 @@ public class LobbyUI : BaseUI
 
     private void OnClickStartButton()
     {
+        UIManager.Instance.PlayButtonSound();
         StartCoroutine(UIManager.Instance.Fade(0, 1, 2, () => GameManager.ChangeScene(SceneType.Main)));
+    }
+
+    private void OnClickSettingButton()
+    {
+        UIManager.Instance.PlayButtonSound();
+        uiManager.ChangeUIState(UIType.Setting);
     }
 }

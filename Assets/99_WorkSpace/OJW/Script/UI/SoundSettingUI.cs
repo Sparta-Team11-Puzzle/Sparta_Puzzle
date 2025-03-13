@@ -46,13 +46,20 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
 
     private void OnSFXVolumeChanged(float value)
     {
-        audioManager.ChangeSFXVolume(value);
+        audioManager.ChangeSFXVol(value);
         sfxVolText.text = (value * 100f).ToString("N0");
     }
 
     void ISettingUI.OnClickCancelButton()
     {
-        Debug.Log("사운드 설정 취소 버튼");
+        OnMasterVolumeChanged(PlayerPrefs.GetFloat(Constant.MASTER_VOL));
+        masterVolSlider.value = PlayerPrefs.GetFloat(Constant.MASTER_VOL);
+        OnBGMVolumeChanged(PlayerPrefs.GetFloat(Constant.BGM_VOL));
+        bgmVolSlider.value = PlayerPrefs.GetFloat(Constant.BGM_VOL);
+        OnSFXVolumeChanged(PlayerPrefs.GetFloat(Constant.SFX_VOL));
+        sfxVolSlider.value = PlayerPrefs.GetFloat(Constant.SFX_VOL);
+        
+        UIManager.Instance.PlayButtonSound();
     }
 
     void ISettingUI.OnClickApplyButton()
@@ -61,6 +68,6 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
         PlayerPrefs.SetFloat("bgmVol", bgmVolSlider.value);
         PlayerPrefs.SetFloat("sfxVol", sfxVolSlider.value);
         
-        Debug.Log("사운드 설정 적용 버튼");
+        UIManager.Instance.PlayButtonSound();
     }
 }
