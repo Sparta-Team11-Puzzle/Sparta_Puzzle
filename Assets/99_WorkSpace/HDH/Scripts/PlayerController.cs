@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minRotX;
     [SerializeField] Transform fpsCameraTransform;
 
+    [Header("Move Info")]
+    [SerializeField] private bool canMove;
+
     [Header("Jump Info")]
     [SerializeField] float jumpCooldown;
     private bool readyToJump;
@@ -26,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float groundDrag;
     [SerializeField] float distanceToGround;
-    private bool isGround;
+    [SerializeField] private bool isGround;
 
     // Start is called before the first frame update
     void Start()
@@ -50,8 +53,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (inputHandler.movementInput == Vector2.zero) return;
-
         Move(inputHandler.movementInput);
     }
 
@@ -88,6 +89,8 @@ public class PlayerController : MonoBehaviour
 
     void Move( Vector2 movementInput )
     {
+        if(!canMove || movementInput == Vector2.zero) return;
+
         Debug.Log(movementInput);
 
         Vector3 moveDirection = transform.forward * movementInput.y + transform.right * movementInput.x;
@@ -120,8 +123,10 @@ public class PlayerController : MonoBehaviour
         camRotX = Mathf.Clamp(camRotX, minRotX, maxRotX);
 
         camera.transform.position = fpsCameraTransform.position;
-        camera.transform.rotation = Quaternion.Euler(camRotX, camRotY, 0);
-        transform.rotation = Quaternion.Euler(0, camRotY, 0);
+
+        camera.transform.eulerAngles = new Vector3(camRotX, camRotY, 0);
+
+        transform.eulerAngles = new Vector3(0, camRotY, 0);
     }
 
     void Jump()
@@ -144,6 +149,15 @@ public class PlayerController : MonoBehaviour
 
         if(!readyToJump)
             readyToJump = true;
+    }
+
+    /// <summary>
+    /// 플레이어의 이동 가능 상태를 변경
+    /// </summary>
+    /// <param name="value">이동 가능 상태 (true: 이동 가능, false: 이동 불가)</param>
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     private void OnDrawGizmos()
