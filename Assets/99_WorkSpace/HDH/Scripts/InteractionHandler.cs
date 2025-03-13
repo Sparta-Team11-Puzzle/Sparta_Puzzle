@@ -30,7 +30,9 @@ public class InteractionHandler : MonoBehaviour
 
     void CheckObject()
     {
-        Ray ray = new Ray(interactPoint.position, camera.transform.forward);
+        Vector3 rayDirection = new Vector3(transform.forward.x, camera.transform.forward.y, transform.forward.z);
+
+        Ray ray = new Ray(interactPoint.position, rayDirection);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactRange, targetLayer))
@@ -59,7 +61,7 @@ public class InteractionHandler : MonoBehaviour
         if (camera == null) return;
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(interactPoint.position, interactPoint.position + camera.transform.forward.normalized * interactRange);
+        Gizmos.DrawLine(interactPoint.position, interactPoint.position + new Vector3(transform.forward.x, camera.transform.forward.y, transform.forward.z).normalized * interactRange);
     }
 
 }

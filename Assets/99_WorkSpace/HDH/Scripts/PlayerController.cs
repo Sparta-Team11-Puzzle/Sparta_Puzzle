@@ -96,10 +96,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(FPSmode)
-            Move(inputHandler.MovementInput);
-        else
-            Move2(inputHandler.MovementInput);
+        Move(inputHandler.MovementInput);
     }
 
     void LateUpdate()
@@ -137,19 +134,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.drag = 0;
     }
 
-    void Move( Vector2 movementInput )
-    {
-        if(!canMove || movementInput == Vector2.zero) return;
-
-        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
-
-        rigidbody.AddForce(moveDirection * playerData.Speed, ForceMode.Force);
-
-        LimitSpeed();
-
-    }
-
-    void Move2(Vector2 movementInput)
+    void Move(Vector2 movementInput)
     {
         if (!canMove || movementInput == Vector2.zero) return;
 
@@ -181,6 +166,8 @@ public class PlayerController : MonoBehaviour
 
     void FPSLook()
     {
+        camera.cullingMask &= ~LayerMask.GetMask("Player");
+
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
@@ -212,6 +199,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void TPSLook()
     {
+        camera.cullingMask = -1;
+
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
