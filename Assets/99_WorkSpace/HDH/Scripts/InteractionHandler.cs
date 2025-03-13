@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IInteractable
-{
-    public void Active();
-}
-
 public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask targetLayer;
