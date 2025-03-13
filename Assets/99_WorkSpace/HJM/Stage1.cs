@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 
 public class Stage1 : BaseRoom
 {
@@ -11,6 +13,11 @@ public class Stage1 : BaseRoom
             (180, new Vector3(0, 0, -1)), // µÚÂÊ
             (-90, new Vector3(-1, 0, 0))  // ¿ÞÂÊ
         };
+    private RaycastHit hit;
+    [SerializeField] private float brakeDistance;
+    public Vector3 moveDirection { get; set; }
+    public bool isSlide { get; set; }
+
     [SerializeField] private IceGround iceGround;
     [SerializeField] private TestPlayer tplayer;
 
@@ -27,6 +34,8 @@ public class Stage1 : BaseRoom
     {
         base.InitRoom(manager);
         iceGround.InitObject(this);
+
+        isSlide = false;
     }
 
     public override void UpdateRoom()
@@ -34,11 +43,34 @@ public class Stage1 : BaseRoom
         if (!iceGround.stayPlayer)
             return;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        // ¹Ì²ô·¯Áö´ÂÁß
+        if(isSlide)
         {
-            Vector3 force = GetDirection(tplayer.transform);
-            tplayer.GetComponent<Rigidbody>().AddForce(force * 10, ForceMode.Impulse);
+            if (!CheckObstacle(tplayer.transform, moveDirection))
+                return;
+
+            tplayer.GetComponent<Rigidbody>().Sleep();
+            isSlide = false;
         }
+
+        else if(Input.GetKeyDown(KeyCode.R))
+        {
+            moveDirection = GetDirection(tplayer.transform);
+            if (CheckObstacle(tplayer.transform, moveDirection))
+                return;
+
+            tplayer.GetComponent<Rigidbody>().AddForce(moveDirection * 10, ForceMode.Impulse);
+            isSlide = true;
+        }
+    }
+
+    public bool CheckObstacle(Transform target, Vector3 direction)
+    {
+        Debug.DrawRay(target.position, direction * brakeDistance, Color.green);
+        if (Physics.Raycast(target.position, direction, out hit, brakeDistance))
+            return true;
+
+        return false;
     }
 
     public Vector3 GetDirection(Transform target)

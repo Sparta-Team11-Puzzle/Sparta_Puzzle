@@ -10,7 +10,7 @@ public class IceGround : MonoBehaviour
     private TestPlayer playerController;
     private Rigidbody playerRigidbody;
 
-    public bool stayPlayer { get; private set; }
+    public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
 
     public void InitObject(Stage1 stage)
     {
@@ -27,14 +27,19 @@ public class IceGround : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(playerTag))
         {
-            stayPlayer = true;
+            stayPlayer = true;      
+            stage.isSlide = true;   
 
             // 플레이어 움직임 제한
             playerController.canMove = false;
+
             // 플레이어 속도 초기화
+            playerRigidbody.Sleep();
             playerRigidbody.velocity = Vector3.zero;
 
+            // 입장 방향으로 AddForce
             Vector3 force = stage.GetDirection(collision.transform);
+            stage.moveDirection = force;
             playerRigidbody.AddForce(force * 10, ForceMode.Impulse);
         }
     }
@@ -44,12 +49,14 @@ public class IceGround : MonoBehaviour
         if (collision.gameObject.CompareTag(playerTag))
         {
             stayPlayer = false;
+            stage.isSlide = false;
 
             // 플레이어 움직임 제한 해제
             playerController.canMove = true;
 
             // 힘 제거
             playerRigidbody.Sleep();
+
         }
     }
 }
