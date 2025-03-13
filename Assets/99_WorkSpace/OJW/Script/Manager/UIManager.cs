@@ -24,11 +24,7 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
-        fader = FindObjectOfType<CanvasGroup>();
-        if (fader != null) return;
-        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/UI/Prefab/Fader");
-        fader = Instantiate(go).GetComponent<CanvasGroup>();
-        
+        InitFader();
         ChangeUIState(UIType.Lobby);
     }
 
@@ -74,5 +70,13 @@ public class UIManager : Singleton<UIManager>
         }
         ui.Init(this);
         return ui;
+    }
+
+    private void InitFader()
+    {
+        fader = FindObjectOfType<CanvasGroup>();
+        if (fader != null) return;
+        var go = Resources.Load<GameObject>(Application.dataPath + "/01_Resources/UI/Prefab/Fader");
+        fader = Instantiate(go).GetComponent<CanvasGroup>();
     }
 }
