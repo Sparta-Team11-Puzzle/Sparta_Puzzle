@@ -15,20 +15,13 @@ public class Stage1 : BaseRoom
         };
     private RaycastHit hit;
     [SerializeField] private float brakeDistance;
+    [SerializeField] private Vector3 brakeDistaceOffset;
+    [SerializeField] private LayerMask obstacleLayer;
     public Vector3 moveDirection { get; set; }
     public bool isSlide { get; set; }
 
     [SerializeField] private IceGround iceGround;
-    [SerializeField] private TestPlayer tplayer;
-
-    private void Start()
-    {
-        InitRoom(null);
-    }
-    private void Update()
-    {
-        UpdateRoom();
-    }
+    [SerializeField] private Rigidbody playerRigidbody;
 
     public override void InitRoom(DungeonManager manager)
     {
@@ -36,6 +29,8 @@ public class Stage1 : BaseRoom
         iceGround.InitObject(this);
 
         isSlide = false;
+        playerRigidbody = FindObjectOfType<Rigidbody>();
+        player = playerRigidbody.transform;
     }
 
     public override void UpdateRoom()
@@ -46,29 +41,46 @@ public class Stage1 : BaseRoom
         // 미끄러지는중
         if(isSlide)
         {
-            if (!CheckObstacle(tplayer.transform, moveDirection))
+            if (!CheckObstacle(player.transform, moveDirection))
                 return;
 
-            tplayer.GetComponent<Rigidbody>().Sleep();
+            playerRigidbody.Sleep();
             isSlide = false;
         }
 
         else if(Input.GetKeyDown(KeyCode.R))
         {
-            moveDirection = GetDirection(tplayer.transform);
-            if (CheckObstacle(tplayer.transform, moveDirection))
+            moveDirection = GetDirection(player.transform);
+            if (CheckObstacle(player.transform, moveDirection))
                 return;
 
-            tplayer.GetComponent<Rigidbody>().AddForce(moveDirection * 10, ForceMode.Impulse);
+            playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
             isSlide = true;
         }
     }
 
     public bool CheckObstacle(Transform target, Vector3 direction)
     {
-        Debug.DrawRay(target.position, direction * brakeDistance, Color.green);
-        if (Physics.Raycast(target.position, direction, out hit, brakeDistance))
-            return true;
+        // Ray 시작점 오프셋
+        Vector3[] rayOffsets =
+        {
+            Vector3.zero,
+            new Vector3(direction.z, 0, direction.x) * 0.3f,
+            new Vector3(-direction.z, 0, -direction.x) * 0.3f
+        };
+
+        foreach (Vector3 offset in rayOffsets)
+        {
+            // Ray 시작점
+            Vector3 rayPosition = target.position + brakeDistaceOffset + offset;
+
+            // Draw
+            Debug.DrawRay(rayPosition, direction * brakeDistance, Color.red);
+
+            // RayCast
+            if (Physics.Raycast(rayPosition, direction, out hit, brakeDistance, obstacleLayer))
+                return true;
+        }
 
         return false;
     }

@@ -7,8 +7,8 @@ public class IceGround : MonoBehaviour
     private string playerTag = "Player";
 
     private Stage1 stage;
-    private TestPlayer playerController;
-    private Rigidbody playerRigidbody;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Rigidbody playerRigidbody;
 
     public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
 
@@ -17,7 +17,7 @@ public class IceGround : MonoBehaviour
         this.stage = stage;
 
         // 플레이어 가져오기
-        playerController = FindObjectOfType<TestPlayer>();
+        playerController = FindObjectOfType<PlayerController>();
         playerRigidbody = playerController.GetComponent<Rigidbody>();
 
         stayPlayer = false;
@@ -31,7 +31,7 @@ public class IceGround : MonoBehaviour
             stage.isSlide = true;   
 
             // 플레이어 움직임 제한
-            playerController.canMove = false;
+            playerController.SetCanMove(false);
 
             // 플레이어 속도 초기화
             playerRigidbody.Sleep();
@@ -52,11 +52,10 @@ public class IceGround : MonoBehaviour
             stage.isSlide = false;
 
             // 플레이어 움직임 제한 해제
-            playerController.canMove = true;
+            playerController.SetCanMove(true);
 
             // 힘 제거
             playerRigidbody.Sleep();
-
         }
     }
 }
