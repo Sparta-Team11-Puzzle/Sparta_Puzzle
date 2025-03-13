@@ -13,6 +13,7 @@ public class DungeonManager : MonoBehaviour
 {
     [SerializeField] private BaseRoom[] baseRooms;
     [SerializeField] private BaseRoom currentRoom;
+    private Stage currentStageType;
     
     void Start()
     {
@@ -34,6 +35,12 @@ public class DungeonManager : MonoBehaviour
 
     public void ChangeRoom(Stage stage)
     {
+        currentStageType = stage;
         currentRoom = baseRooms[(int)stage];
+    }
+
+    public string GetCurrentStageName()
+    {
+        return currentStageType.ToString();
     }
 }
