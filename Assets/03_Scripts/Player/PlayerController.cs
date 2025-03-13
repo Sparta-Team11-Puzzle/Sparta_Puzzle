@@ -97,7 +97,6 @@ public class PlayerController : MonoBehaviour
     {
         GroundCheck();
         ApplyDragForce();
-        HandlePushing();
     }
 
     private void FixedUpdate()
@@ -287,28 +286,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
-    }
-
-    void HandlePushing()
-    {
-        // 밀기 감지
-        if (Input.GetKeyDown(KeyCode.W) && pushingObject != null)
-        {
-            isPushing = true;
-        }
-
-        // 밀기 중단
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            isPushing = false;
-        }
-
-        // 오브젝트 이동
-        if (isPushing && pushingObject != null)
-        {
-            Vector3 pushDirection = Forward; // 플레이어의 앞 방향
-            pushingObject.transform.Translate(pushDirection * pushSpeed * Time.deltaTime);
-        }
     }
 
     // 밀 수 있는 오브젝트와 접촉 시
