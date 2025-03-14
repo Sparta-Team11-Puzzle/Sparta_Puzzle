@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        GroundCheck();
+        isGround = GroundCheck();
 
         startJump = inputHandler.InputJump;
     }
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
             TPSLook();
     }
 
-    void GroundCheck()
+    bool GroundCheck()
     {
         Ray[] rays = new Ray[4]
             {
@@ -137,11 +137,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
             {
-                isGround = true;
+               return true;
             }
         }
 
-        isGround = false;
+        return false;
     }
 
     void FPSMove(Vector2 movementInput)
