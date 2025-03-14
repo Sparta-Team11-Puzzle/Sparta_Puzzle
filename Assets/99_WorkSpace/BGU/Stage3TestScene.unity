@@ -5312,7 +5312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5891527065196387256, guid: 16f1dc7ab51b56f4c9edccfaaf5d917b, type: 3}
       propertyPath: m_Name
-      value: Arch_04
+      value: Arch
       objectReference: {fileID: 0}
     - target: {fileID: 6523807151546237186, guid: 16f1dc7ab51b56f4c9edccfaaf5d917b, type: 3}
       propertyPath: m_LocalScale.x
@@ -5370,6 +5370,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7865224073119141543, guid: 16f1dc7ab51b56f4c9edccfaaf5d917b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3932154947394618840, guid: 7b1f66a7557618b4a9f357d89f2804b2, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -5711,7 +5715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Pushable
-  openObject: {fileID: 919132148604463225}
+  openObject: {fileID: 1611889453413332974}
 --- !u!33 &346934799808710463
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5924,7 +5928,7 @@ Transform:
   m_GameObject: {fileID: 1611889453413332974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.9183955, y: -0.000000029802322, z: 0.011}
+  m_LocalPosition: {x: -0.3, y: -0.000000029802322, z: 0.011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5967,7 +5971,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611889453413332974}
-  m_Mesh: {fileID: -8740340137559968829, guid: bc18e93538e424a4e94642c652c40469, type: 3}
+  m_Mesh: {fileID: -419616720227203451, guid: 29bbf416bb245fb44b8ef461047ab506, type: 3}
 --- !u!65 &3135388266155490085
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5987,8 +5991,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.574425, y: 2.0400033, z: 0.1363482}
-  m_Center: {x: 0.7872124, y: 1.0200016, z: 0.00000011920929}
+  m_Size: {x: 1.7133365, y: 2.0700057, z: 0.22721863}
+  m_Center: {x: -0.8025043, y: 1.0105609, z: 0}
 --- !u!33 &3469287837059956070
 MeshFilter:
   m_ObjectHideFlags: 0
