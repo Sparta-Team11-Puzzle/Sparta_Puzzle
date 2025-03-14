@@ -290,6 +290,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundRayDistance: 0.4
   distanceToGround: 0.2
   isGround: 1
   pushSpeed: 0
@@ -340,6 +341,7 @@ MonoBehaviour:
     m_Bits: 16384
   interactRange: 1.5
   interactPoint: {fileID: 4792245113053924602}
+  curInteraction: {fileID: 0}
 --- !u!1001 &1158978439141593835
 PrefabInstance:
   m_ObjectHideFlags: 0
