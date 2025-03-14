@@ -276,6 +276,7 @@ public class PlayerController : MonoBehaviour
     {
         if (startJump && isGround && canMove)
         {
+
             if(!readyToJump)
             {
                 Jump();
