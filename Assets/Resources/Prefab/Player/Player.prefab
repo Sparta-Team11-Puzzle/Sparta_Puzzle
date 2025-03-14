@@ -274,14 +274,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPSMode: 0
   cameraTransform: {fileID: 4792245113053924602}
-  cameraSensitivity: 1
+  cameraSensitivity: 2
   maxRotX: 60
   minRotX: -60
   minDistance: 1
   maxDistance: 5
   TPSCameraDistance: 3
-  rotationSpeed: 15
-  rotationThreshHold: 0.9
   canMove: 1
   jumpCooldown: 1
   groundLayer:
