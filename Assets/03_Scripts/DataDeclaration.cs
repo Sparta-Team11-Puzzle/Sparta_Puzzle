@@ -36,18 +36,7 @@ namespace DataDeclaration
     }
     #endregion
 
-    /// <summary>
-    /// 상수 선언 클래스
-    /// </summary>
-    public static class Constant
-    {
-        public const string MASTER_VOL = "masterVol";
-        public const string BGM_VOL = "bgmVol";
-        public const string SFX_VOL = "sfxVol";
-        
-        public const string MOUSE_SENSITIVITY = "mouseSensitivity";
-    }
-
+    #region Interface
     /// <summary>
     /// 환경 설정 취소/적용 버튼 기능
     /// </summary>
@@ -65,5 +54,18 @@ namespace DataDeclaration
     public interface IOnSceneLoaded
     {
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode);
+    }
+    #endregion
+    
+    /// <summary>
+    /// 상수 선언 클래스
+    /// </summary>
+    public static class Constant
+    {
+        public const string MASTER_VOL = "masterVol";
+        public const string BGM_VOL = "bgmVol";
+        public const string SFX_VOL = "sfxVol";
+        
+        public const string MOUSE_SENSITIVITY = "mouseSensitivity";
     }
 }
