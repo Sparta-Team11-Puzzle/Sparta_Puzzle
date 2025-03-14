@@ -13,13 +13,7 @@ public class Stage2 : BaseRoom
     {
         InitRoom(null);
 
-       
-        if (materialChanger != null)
-        {
-            for (int i = 0; i < materialChanger.Length; i++)
-                materialChanger[i].ChangeMaterialTemporarily();
-        }
-
+              
         // 5초 후에 InvisibleWall 제거
         Invoke("RemoveInvisibleWall", 5f);
 
@@ -32,11 +26,31 @@ public class Stage2 : BaseRoom
     {
         base.InitRoom(manager);
 
+        if (materialChanger != null)
+        {
+            for (int i = 0; i < materialChanger.Length; i++)
+                materialChanger[i].ChangeMaterialTemporarily();
+        }
+
     }
 
     public override void UpdateRoom()
     {
 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // 플레이어가 트리거에 진입 시 발동
+
+            if (materialChanger != null)
+            {
+                for (int i = 0; i < materialChanger.Length; i++)
+                    materialChanger[i].ChangeMaterialTemporarily();
+            }
+        }
     }
 
 
