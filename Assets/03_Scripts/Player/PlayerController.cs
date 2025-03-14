@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
@@ -11,40 +12,44 @@ public class PlayerController : MonoBehaviour
 
     // Camera Settings
     [Header("Camera Settings")]
-    private float camRotX; // Ä«¸Ş¶ó X È¸Àü
-    private float camRotY; // Ä«¸Ş¶ó Y È¸Àü
-    private Camera camera; // Ä«¸Ş¶ó °´Ã¼
-    [SerializeField] private bool FPSmode;
-    [SerializeField] private Transform cameraTransform; // Ä«¸Ş¶ó Æ®·£½ºÆû
-    [SerializeField] private float cameraSensitivity; // Ä«¸Ş¶ó °¨µµ
+    private float camRotX; // ì¹´ë©”ë¼ X íšŒì „
+    private float camRotY; // ì¹´ë©”ë¼ Y íšŒì „
+    private Camera camera; // ì¹´ë©”ë¼ ê°ì²´
+    [SerializeField] private bool FPSMode;
+    [SerializeField] private Transform cameraTransform; // ì¹´ë©”ë¼ íŠ¸ëœìŠ¤í¼
+    [SerializeField] private float cameraSensitivity; // ì¹´ë©”ë¼ ê°ë„
     [Header("Camera Settings-FPS")]
-    [SerializeField] private float maxRotX; // ÃÖ´ë X È¸Àü °¢µµ
-    [SerializeField] private float minRotX; // ÃÖ¼Ò X È¸Àü °¢µµ
+    [SerializeField] private float maxRotX; // ìµœëŒ€ X íšŒì „ ê°ë„
+    [SerializeField] private float minRotX; // ìµœì†Œ X íšŒì „ ê°ë„
     [Header("Camera Settings-TPS")]
-    [SerializeField] private float minDistance; // ÃÖ¼Ò °Å¸®
-    [SerializeField] private float maxDistance; // ÃÖ´ë °Å¸®
-    [SerializeField] private float TPSCameraDistance; // 3ÀÎÄª Ä«¸Ş¶ó °Å¸®
-    private const float ZOOM_RATIO = 0.1f; // ÁÜ ºñÀ²
+    [SerializeField] private float minDistance; // ìµœì†Œ ê±°ë¦¬
+    [SerializeField] private float maxDistance; // ìµœëŒ€ ê±°ë¦¬
+    [SerializeField] private float TPSCameraDistance; // 3ì¸ì¹­ ì¹´ë©”ë¼ ê±°ë¦¬
+    private const float ZOOM_RATIO = 0.1f; // ì¤Œ ë¹„ìœ¨
 
     // Movement Settings
     [Header("Movement Settings")]
-    [SerializeField] private float rotationSpeed; // È¸Àü ¼Óµµ
-    [SerializeField] private bool canMove; // ÀÌµ¿ °¡´É ¿©ºÎ
+    [SerializeField] private bool canMove; // ì´ë™ ê°€ëŠ¥ ì—¬ë¶€
 
     // Jump Settings
     [Header("Jump Settings")]
-    [SerializeField] private float jumpCooldown; // Á¡ÇÁ ÄğÅ¸ÀÓ
-    private bool readyToJump; // Á¡ÇÁ ÁØºñ »óÅÂ
+    [SerializeField] private float jumpCooldown; // ì í”„ ì¿¨íƒ€ì„
+    private bool readyToJump; // ì í”„ ì¤€ë¹„ ìƒíƒœ
 
     // Ground Check Settings
     [Header("Ground Check Settings")]
-    [SerializeField] private LayerMask groundLayer; // ¹Ù´Ú ·¹ÀÌ¾î
-    [SerializeField] private float groundDrag; // ¹Ù´Ú¿¡¼­ÀÇ µå·¡±×
-    [SerializeField] private float distanceToGround; // ¹Ù´Ú±îÁöÀÇ °Å¸®
-    [SerializeField] private bool isGround; // ¹Ù´Ú¿¡ ´ê¾Æ ÀÖ´ÂÁö ¿©ºÎ
+    [SerializeField] private LayerMask groundLayer; // ë°”ë‹¥ ë ˆì´ì–´
+    [SerializeField] private float groundDrag; // ë°”ë‹¥ì—ì„œì˜ ë“œë˜ê·¸
+    [SerializeField] private float distanceToGround; // ë°”ë‹¥ê¹Œì§€ì˜ ê±°ë¦¬
+    [SerializeField] private bool isGround; // ë°”ë‹¥ì— ë‹¿ì•„ ìˆëŠ”ì§€ ì—¬ë¶€
+
+    [Header("Push Info")]
+    [SerializeField] float pushSpeed;
+    [SerializeField] private GameObject pushingObject;
+    [SerializeField] private bool isPushing;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ Á¤¸é ¹æÇâÀ» ¹İÈ¯
+    /// í”Œë ˆì´ì–´ì˜ ì •ë©´ ë°©í–¥ì„ ë°˜í™˜
     /// </summary>
     public Vector3 Forward
     {
@@ -59,7 +64,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¿À¸¥ÂÊ 90µµ ¹æÇâÀ» ¹İÈ¯
+    /// í”Œë ˆì´ì–´ì˜ ì˜¤ë¥¸ìª½ 90ë„ ë°©í–¥ì„ ë°˜í™˜
     /// </summary>
     public Vector3 Right
     {
@@ -91,12 +96,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         GroundCheck();
-        ApplyDragForce();
     }
 
     private void FixedUpdate()
     {
-        if (FPSmode)
+        if (FPSMode)
             FPSMove(inputHandler.MovementInput);
         else
             TPSMove(inputHandler.MovementInput);
@@ -107,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         CameraZoom();
 
-        if(FPSmode)
+        if (FPSMode)
             FPSLook();
         else
             TPSLook();
@@ -130,56 +134,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ApplyDragForce()
-    {
-        if (isGround)
-            rigidbody.drag = groundDrag;
-        else
-            rigidbody.drag = 0;
-    }
-
     void FPSMove(Vector2 movementInput)
     {
-        if (!canMove || movementInput == Vector2.zero) return;
+        if (!canMove) return;
 
-        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+        if (movementInput == Vector2.zero)
+        {
+            transform.forward = (Forward + Right).normalized;
+            rigidbody.velocity = Vector3.zero;
+        }
+        else
+        {
+            Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
 
-        transform.forward = moveDirection;
+            transform.forward = moveDirection;
 
-        rigidbody.AddForce(transform.forward * playerData.Speed, ForceMode.Force);
+            rigidbody.velocity = transform.forward * playerData.Speed;
+        }
 
-        LimitSpeed();
+        
 
     }
 
     void TPSMove(Vector2 movementInput)
     {
-        if (!canMove || movementInput == Vector2.zero) return;
+        if (!canMove) return;
 
-        Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
-
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-
-        rigidbody.AddForce(transform.forward * playerData.Speed, ForceMode.Force);
-
-        LimitSpeed();
-
-    }
-
-    void LimitSpeed()
-    {
-        Vector3 horizontalVelocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-
-        if(horizontalVelocity.magnitude > playerData.Speed)
+        if (movementInput != Vector2.zero)
         {
-            Vector3 limitedVelocity = horizontalVelocity.normalized * playerData.Speed;
-            rigidbody.velocity = new Vector3(limitedVelocity.x, rigidbody.velocity.y, limitedVelocity.z);
+            Vector3 moveDirection;
+
+            if (movementInput.y != 0 && movementInput.y > 0)
+            {
+                moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+                transform.forward = moveDirection;
+                rigidbody.velocity = transform.forward * playerData.Speed;
+            }
+            else
+            {
+                moveDirection = (transform.forward * movementInput.y + transform.right * movementInput.x).normalized;
+                rigidbody.velocity = moveDirection * playerData.Speed;
+            }
+        }
+        else
+        {
+            rigidbody.velocity = Vector3.zero;
         }
     }
 
     void CameraChange()
     {
-        FPSmode = !FPSmode;
+        FPSMode = !FPSMode;
     }
 
     void FPSLook()
@@ -207,14 +212,11 @@ public class PlayerController : MonoBehaviour
     {
         if (inputHandler.MouseZoom == 0) return;
 
-        float mouseZoomDelta = inputHandler.MouseZoom > 0 ? -ZOOM_RATIO : ZOOM_RATIO; 
+        float mouseZoomDelta = inputHandler.MouseZoom > 0 ? -ZOOM_RATIO : ZOOM_RATIO;
 
         TPSCameraDistance = Mathf.Clamp(TPSCameraDistance + mouseZoomDelta, minDistance, maxDistance);
     }
 
-    /// <summary>
-    /// 3ÀÎÄª ½ÃÁ¡ °³¹ß Áß...
-    /// </summary>
     void TPSLook()
     {
         camera.cullingMask = -1;
@@ -222,8 +224,11 @@ public class PlayerController : MonoBehaviour
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
-        camRotY += mouseX;
+        camRotY -= mouseX;
         camRotX -= mouseY;
+
+        camRotY %= 360f;
+        camRotX = Mathf.Clamp(camRotX, -100, 100);
 
         SetPositionTPSCamera();
         RotateTPSCamera();
@@ -231,7 +236,7 @@ public class PlayerController : MonoBehaviour
 
     void SetPositionTPSCamera()
     {
-        //ÇöÀç Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ°ú ¹İ´ëÀÎ °¢µµ¸¦ ¹Ù¶óº½
+        //í˜„ì¬ ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ê³¼ ë°˜ëŒ€ì¸ ê°ë„ë¥¼ ë°”ë¼ë´„
         Vector2 tpsCameraDir = new Vector2(camRotY + 180, camRotX + 180);
         float tpsCameraPosX = Mathf.Sin(tpsCameraDir.x * Mathf.Deg2Rad);
         float tpsCameraPosZ = Mathf.Cos(tpsCameraDir.x * Mathf.Deg2Rad);
@@ -248,17 +253,19 @@ public class PlayerController : MonoBehaviour
 
         playerDir.Normalize();
 
-        //Ä«¸Ş¶óÀÇ yÃà È¸Àü
+        //ì¹´ë©”ë¼ì˜ yì¶• íšŒì „
         float tpsCameraRotY = Mathf.Atan2(playerDir.x, playerDir.z) * Mathf.Rad2Deg;
 
-        //Ä«¸Ş¶óÀÇ xÃà È¸Àü
+        //ì¹´ë©”ë¼ì˜ xì¶• íšŒì „
         Vector2 horizontalDirection = new Vector2(playerDir.x, playerDir.z);
 
         float tpsCameraRotX = Mathf.Atan(playerDir.y / horizontalDirection.magnitude) * Mathf.Rad2Deg;
 
         camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
+        transform.eulerAngles = new Vector3(0, tpsCameraRotY, 0f);
 
     }
+
 
     void Jump()
     {
@@ -277,14 +284,14 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(jumpCooldown);
 
-        if(!readyToJump)
+        if (!readyToJump)
             readyToJump = true;
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÀÌµ¿ °¡´É »óÅÂ¸¦ º¯°æ
+    /// í”Œë ˆì´ì–´ì˜ ì´ë™ ê°€ëŠ¥ ìƒíƒœë¥¼ ë³€ê²½
     /// </summary>
-    /// <param name="value">ÀÌµ¿ °¡´É »óÅÂ (true: ÀÌµ¿ °¡´É, false: ÀÌµ¿ ºÒ°¡)</param>
+    /// <param name="value">ì´ë™ ê°€ëŠ¥ ìƒíƒœ (true: ì´ë™ ê°€ëŠ¥, false: ì´ë™ ë¶ˆê°€)</param>
     public void SetCanMove(bool value)
     {
         canMove = value;
@@ -295,5 +302,24 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
+    }
+
+    // ë°€ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì™€ ì ‘ì´‰ ì‹œ
+    private void OnTriggerEnter(Collider other)
+    {
+        // ë°€ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ íƒœê·¸
+        if (other.CompareTag("Pushable"))
+        {
+            pushingObject = other.gameObject;
+        }
+    }
+
+    // ë°€ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì™€ ë¯¸ì ‘ì´‰ ì‹œ
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Pushsable"))
+        {
+            pushingObject = null;
+        }
     }
 }
