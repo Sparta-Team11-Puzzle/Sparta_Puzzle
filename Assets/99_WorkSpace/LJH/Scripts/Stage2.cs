@@ -46,7 +46,7 @@ public class Stage2 : BaseRoom
         if (collision.gameObject.CompareTag("Plane"))
         {
             Debug.Log("게임오버");
-            Invoke("RestartGame", 1f);
+            //Invoke("RestartGame", 1f);
         }
 
         
@@ -59,11 +59,11 @@ public class Stage2 : BaseRoom
             Destroy(invisibleWall);  // InvisibleWall을 제거
         }
     }
-    private void RestartGame()
-    {
-        // 현재 씬을 다시 로드하여 게임 재시작
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
-    }
+    //private void RestartGame()
+    //{
+    //    // 현재 씬을 다시 로드하여 게임 재시작
+    //    string currentSceneName = SceneManager.GetActiveScene().name;
+    //    SceneManager.LoadScene(currentSceneName);
+    //}
 
 }
