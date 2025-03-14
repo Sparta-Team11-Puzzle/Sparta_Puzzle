@@ -43,7 +43,7 @@ public class Stage1 : BaseRoom
         isSlide = false;
     }
 
-    public override void UpdateRoom()
+    public void Update()
     {
         // 플레이어가 iceGround 위에 없으면 return
         if (!iceGround.stayPlayer)

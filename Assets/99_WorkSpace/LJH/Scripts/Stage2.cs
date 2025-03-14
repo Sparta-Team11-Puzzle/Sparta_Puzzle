@@ -18,11 +18,6 @@ public class Stage2 : BaseRoom
         platformTrigger.InitObject(ShowPlotform, HidePlatform);
     }
 
-    public override void UpdateRoom()
-    {
-
-    }
-
     private void ShowPlotform()
     {
         if (materialChanger != null)

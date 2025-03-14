@@ -19,15 +19,6 @@ public class DungeonManager : Singleton<DungeonManager>
         InitDungeon();
     }
 
-    void Update()
-    {
-        if (currentRoom == null)
-            return;
-
-        // 현재 스테이지의 로직 실행
-        currentRoom.UpdateRoom();
-    }
-
     public void InitDungeon()
     {
         // 등록해둔 스테이지 초기화
