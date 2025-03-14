@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
-public class UIManager : Singleton<UIManager>
+public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 {
     private bool isCursorOn;
     private CanvasGroup fader; // Fade 연출 오브젝트
@@ -21,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (buttonSound == null)
         {
@@ -30,17 +32,17 @@ public class UIManager : Singleton<UIManager>
         audioSource = GetComponent<AudioSource>();
 
         UIList = new List<BaseUI>();
-        LobbyUI = InitUI<LobbyUI>();
-        SettingUI = InitUI<SettingUI>();
     }
 
     private void Start()
     {
-        GameManager.Instance.InitializeMain += InitializeMain;
         AudioManager.Instance.AddSFXAudioSource(audioSource);
-
-        InitFader();
-        ChangeUIState(UIType.Lobby);
+    }
+    
+    private void OnDestroy()
+    {
+        UIList.Clear();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
@@ -123,15 +125,31 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     private void InitFader()
     {
+        if (fader != null) return;
         fader = FindObjectOfType<CanvasGroup>();
         if (fader != null) return;
         var go = Resources.Load<GameObject>("Prefab/UI/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
     }
 
-    private void InitializeMain()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        MainUI = InitUI<MainUI>();
-        ChangeUIState(UIType.Main);
+        switch (scene.buildIndex)
+        {
+            case 0:
+                UIList.Clear();
+                LobbyUI = InitUI<LobbyUI>();
+                SettingUI = InitUI<SettingUI>();
+                InitFader();
+                ChangeUIState(UIType.Lobby);
+                break;
+            case 1:
+                UIList.Clear();
+                MainUI = InitUI<MainUI>();
+                SettingUI = InitUI<SettingUI>();
+                InitFader();
+                ChangeUIState(UIType.Main);
+                break;
+        }
     }
 }
