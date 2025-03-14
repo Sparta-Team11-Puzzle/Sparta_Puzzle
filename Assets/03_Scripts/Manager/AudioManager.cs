@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 사운드 관리 클래스(싱글톤)
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 {
     private List<AudioSource> sfxList; // SFX 볼륨 관리용 리스트
 
@@ -12,11 +16,12 @@ public class AudioManager : Singleton<AudioManager>
     private float sfxVol;
 
     private AudioSource bgm;
-    [SerializeField] private AudioClip bgmClip;
+    private Dictionary<SceneType, AudioClip> bgmClipDict;
 
     protected override void Awake()
     {
         base.Awake();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         sfxList = new List<AudioSource>();
 
@@ -25,7 +30,12 @@ public class AudioManager : Singleton<AudioManager>
         sfxVol = 0.8f;
 
         bgm = GetComponent<AudioSource>();
-        bgm.clip = bgmClip;
+        bgmClipDict = new Dictionary<SceneType, AudioClip>
+        {
+            { SceneType.Lobby, Resources.Load<AudioClip>("Audio/ha-waterheater") },
+            { SceneType.Main, Resources.Load<AudioClip>("Audio/ha-suffocate") }
+        };
+        
         bgm.volume = bgmVol * masterVol;
 
         PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);
@@ -35,11 +45,13 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Start()
     {
+        bgm.clip = bgmClipDict[SceneType.Lobby];
         bgm.Play();
     }
 
     private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         // 리스트 메모리 해제
         sfxList.RemoveAll(x => x == null);
     }
@@ -101,6 +113,21 @@ public class AudioManager : Singleton<AudioManager>
         if (sfxList.Contains(audioSource))
         {
             sfxList.Remove(audioSource);
+        }
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.buildIndex)
+        {
+            case 0:
+                bgm.clip = bgmClipDict[SceneType.Lobby];
+                bgm.Play();
+                break;
+            case 1:
+                bgm.clip = bgmClipDict[SceneType.Main];
+                bgm.Play();
+                break;
         }
     }
 }

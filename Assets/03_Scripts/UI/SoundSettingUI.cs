@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 사운드 환경 설정 클래스
+/// </summary>
 public class SoundSettingUI : MonoBehaviour,  ISettingUI
 {
     private AudioManager audioManager;

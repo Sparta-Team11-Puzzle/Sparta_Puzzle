@@ -4,17 +4,15 @@ using UnityEngine;
 
 public abstract class BaseRoom : MonoBehaviour
 {
-    protected bool isClear;             // ¹æ Å¬¸®¾î ¿©ºÎ
-    protected bool roomInPlayer;        // ÇÃ·¹ÀÌ¾î Á¸Àç ¿©ºÎ
+    protected bool isClear;             // ë°© í´ë¦¬ì–´ ì—¬ë¶€
+    protected bool roomInPlayer;        // í”Œë ˆì´ì–´ ì¡´ì¬ ì—¬ë¶€
 
-    [SerializeField] protected List<GameObject> roomObjects;   // ÆÛÁñ ¿ÀºêÁ§Æ®
-    protected Transform player;         // ÇÃ·¹ÀÌ¾î Transform
+    protected Transform player;        // í”Œë ˆì´ì–´ Transform
 
-    protected DungeonManager dungeonManager;
+    protected DungeonSystem dungeon;
 
-    public virtual void InitRoom(DungeonManager manager)
+    public virtual void InitRoom(DungeonSystem dungeon)
     {
-        dungeonManager = manager;
+        this.dungeon = dungeon;
     }
-    public abstract void UpdateRoom();
 }

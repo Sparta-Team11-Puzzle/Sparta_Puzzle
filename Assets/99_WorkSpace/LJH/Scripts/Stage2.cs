@@ -5,65 +5,45 @@ using UnityEngine.SceneManagement;
 
 public class Stage2 : BaseRoom
 {
+    [SerializeField] private ShowPlatform platformTrigger;
 
     public MaterialChanger[] materialChanger;
-
     public GameObject invisibleWall;
-    public void Start()
-    {
-        InitRoom(null);
 
-       
+    public override void InitRoom(DungeonSystem system)
+    {
+        base.InitRoom(system);
+
+        // Ïù¥Î≤§Ìä∏ ÎÑòÍ≤®Ï£ºÍ∏∞
+        platformTrigger.InitObject(ShowPlotform, HidePlatform);
+    }
+
+    private void ShowPlotform()
+    {
         if (materialChanger != null)
         {
             for (int i = 0; i < materialChanger.Length; i++)
                 materialChanger[i].ChangeMaterialTemporarily();
         }
-
-        // 5√  »ƒø° InvisibleWall ¡¶∞≈
-        Invoke("RemoveInvisibleWall", 5f);
-
-    }
-    public void Update()
-    {
-        UpdateRoom();
-    }
-    public override void InitRoom(DungeonManager manager)
-    {
-        base.InitRoom(manager);
-
     }
 
-    public override void UpdateRoom()
+    private void HidePlatform()
     {
-
-    }
-
-
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Plane"))
+        if (materialChanger != null)
         {
-            Debug.Log("∞‘¿”ø¿πˆ");
-            Invoke("RestartGame", 1f);
+            for (int i = 0; i < materialChanger.Length; i++)
+                materialChanger[i].RestoreMaterial();
         }
 
-        
+        // Î≤Ω ÏÇ≠Ï†ú
+        RemoveInvisibleWall();
     }
 
     private void RemoveInvisibleWall()
     {
         if (invisibleWall != null)
         {
-            Destroy(invisibleWall);  // InvisibleWall¿ª ¡¶∞≈
+            Destroy(invisibleWall);  // InvisibleWall ÏÇ≠Ï†ú
         }
     }
-    private void RestartGame()
-    {
-        // «ˆ¿Á æ¿¿ª ¥ŸΩ√ ∑ŒµÂ«œø© ∞‘¿” ¿ÁΩ√¿€
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
-    }
-
 }

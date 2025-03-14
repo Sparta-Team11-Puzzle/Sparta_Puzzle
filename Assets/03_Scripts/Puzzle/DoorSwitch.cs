@@ -9,29 +9,36 @@ public class DoorSwitch : MonoBehaviour, IInteractable
     [SerializeField] private Transform leverTransform;
 
     [Header("Switch Target Drag and Drop")]
-    [SerializeField] private GameObject targetObject;
-    private IEventTrigger targetEvent;
+    [SerializeField] private GameObject[] targetObject;
+    private IEventTrigger[] targetEvent;
 
 
     private Vector3 leverRotation;
 
     void Start()
     {
-        leverRotation = new Vector3(0, 0, 33);  // ·¹¹ö ´ç°åÀ»¶§ °¢µµ
+        leverRotation = new Vector3(0, 0, 33);  // ë ˆë²„ ë‹¹ê²¼ì„ë•Œ ê°ë„
 
         if (targetObject == null)
             return;
 
-        targetEvent = targetObject.GetComponent<IEventTrigger>();
+        targetEvent = new IEventTrigger[targetObject.Length];
+        for(int i = 0; i < targetObject.Length; i++)
+        {
+            targetObject[i].TryGetComponent(out targetEvent[i]);
+        }
     }
 
     public void Interact()
     {
+        Debug.Log(gameObject.name + " on");
+
         leverTransform.DORotate(leverRotation, 2f);
         leverRotation *= -1;
 
-        targetEvent?.EventTrigger();
-
-
+        for (int i = 0; i < targetObject.Length; i++)
+        {
+            targetEvent[i]?.EventTrigger();
+        }
     }
 }
