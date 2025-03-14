@@ -4,33 +4,31 @@ using UnityEngine;
 
 public enum Stage
 {
-    // ���� �ʿ��ϸ� �����ϱ�
     Stage1,
     Stage2,
     Stage3,
 }
-public class DungeonManager : MonoBehaviour
+public class DungeonManager : Singleton<DungeonManager>
 {
     [SerializeField] private BaseRoom[] baseRooms;
     [SerializeField] private BaseRoom currentRoom;
     private Stage currentStageType;
-    
-    void Start()
+
+    private void Start()
     {
+        InitDungeon();
+    }
+
+    public void InitDungeon()
+    {
+        // 등록해둔 스테이지 초기화
         for (int i = 0; i < baseRooms.Length; i++)
         {
             baseRooms[i].InitRoom(this);
         }
 
+        // 현재 스테이지를 1스테이지로 변경
         ChangeRoom(Stage.Stage1);
-    }
-
-    void Update()
-    {
-        if (currentRoom == null)
-            return;
-
-        currentRoom.UpdateRoom();
     }
 
     public void ChangeRoom(Stage stage)
