@@ -151,6 +151,8 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
                 break;
             case 1:
                 UIList.Clear();
+                Destroy(LobbyUI.gameObject);
+                LobbyUI = null;
                 if (MainUI == null)
                 {
                     MainUI = InitUI<MainUI>();
