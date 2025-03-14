@@ -5,15 +5,17 @@ using UnityEngine;
 public class Stage3 : BaseRoom
 {
     // 방 초기화 할때 플레이어한테 PushAction 붙이기
-    public override void InitRoom(DungeonManager manager)
+    public override void InitRoom(DungeonSystem system)
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        base.InitRoom(system);
+
+        Player player = CharacterManager.Instance.Player;     // Charactormagaer 가져오도록 설정
 
         if (player == null) return;
 
-        if(player.GetComponent<Player>() == null)
+        if (player.GetComponent<PushAction>() == null)
         {
-            player.AddComponent<PushAction>();
+            player.gameObject.AddComponent<PushAction>();
         }
     }
 }

@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.velocity = transform.forward * playerData.Speed;
         }
 
-        
+
 
     }
 
@@ -321,7 +321,7 @@ public class PlayerController : MonoBehaviour
     // 밀 수 있는 오브젝트와 미접촉 시
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Pushsable"))
+        if (other.CompareTag("Pushable"))
         {
             pushingObject = null;
         }
