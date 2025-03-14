@@ -13,14 +13,9 @@ public class InputHandler : MonoBehaviour
     public bool IsRun { get; private set; }
     public bool IsUse { get; private set; }
     public float MouseZoom { get; private set; }
-    public event Action JumpTrigger;
     public event Action UseTrigger;
     public event Action CameraChangeTrigger;
-
-    private void Start()
-    {
-
-    }
+    public bool InputJump { get; private set; }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -33,7 +28,14 @@ public class InputHandler : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
-            JumpTrigger?.Invoke();
+        {
+            InputJump = true;
+        }
+        else if(context.phase == InputActionPhase.Canceled)
+        {
+            InputJump = false;
+        }
+            
     }
 
     public void OnLook(InputAction.CallbackContext context)

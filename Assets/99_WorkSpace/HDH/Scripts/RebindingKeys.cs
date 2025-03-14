@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class RebindingKeys : MonoBehaviour
 {
-    private InputHandler playerInput;
+    [SerializeField] private InputHandler playerInput;
     private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
     public event Action OnComplet;
