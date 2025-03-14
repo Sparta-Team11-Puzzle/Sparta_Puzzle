@@ -34,12 +34,11 @@ public class PlayerController : MonoBehaviour
     // Jump Settings
     [Header("Jump Settings")]
     [SerializeField] private float jumpCooldown; // 점프 쿨타임
-    private bool readyToJump; // 점프 준비 상태
+    [SerializeField] private bool readyToJump; // 점프 준비 상태
 
     // Ground Check Settings
     [Header("Ground Check Settings")]
     [SerializeField] private LayerMask groundLayer; // 바닥 레이어
-    [SerializeField] private float groundDrag; // 바닥에서의 드래그
     [SerializeField] private float distanceToGround; // 바닥까지의 거리
     [SerializeField] private bool isGround; // 바닥에 닿아 있는지 여부
 
@@ -86,9 +85,7 @@ public class PlayerController : MonoBehaviour
         playerData = GetComponent<PlayerData>();
         rigidbody.freezeRotation = true;
         camera = Camera.main;
-        //Cursor.lockState = CursorLockMode.Locked;
-
-        inputHandler.JumpTrigger += Jump;
+        Cursor.lockState = CursorLockMode.Locked;
         inputHandler.CameraChangeTrigger += CameraChange;
 
     }
@@ -100,11 +97,14 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        OnJump();
+
+        if (!canMove || !isGround) return;
+
         if (FPSMode)
             FPSMove(inputHandler.MovementInput);
         else
             TPSMove(inputHandler.MovementInput);
-
     }
 
     void LateUpdate()
@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
         {
             isGround = true;
-            readyToJump = true;
         }
         else
         {
@@ -136,8 +135,6 @@ public class PlayerController : MonoBehaviour
 
     void FPSMove(Vector2 movementInput)
     {
-        if (!canMove) return;
-
         if (movementInput == Vector2.zero)
         {
             transform.forward = (Forward + Right).normalized;
@@ -158,8 +155,6 @@ public class PlayerController : MonoBehaviour
 
     void TPSMove(Vector2 movementInput)
     {
-        if (!canMove) return;
-
         if (movementInput != Vector2.zero)
         {
             Vector3 moveDirection;
@@ -266,26 +261,35 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void OnJump()
+    {
+        if (inputHandler.InputJump && isGround && canMove)
+        {
+            Debug.Log(inputHandler.InputJump);
+
+            if(!readyToJump)
+            {
+                Jump();
+            }
+            else
+            {
+                readyToJump = false;
+                Invoke("ResetJump", jumpCooldown);
+            }
+
+        }
+
+    }
 
     void Jump()
     {
-        if (readyToJump)
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-
-            rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
-            readyToJump = false;
-
-            StartCoroutine(ResetJump());
-        }
+        rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
     }
 
-    IEnumerator ResetJump()
+    void ResetJump()
     {
-        yield return new WaitForSeconds(jumpCooldown);
+        readyToJump = true;
 
-        if (!readyToJump)
-            readyToJump = true;
     }
 
     /// <summary>

@@ -286,12 +286,12 @@ MonoBehaviour:
   TPSCameraDistance: 3
   canMove: 1
   jumpCooldown: 1
+  readyToJump: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
-  groundDrag: 2
   distanceToGround: 0.2
-  isGround: 0
+  isGround: 1
   pushSpeed: 0
   pushingObject: {fileID: 0}
   isPushing: 0
