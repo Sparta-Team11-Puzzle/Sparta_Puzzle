@@ -40,6 +40,12 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVol);
     }
 
+    private void Start()
+    {
+        bgm.clip = bgmClipDict[SceneType.Lobby];
+        bgm.Play();
+    }
+
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
