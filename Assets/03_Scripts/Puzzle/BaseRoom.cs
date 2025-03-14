@@ -9,10 +9,10 @@ public abstract class BaseRoom : MonoBehaviour
 
     protected Transform player;        // 플레이어 Transform
 
-    protected DungeonManager dungeonManager;
+    protected DungeonSystem dungeon;
 
-    public virtual void InitRoom(DungeonManager manager)
+    public virtual void InitRoom(DungeonSystem dungeon)
     {
-        dungeonManager = manager;
+        this.dungeon = dungeon;
     }
 }

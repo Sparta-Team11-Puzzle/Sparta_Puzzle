@@ -30,9 +30,9 @@ public class Stage1 : BaseRoom
     public Vector3 moveDirection { get; set; }
     public bool isSlide { get; set; }
 
-    public override void InitRoom(DungeonManager manager)
+    public override void InitRoom(DungeonSystem system)
     {
-        base.InitRoom(manager);
+        base.InitRoom(system);
 
         // player 캐싱
         player = CharacterManager.Instance.Player.transform;
