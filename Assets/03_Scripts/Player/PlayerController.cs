@@ -43,12 +43,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float distanceToGround; // 바닥까지의 거리
     [SerializeField] private bool isGround; // 바닥에 닿아 있는지 여부
 
-    [Header("Push Info")]
-    [SerializeField] float pushPower;
-    [SerializeField] private GameObject pushingObject;
-    [SerializeField] private bool isPushing;
-    [SerializeField] private float pushingDistance;
-
     /// <summary>
     /// 플레이어의 정면 방향을 반환
     /// </summary>
@@ -301,24 +295,5 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
-    }
-
-    // 밀 수 있는 오브젝트와 접촉 시
-    private void OnTriggerEnter(Collider other)
-    {
-        // 밀 수 있는 오브젝트 태그
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = other.gameObject;
-        }
-    }
-
-        // 밀 수 있는 오브젝트와 미접촉 시
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = null;
-        }
     }
 }
