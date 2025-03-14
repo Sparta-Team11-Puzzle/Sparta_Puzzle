@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     // Ground Check Settings
     [Header("Ground Check Settings")]
     [SerializeField] private LayerMask groundLayer; // 바닥 레이어
+    [SerializeField] private float groundRayDistance;
     [SerializeField] private float distanceToGround; // 바닥까지의 거리
     [SerializeField] private bool isGround; // 바닥에 닿아 있는지 여부
 
@@ -125,10 +126,10 @@ public class PlayerController : MonoBehaviour
     {
         Ray[] rays = new Ray[4]
             {
-            new Ray(transform.position  + (transform.forward * 0.2f) + Vector3.up * 0.1f, Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + Vector3.up * 0.1f, Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + Vector3.up * 0.1f, Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + Vector3.up * 0.1f, Vector3.down)
+            new Ray(transform.position  + (transform.forward * groundRayDistance) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (-transform.forward * groundRayDistance) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (-transform.right * groundRayDistance) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (transform.right * groundRayDistance) + Vector3.up * 0.1f, Vector3.down)
             };
 
         RaycastHit hit;
@@ -230,7 +231,7 @@ public class PlayerController : MonoBehaviour
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
 
-        camRotY -= mouseX;
+        camRotY += mouseX;
         camRotX -= mouseY;
 
         camRotY %= 360f;
@@ -314,8 +315,14 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
-            transform.position + Vector3.up * 0.1f + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position + (transform.forward * groundRayDistance),
+            transform.position + (transform.forward * groundRayDistance) + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position + (-transform.forward * groundRayDistance),
+            transform.position + (-transform.forward * groundRayDistance) + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position + (-transform.right * groundRayDistance),
+            transform.position + (-transform.right * groundRayDistance) + Vector3.down * distanceToGround);
+        Gizmos.DrawLine(transform.position + (transform.right * groundRayDistance),
+            transform.position + (transform.right * groundRayDistance) + Vector3.down * distanceToGround);
     }
 
     // 밀 수 있는 오브젝트와 접촉 시
