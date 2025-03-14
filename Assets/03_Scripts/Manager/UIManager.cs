@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// UI 관리 클래스(싱글톤)
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
-public class UIManager : Singleton<UIManager>
+public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 {
     private bool isCursorOn;
     private CanvasGroup fader; // Fade 연출 오브젝트
@@ -16,10 +20,12 @@ public class UIManager : Singleton<UIManager>
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
     public SettingUI SettingUI { get; private set; }
+    public InGameUI InGameUI { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (buttonSound == null)
         {
@@ -29,16 +35,17 @@ public class UIManager : Singleton<UIManager>
         audioSource = GetComponent<AudioSource>();
 
         UIList = new List<BaseUI>();
-        LobbyUI = InitUI<LobbyUI>();
-        SettingUI = InitUI<SettingUI>();
     }
 
     private void Start()
     {
         AudioManager.Instance.AddSFXAudioSource(audioSource);
+    }
 
-        InitFader();
-        ChangeUIState(UIType.Lobby);
+    private void OnDestroy()
+    {
+        UIList.Clear();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
@@ -106,9 +113,10 @@ public class UIManager : Singleton<UIManager>
         var ui = GetComponentInChildren<T>(true);
         if (ui == null)
         {
-            var go = new GameObject(nameof(T));
-            go.transform.SetParent(transform);
-            ui = go.AddComponent<T>();
+            var prefab = Resources.Load<GameObject>("Prefab/UI/" + typeof(T).Name);
+            var go = Instantiate(prefab);
+            ui = go.GetComponent<T>();
+            go.transform.SetParent(transform, false);
         }
 
         ui.Init(this);
@@ -120,9 +128,45 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     private void InitFader()
     {
+        if (fader != null) return;
         fader = FindObjectOfType<CanvasGroup>();
         if (fader != null) return;
         var go = Resources.Load<GameObject>("Prefab/UI/Fader");
         fader = Instantiate(go).GetComponent<CanvasGroup>();
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.buildIndex)
+        {
+            case 0:
+                UIList.Clear();
+                if (LobbyUI == null)
+                {
+                    LobbyUI = InitUI<LobbyUI>();
+                }
+                if (SettingUI == null)
+                {
+                    SettingUI = InitUI<SettingUI>();
+                }
+                InitFader();
+                ChangeUIState(UIType.Lobby);
+                break;
+            case 1:
+                UIList.Clear();
+                Destroy(LobbyUI.gameObject);
+                LobbyUI = null;
+                if (InGameUI == null)
+                {
+                    InGameUI = InitUI<InGameUI>();
+                }
+                if (SettingUI == null)
+                {
+                    SettingUI = InitUI<SettingUI>();
+                }
+                InitFader();
+                ChangeUIState(UIType.InGame);
+                break;
+        }
     }
 }

@@ -4,6 +4,9 @@ using DataDeclaration;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 환경 설정 클래스
+/// </summary>
 public class SettingUI : BaseUI
 {
     #region Field

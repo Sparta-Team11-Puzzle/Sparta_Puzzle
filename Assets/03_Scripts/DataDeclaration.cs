@@ -1,3 +1,5 @@
+using UnityEngine.SceneManagement;
+
 // 데이터 선언부
 namespace DataDeclaration
 {
@@ -20,6 +22,7 @@ namespace DataDeclaration
         None,
         Lobby,
         Setting,
+        InGame,
     }
 
     /// <summary>
@@ -33,6 +36,27 @@ namespace DataDeclaration
     }
     #endregion
 
+    #region Interface
+    /// <summary>
+    /// 환경 설정 취소/적용 버튼 기능
+    /// </summary>
+    public interface ISettingUI
+    {
+        public void OnClickCancelButton();
+        public void OnClickApplyButton();
+    }
+
+    /// <summary>
+    /// 씬 전환 완료 후 로직 실행 기능
+    /// <para>등록: SceneManager.sceneLoaded += OnSceneLoaded</para>
+    /// <para>해제: SceneManager.sceneLoaded -= OnSceneLoaded</para>
+    /// </summary>
+    public interface IOnSceneLoaded
+    {
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode);
+    }
+    #endregion
+    
     /// <summary>
     /// 상수 선언 클래스
     /// </summary>
@@ -43,14 +67,5 @@ namespace DataDeclaration
         public const string SFX_VOL = "sfxVol";
         
         public const string MOUSE_SENSITIVITY = "mouseSensitivity";
-    }
-
-    /// <summary>
-    /// 환경 설정 취소/적용 버튼 기능
-    /// </summary>
-    public interface ISettingUI
-    {
-        public void OnClickCancelButton();
-        public void OnClickApplyButton();
     }
 }

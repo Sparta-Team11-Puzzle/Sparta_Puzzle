@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 키 세팅 환경 설정 클래스
+/// </summary>
 public class KeySettingUI : MonoBehaviour, ISettingUI
 {
     [SerializeField] private Slider mouseSensitivitySlider;

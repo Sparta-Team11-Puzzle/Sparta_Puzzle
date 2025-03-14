@@ -2,6 +2,9 @@ using DataDeclaration;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 로비 씬 UI 클래스
+/// </summary>
 public class LobbyUI : BaseUI
 {
     [SerializeField] private Button startBtn;

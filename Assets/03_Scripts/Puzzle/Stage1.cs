@@ -8,23 +8,23 @@ public class Stage1 : BaseRoom
 {
     private (float angle, Vector3 direction)[] snapData =
         {
-            (0, new Vector3(0, 0, 1)),    // Á¤¸é
-            (90, new Vector3(1, 0, 0)),   // ¿À¸¥ÂÊ
-            (180, new Vector3(0, 0, -1)), // µÚÂÊ
-            (-90, new Vector3(-1, 0, 0))  // ¿ŞÂÊ
+            (0, new Vector3(0, 0, 1)),    // ì •ë©´
+            (90, new Vector3(1, 0, 0)),   // ì˜¤ë¥¸ìª½
+            (180, new Vector3(0, 0, -1)), // ë’¤ìª½
+            (-90, new Vector3(-1, 0, 0))  // ì™¼ìª½
         };
 
-    // ===== ÇÙ½É ·ÎÁ÷ =====
+    // ===== í•µì‹¬ ë¡œì§ =====
     private RaycastHit hit; 
-    [SerializeField] private float brakeDistance;           // ºê·¹ÀÌÅ© Å½Áö °Å¸®
-    [SerializeField] private Vector3 brakeDistaceOffset;    // ºê·¹ÀÌÅ© Ray Offset
-    [SerializeField] private LayerMask obstacleLayer;       // ºê·¹ÀÌÅ© LayerMask
+    [SerializeField] private float brakeDistance;           // ë¸Œë ˆì´í¬ íƒì§€ ê±°ë¦¬
+    [SerializeField] private Vector3 brakeDistaceOffset;    // ë¸Œë ˆì´í¬ Ray Offset
+    [SerializeField] private LayerMask obstacleLayer;       // ë¸Œë ˆì´í¬ LayerMask
 
     // ===== Object =====
-    [SerializeField] private IceGround iceGround;           // ¹Ì²ô·¯Áö´Â ¹Ù´Ú
+    [SerializeField] private IceGround iceGround;           // ë¯¸ë„ëŸ¬ì§€ëŠ” ë°”ë‹¥
 
     // ===== Player =====
-    private Rigidbody playerRigidbody;                      // ÇÃ·¹ÀÌ¾î RigidBody
+    private Rigidbody playerRigidbody;                      // í”Œë ˆì´ì–´ RigidBody
 
     // ===== Get / Set =====
     public Vector3 moveDirection { get; set; }
@@ -33,21 +33,23 @@ public class Stage1 : BaseRoom
     public override void InitRoom(DungeonManager manager)
     {
         base.InitRoom(manager);
-        iceGround.InitObject(this);
-        isSlide = false;
 
-        // CharacterManager¿¡¼­ ¹Ş¾Æ¿Àµµ·Ï ¼öÁ¤ÇÏ±â
-        playerRigidbody = FindObjectOfType<Rigidbody>();
-        player = playerRigidbody.transform;
+        // player ìºì‹±
+        player = CharacterManager.Instance.Player.transform;
+        playerRigidbody = player.GetComponent<Rigidbody>();
+
+        // ì˜¤ë¸Œì íŠ¸ ì´ˆê¸°í™”
+        iceGround.InitObject(this, player);
+        isSlide = false;
     }
 
-    public override void UpdateRoom()
+    public void Update()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ iceGround À§¿¡ ¾øÀ¸¸é return
+        // í”Œë ˆì´ì–´ê°€ iceGround ìœ„ì— ì—†ìœ¼ë©´ return
         if (!iceGround.stayPlayer)
             return;
 
-        // ¹Ì²ô·¯Áö´ÂÁß
+        // ë¯¸ë„ëŸ¬ì§€ëŠ”ì¤‘
         if(isSlide)
         {
             if (!CheckObstacle(player.transform, moveDirection))
@@ -57,30 +59,30 @@ public class Stage1 : BaseRoom
             isSlide = false;
         }
 
-        // ¹Ì²ô·¯Áö´ÂÁßÀÌ ¾Æ´Ò¶§ R ÀÔ·Â
+        // ë¯¸ë„ëŸ¬ì§€ëŠ”ì¤‘ì´ ì•„ë‹ë•Œ R ì…ë ¥
         else if(Input.GetKeyDown(KeyCode.R))
         {
-            // 1. ¹æÇâ±¸ÇÏ±â
+            // 1. ë°©í–¥êµ¬í•˜ê¸°
             moveDirection = GetDirection(player.transform);
-            // 2. Àå¾Ö¹° È®ÀÎ
+            // 2. ì¥ì• ë¬¼ í™•ì¸
             if (CheckObstacle(player.transform, moveDirection))
                 return;
 
-            // 3. Àå¾Ö¹°ÀÌ¾ø´Ù¸é AddForce
+            // 3. ì¥ì• ë¬¼ì´ì—†ë‹¤ë©´ AddForce
             playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
             isSlide = true;
         }
     }
 
     /// <summary>
-    /// ÀÌµ¿¹æÇâ Àå¾Ö¹° È®ÀÎ ÇÔ¼ö
+    /// ì´ë™ë°©í–¥ ì¥ì• ë¬¼ í™•ì¸ í•¨ìˆ˜
     /// </summary>
-    /// <param name="target">Àå¾Ö¹°À» È®ÀÎÇÏ´Â ÁÖÃ¼</param>
-    /// <param name="direction">ÀÌµ¿¹æÇâ</param>
+    /// <param name="target">ì¥ì• ë¬¼ì„ í™•ì¸í•˜ëŠ” ì£¼ì²´</param>
+    /// <param name="direction">ì´ë™ë°©í–¥</param>
     /// <returns></returns>
     public bool CheckObstacle(Transform target, Vector3 direction)
     {
-        // Ray ½ÃÀÛÁ¡ ¿ÀÇÁ¼Â
+        // Ray ì‹œì‘ì  ì˜¤í”„ì…‹
         Vector3[] rayOffsets =
         {
             Vector3.zero,
@@ -90,7 +92,7 @@ public class Stage1 : BaseRoom
 
         foreach (Vector3 offset in rayOffsets)
         {
-            // Ray ½ÃÀÛÁ¡
+            // Ray ì‹œì‘ì 
             Vector3 rayPosition = target.position + brakeDistaceOffset + offset;
 
             // Draw
@@ -105,16 +107,16 @@ public class Stage1 : BaseRoom
     }
 
     /// <summary>
-    /// °¡Àå °¡±î¿î ¹æÇâ(4¹æÇâ) À» ¾ò´Â ÇÔ¼ö
+    /// ê°€ì¥ ê°€ê¹Œìš´ ë°©í–¥(4ë°©í–¥) ì„ ì–»ëŠ” í•¨ìˆ˜
     /// </summary>
-    /// <param name="target">´ë»ó ¿ÀºêÁ§Æ®</param>
+    /// <param name="target">ëŒ€ìƒ ì˜¤ë¸Œì íŠ¸</param>
     /// <returns></returns>
     public Vector3 GetDirection(Transform target)
     {
-        // targetÀÌ ¹Ù¶óº¸´Â ¹æÇâÀÇ YÃà È¸Àü°ª ( -180 ~ 180 )
+        // targetì´ ë°”ë¼ë³´ëŠ” ë°©í–¥ì˜ Yì¶• íšŒì „ê°’ ( -180 ~ 180 )
         float angle = Mathf.Atan2(target.forward.x, target.forward.z) * Mathf.Rad2Deg;
 
-        // °¡Àå °¡±î¿î °¢µµ Ã£±â
+        // ê°€ì¥ ê°€ê¹Œìš´ ê°ë„ ì°¾ê¸°
         float closestAngle = snapData[0].angle;
         Vector3 closestDirection = snapData[0].direction;
         float minDiff = Mathf.Infinity;
@@ -130,7 +132,7 @@ public class Stage1 : BaseRoom
             }
         }
 
-        // °¡Àå °¡±î¿î ¹æÇâ ¹İÈ¯
+        // ê°€ì¥ ê°€ê¹Œìš´ ë°©í–¥ ë°˜í™˜
         return closestDirection;
     }
 }

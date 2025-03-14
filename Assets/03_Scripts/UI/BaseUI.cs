@@ -1,6 +1,9 @@
 using DataDeclaration;
 using UnityEngine;
 
+/// <summary>
+/// 메인 UI 상속 클래스
+/// </summary>
 public abstract class BaseUI : MonoBehaviour
 {
     protected UIManager uiManager;
