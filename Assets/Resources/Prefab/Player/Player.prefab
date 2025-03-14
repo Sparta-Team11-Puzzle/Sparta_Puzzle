@@ -243,6 +243,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 88b21bdf-db7c-4258-8e63-f328d2ec2787
     m_ActionName: Player/CameraChange[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6fcdca3a-c145-47fd-8e52-a1289808be4b
+    m_ActionName: Menu/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -272,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcbfce87ecd5d548a71f331ad8db636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPSMode: 0
+  FPSMode: 1
   cameraTransform: {fileID: 4792245113053924602}
   cameraSensitivity: 2
   maxRotX: 60
@@ -318,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b0f94f0987dee429003ccfe7fdefa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 38621288314558403}
 --- !u!114 &489466721889134792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +337,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  interactRange: 1
+    m_Bits: 16384
+  interactRange: 1.5
   interactPoint: {fileID: 4792245113053924602}
 --- !u!1001 &1158978439141593835
 PrefabInstance:
