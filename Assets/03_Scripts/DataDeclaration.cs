@@ -1,7 +1,6 @@
-// 데이터 선언부
-
 using UnityEngine.SceneManagement;
 
+// 데이터 선언부
 namespace DataDeclaration
 {
     #region Enum
@@ -23,7 +22,7 @@ namespace DataDeclaration
         None,
         Lobby,
         Setting,
-        Main,
+        InGame,
     }
 
     /// <summary>
@@ -58,6 +57,9 @@ namespace DataDeclaration
         public void OnClickApplyButton();
     }
 
+    /// <summary>
+    /// 씬 전환 완료 후 로직 실행 기능
+    /// </summary>
     public interface IOnSceneLoaded
     {
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode);

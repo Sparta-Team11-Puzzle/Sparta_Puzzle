@@ -2,7 +2,10 @@ using DataDeclaration;
 using TMPro;
 using UnityEngine;
 
-public class MainUI : BaseUI
+/// <summary>
+/// 인게임 UI 클래스
+/// </summary>
+public class InGameUI : BaseUI
 {
     [SerializeField] private GameObject interactGuide;
     [SerializeField] private GameObject keyGuide;
@@ -23,14 +26,17 @@ public class MainUI : BaseUI
     public override void Init(UIManager manager)
     {
         base.Init(manager);
-        uiType = UIType.Main;
+        uiType = UIType.InGame;
     }
     
     public override void ActiveUI(UIType type)
     {
-        gameObject.SetActive(type == UIType.Main);
+        gameObject.SetActive(type == UIType.InGame);
     }
 
+    /// <summary>
+    /// 플레이 타임 계산
+    /// </summary>
     private void SetPlayTime()
     {
         playTimeSec += Time.unscaledDeltaTime;
