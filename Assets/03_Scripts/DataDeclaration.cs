@@ -1,4 +1,7 @@
 // 데이터 선언부
+
+using UnityEngine.SceneManagement;
+
 namespace DataDeclaration
 {
     #region Enum
@@ -20,6 +23,7 @@ namespace DataDeclaration
         None,
         Lobby,
         Setting,
+        Main,
     }
 
     /// <summary>
@@ -52,5 +56,10 @@ namespace DataDeclaration
     {
         public void OnClickCancelButton();
         public void OnClickApplyButton();
+    }
+
+    public interface IOnSceneLoaded
+    {
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode);
     }
 }

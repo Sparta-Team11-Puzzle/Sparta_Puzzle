@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
         playerData = GetComponent<PlayerData>();
         rigidbody.freezeRotation = true;
         camera = Camera.main;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         inputHandler.JumpTrigger += Jump;
         inputHandler.CameraChangeTrigger += CameraChange;
