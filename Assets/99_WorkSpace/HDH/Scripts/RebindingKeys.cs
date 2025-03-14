@@ -6,19 +6,16 @@ using UnityEngine.InputSystem;
 
 public class RebindingKeys : MonoBehaviour
 {
-    [SerializeField] private InputActionReference jumpAction;
     [SerializeField] private InputHandler playerInput;
-    [SerializeField] private TextMeshProUGUI bindingKeyName;
-    [SerializeField] private GameObject ShowRebind;
+    
 
     private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
-    public void RebindKey()
+    public void RebindKey(InputActionReference actionReference)
     {
-        ShowRebind.SetActive(true);
         playerInput.PlayerInput.SwitchCurrentActionMap("Menu");
 
-        rebindingOperation = jumpAction.action.PerformInteractiveRebinding()
+        rebindingOperation = actionReference.action.PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .OnMatchWaitForAnother(0.1f)
             .OnComplete(operation => RebindComplete())
@@ -29,7 +26,6 @@ public class RebindingKeys : MonoBehaviour
     {
         rebindingOperation.Dispose();
         playerInput.PlayerInput.SwitchCurrentActionMap("Player");
-        ShowRebind.SetActive(false);
     }
 
 }
