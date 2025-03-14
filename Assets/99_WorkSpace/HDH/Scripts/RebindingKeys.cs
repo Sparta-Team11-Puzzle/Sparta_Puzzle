@@ -7,10 +7,15 @@ using UnityEngine.InputSystem;
 
 public class RebindingKeys : MonoBehaviour
 {
-    [SerializeField] private InputHandler playerInput;
+    private InputHandler playerInput;
     private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
     public event Action OnComplet;
+
+    private void Start()
+    {
+        playerInput = CharacterManager.Instance.Player.GetComponent<InputHandler>();
+    }
 
     public void RebindKey(InputActionReference actionReference)
     {
