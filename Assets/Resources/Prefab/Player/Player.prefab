@@ -272,15 +272,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcbfce87ecd5d548a71f331ad8db636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPSmode: 1
+  FPSMode: 0
   cameraTransform: {fileID: 4792245113053924602}
-  cameraSensitivity: 150
+  cameraSensitivity: 1
   maxRotX: 60
   minRotX: -60
   minDistance: 1
   maxDistance: 5
   TPSCameraDistance: 3
-  rotationSpeed: 10
+  rotationSpeed: 15
+  rotationThreshHold: 0.9
   canMove: 1
   jumpCooldown: 1
   groundLayer:
@@ -305,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  speed: 8
+  speed: 5
   jumpForce: 5
 --- !u!114 &4218986993582208010
 MonoBehaviour:

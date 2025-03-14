@@ -32,7 +32,7 @@ public class InputHandler : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
-            MouseDelta = context.ReadValue<Vector2>().normalized;
+            MouseDelta = context.ReadValue<Vector2>();
         else if (context.phase == InputActionPhase.Canceled)
             MouseDelta = Vector2.zero;
     }
