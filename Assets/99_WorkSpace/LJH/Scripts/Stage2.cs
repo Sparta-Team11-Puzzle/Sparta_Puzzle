@@ -5,33 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class Stage2 : BaseRoom
 {
+    [SerializeField] private ShowPlatform platformTrigger;
 
     public MaterialChanger[] materialChanger;
-
     public GameObject invisibleWall;
-    public void Start()
-    {
-        InitRoom(null);
 
-              
-        // 5ÃÊ ÈÄ¿¡ InvisibleWall Á¦°Å
-        Invoke("RemoveInvisibleWall", 5f);
-
-    }
-    public void Update()
-    {
-        UpdateRoom();
-    }
     public override void InitRoom(DungeonManager manager)
     {
         base.InitRoom(manager);
 
-        if (materialChanger != null)
-        {
-            for (int i = 0; i < materialChanger.Length; i++)
-                materialChanger[i].ChangeMaterialTemporarily();
-        }
-
+        // ì´ë²¤íŠ¸ ë„˜ê²¨ì£¼ê¸°
+        platformTrigger.InitObject(ShowPlotform, HidePlatform);
     }
 
     public override void UpdateRoom()
@@ -39,45 +23,32 @@ public class Stage2 : BaseRoom
 
     }
 
-    void OnTriggerEnter(Collider other)
+    private void ShowPlotform()
     {
-        if (other.CompareTag("Player"))
+        if (materialChanger != null)
         {
-            // ÇÃ·¹ÀÌ¾î°¡ Æ®¸®°Å¿¡ ÁøÀÔ ½Ã ¹ßµ¿
-
-            if (materialChanger != null)
-            {
-                for (int i = 0; i < materialChanger.Length; i++)
-                    materialChanger[i].ChangeMaterialTemporarily();
-            }
+            for (int i = 0; i < materialChanger.Length; i++)
+                materialChanger[i].ChangeMaterialTemporarily();
         }
     }
 
-
-
-    void OnCollisionEnter(Collision collision)
+    private void HidePlatform()
     {
-        if (collision.gameObject.CompareTag("Plane"))
+        if (materialChanger != null)
         {
-            Debug.Log("°ÔÀÓ¿À¹ö");
-            //Invoke("RestartGame", 1f);
+            for (int i = 0; i < materialChanger.Length; i++)
+                materialChanger[i].RestoreMaterial();
         }
 
-        
+        // ë²½ ì‚­ì œ
+        RemoveInvisibleWall();
     }
 
     private void RemoveInvisibleWall()
     {
         if (invisibleWall != null)
         {
-            Destroy(invisibleWall);  // InvisibleWallÀ» Á¦°Å
+            Destroy(invisibleWall);  // InvisibleWall ì‚­ì œ
         }
     }
-    //private void RestartGame()
-    //{
-    //    // ÇöÀç ¾ÀÀ» ´Ù½Ã ·ÎµåÇÏ¿© °ÔÀÓ Àç½ÃÀÛ
-    //    string currentSceneName = SceneManager.GetActiveScene().name;
-    //    SceneManager.LoadScene(currentSceneName);
-    //}
-
 }

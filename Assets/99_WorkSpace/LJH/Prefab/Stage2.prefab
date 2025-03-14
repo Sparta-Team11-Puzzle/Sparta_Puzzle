@@ -534,7 +534,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3765208875187527394}
-  - component: {fileID: 6890555545993151575}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -560,37 +559,6 @@ Transform:
   - {fileID: 234011881234169243}
   m_Father: {fileID: 9045147410290231570}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6890555545993151575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466100249403104967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d787f4a6766a1641a4f6ed68cb19383, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomObjects: []
-  materialChanger:
-  - {fileID: 5339295174700374827}
-  - {fileID: 7045938478731002212}
-  - {fileID: 3233438248619428584}
-  - {fileID: 5086600057937035280}
-  - {fileID: 424126430090245976}
-  - {fileID: 6089299924485120852}
-  - {fileID: 161890116263855676}
-  - {fileID: 3529010737676186136}
-  - {fileID: 5058046744765956124}
-  - {fileID: 7270512319607476936}
-  - {fileID: 8833158405387668902}
-  - {fileID: 1947606933099399460}
-  - {fileID: 3995871936291490032}
-  - {fileID: 7080117127466142407}
-  - {fileID: 7788048713653001618}
-  - {fileID: 8605185938956491165}
-  invisibleWall: {fileID: 0}
 --- !u!1 &503396434529094680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,6 +2602,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9045147410290231570}
+  - component: {fileID: 1031233690356544643}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Untagged
@@ -2666,6 +2635,37 @@ Transform:
   - {fileID: 1453871810608190323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1031233690356544643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576987253646441192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d787f4a6766a1641a4f6ed68cb19383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomObjects: []
+  materialChanger:
+  - {fileID: 5339295174700374827}
+  - {fileID: 7045938478731002212}
+  - {fileID: 3233438248619428584}
+  - {fileID: 5086600057937035280}
+  - {fileID: 424126430090245976}
+  - {fileID: 6089299924485120852}
+  - {fileID: 161890116263855676}
+  - {fileID: 3529010737676186136}
+  - {fileID: 5058046744765956124}
+  - {fileID: 7270512319607476936}
+  - {fileID: 8833158405387668902}
+  - {fileID: 1947606933099399460}
+  - {fileID: 3995871936291490032}
+  - {fileID: 7080117127466142407}
+  - {fileID: 7788048713653001618}
+  - {fileID: 8605185938956491165}
+  invisibleWall: {fileID: 0}
 --- !u!1 &1622565067937029030
 GameObject:
   m_ObjectHideFlags: 0

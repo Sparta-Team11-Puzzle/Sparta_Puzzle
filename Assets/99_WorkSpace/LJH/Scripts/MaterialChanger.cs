@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MaterialChanger : MonoBehaviour
 {
-    public Material originalMaterial;  // ¿ø·¡ Material
-    public Material ghostMaterial;  // ¹Ù²ï Material
+    public Material originalMaterial;  // ì›ë˜ Material
+    public Material ghostMaterial;  // ë°”ë€ Material
     private Renderer objectRenderer; // Mesh Renderer
 
     void Awake()
@@ -15,14 +15,14 @@ public class MaterialChanger : MonoBehaviour
 
     public void ChangeMaterialTemporarily()
     {
-        // Ghost·Î º¯°æ
+        // Ghostë¡œ ë³€ê²½
         objectRenderer.material = ghostMaterial;
 
-        // 5ÃÊ ÈÄ¿¡ ´Ù½Ã ¿ø·¡´ë·Î º¯°æ
-        Invoke("RestoreMaterial", 5f);
+        //// 5ì´ˆ í›„ì— ë‹¤ì‹œ ì›ë˜ëŒ€ë¡œ ë³€ê²½
+        //Invoke("RestoreMaterial", 5f);
     }
 
-    void RestoreMaterial()
+    public void RestoreMaterial()
     {
         objectRenderer.material = originalMaterial;
     }
