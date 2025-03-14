@@ -8,15 +8,18 @@ public class InteractionHandler : MonoBehaviour
     [SerializeField] float interactRange;
     [SerializeField] Transform interactPoint;
 
-    GameObject curInteraction;
+    [SerializeField] GameObject curInteraction;
     Camera camera;
     InputHandler inputHandler;
     IInteractable interactable;
+
+    PlayerController playerController;
 
     private void Start()
     {
         camera = Camera.main;
         inputHandler = GetComponent<InputHandler>();
+        playerController = GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -26,7 +29,7 @@ public class InteractionHandler : MonoBehaviour
 
     void CheckObject()
     {
-        Vector3 rayDirection = new Vector3(transform.forward.x, camera.transform.forward.y, transform.forward.z);
+        Vector3 rayDirection = new Vector3(playerController.Forward.x, camera.transform.forward.y, playerController.Forward.z);
 
         Ray ray = new Ray(interactPoint.position, rayDirection);
         RaycastHit hit;
@@ -60,7 +63,7 @@ public class InteractionHandler : MonoBehaviour
         if (camera == null) return;
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(interactPoint.position, interactPoint.position + new Vector3(transform.forward.x, camera.transform.forward.y, transform.forward.z).normalized * interactRange);
+        Gizmos.DrawLine(interactPoint.position, interactPoint.position + new Vector3(playerController.Forward.x, camera.transform.forward.y, playerController.Forward.z).normalized * interactRange);
     }
 
 }
