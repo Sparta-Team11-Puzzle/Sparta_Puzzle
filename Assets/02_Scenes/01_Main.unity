@@ -1244,7 +1244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b5cd21004afb74eab75ee11d508860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRooms:
+  stages:
   - {fileID: 1799488188}
   - {fileID: 6027653773358267485}
   - {fileID: 314672360}
