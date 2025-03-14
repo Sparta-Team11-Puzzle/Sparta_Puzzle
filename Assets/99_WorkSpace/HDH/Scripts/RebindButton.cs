@@ -14,10 +14,24 @@ public class RebindButton : MonoBehaviour
     private void Start()
     {
         rebindingKeys = GetComponentInParent<RebindingKeys>();
+        bindingKeyName.text = InputControlPath.ToHumanReadableString(
+            mappedAction.action.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
 
     public void OnRebindKey()
     {
+        ShowRebind.SetActive(true);
         rebindingKeys.RebindKey(mappedAction);
+        rebindingKeys.OnComplet += UpdateUI;
+    }
+
+    void UpdateUI()
+    {
+        ShowRebind.SetActive(false);
+
+        bindingKeyName.text = InputControlPath.ToHumanReadableString(
+            mappedAction.action.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+
+        rebindingKeys.OnComplet -= UpdateUI;
     }
 }

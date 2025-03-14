@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,9 +8,9 @@ using UnityEngine.InputSystem;
 public class RebindingKeys : MonoBehaviour
 {
     [SerializeField] private InputHandler playerInput;
-    
-
     private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+
+    public event Action OnComplet;
 
     public void RebindKey(InputActionReference actionReference)
     {
@@ -26,6 +27,12 @@ public class RebindingKeys : MonoBehaviour
     {
         rebindingOperation.Dispose();
         playerInput.PlayerInput.SwitchCurrentActionMap("Player");
+        OnComplet?.Invoke();
+    }
+
+    void Init()
+    {
+        //playerInput.PlayerInput.actions;
     }
 
 }
