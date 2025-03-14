@@ -175,10 +175,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stage3
       objectReference: {fileID: 0}
-    - target: {fileID: 6199060509270217440, guid: d1dc4a1c47a09a14fb10ce63d224fa42, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.13399005
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -210,15 +206,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 429038244949044194, guid: d398ddac4e6620547a96a9d6268326ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 429038244949044194, guid: d398ddac4e6620547a96a9d6268326ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 429038244949044194, guid: d398ddac4e6620547a96a9d6268326ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 429038244949044194, guid: d398ddac4e6620547a96a9d6268326ed, type: 3}
       propertyPath: m_LocalRotation.w
