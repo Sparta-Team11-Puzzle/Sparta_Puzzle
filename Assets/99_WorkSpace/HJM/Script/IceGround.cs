@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceGround : MonoBehaviour
+public class IceGround : MonoBehaviour, IEventTrigger
 {
     private string playerTag = "Player";
 
@@ -10,38 +10,48 @@ public class IceGround : MonoBehaviour
     private PlayerController playerController;
     private Rigidbody playerRigidbody;
 
-    public bool stayPlayer { get; private set; }    // ÇÃ·¹ÀÌ¾î°¡ IceGround¿¡ ¸Ó¹°°íÀÖ´Â »óÅÂ
+    public bool stayPlayer { get; private set; }    // í”Œë ˆì´ì–´ê°€ IceGroundì— ë¨¸ë¬¼ê³ ìˆëŠ” ìƒíƒœ
+
+    [SerializeField] private bool canSlide;
+    public void EventTrigger()
+    {
+        canSlide = false;
+    }
 
     /// <summary>
-    /// ¿ÀºêÁ§Æ® ÃÊ±âÈ­
+    /// ì˜¤ë¸Œì íŠ¸ ì´ˆê¸°í™”
     /// </summary>
-    /// <param name="stage">½ºÅ×ÀÌÁö ÂüÁ¶</param>
-    public void InitObject(Stage1 stage)
+    /// <param name="stage">ìŠ¤í…Œì´ì§€ ì°¸ì¡°</param>
+    public void InitObject(Stage1 stage, Transform player)
     {
         this.stage = stage;
 
-        // ÇÃ·¹ÀÌ¾î °¡Á®¿À±â
-        playerController = FindObjectOfType<PlayerController>();
-        playerRigidbody = playerController.GetComponent<Rigidbody>();
+        // í”Œë ˆì´ì–´ ê°€ì ¸ì˜¤ê¸°
+        playerController = player.GetComponent<PlayerController>();
+        playerRigidbody = player.GetComponent<Rigidbody>();
 
         stayPlayer = false;
+        canSlide = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!canSlide)
+            return;
+
         if (collision.gameObject.CompareTag(playerTag))
         {
             stayPlayer = true;      
             stage.isSlide = true;   
 
-            // ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ Á¦ÇÑ
+            // í”Œë ˆì´ì–´ ì›€ì§ì„ ì œí•œ
             playerController.SetCanMove(false);
 
-            // ÇÃ·¹ÀÌ¾î ¼Óµµ ÃÊ±âÈ­
+            // í”Œë ˆì´ì–´ ì†ë„ ì´ˆê¸°í™”
             playerRigidbody.Sleep();
             playerRigidbody.velocity = Vector3.zero;
 
-            // ÀÔÀå ¹æÇâÀ¸·Î AddForce
+            // ì…ì¥ ë°©í–¥ìœ¼ë¡œ AddForce
             Vector3 force = stage.GetDirection(collision.transform);
             stage.moveDirection = force;
             playerRigidbody.AddForce(force * 10, ForceMode.Impulse);
@@ -50,15 +60,18 @@ public class IceGround : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        if (!canSlide)
+            return;
+
         if (collision.gameObject.CompareTag(playerTag))
         {
             stayPlayer = false;
             stage.isSlide = false;
 
-            // ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ Á¦ÇÑ ÇØÁ¦
+            // í”Œë ˆì´ì–´ ì›€ì§ì„ ì œí•œ í•´ì œ
             playerController.SetCanMove(true);
 
-            // Èû Á¦°Å
+            // í˜ ì œê±°
             playerRigidbody.Sleep();
         }
     }

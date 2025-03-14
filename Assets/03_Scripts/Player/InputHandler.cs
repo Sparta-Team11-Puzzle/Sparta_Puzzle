@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
+    [SerializeField] private PlayerInput playerInput;
+    public PlayerInput PlayerInput => playerInput;
     public Vector2 MovementInput { get; private set; }
     public Vector2 MouseDelta { get; private set; }
     public bool IsRun { get; private set; }
@@ -14,6 +16,11 @@ public class InputHandler : MonoBehaviour
     public event Action JumpTrigger;
     public event Action UseTrigger;
     public event Action CameraChangeTrigger;
+
+    private void Start()
+    {
+
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -32,7 +39,7 @@ public class InputHandler : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
-            MouseDelta = context.ReadValue<Vector2>().normalized;
+            MouseDelta = context.ReadValue<Vector2>();
         else if (context.phase == InputActionPhase.Canceled)
             MouseDelta = Vector2.zero;
     }

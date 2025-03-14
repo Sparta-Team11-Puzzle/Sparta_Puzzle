@@ -11,6 +11,7 @@ public class InteractionHandler : MonoBehaviour
     GameObject curInteraction;
     Camera camera;
     InputHandler inputHandler;
+    IInteractable interactable;
 
     private void Start()
     {
@@ -36,18 +37,20 @@ public class InteractionHandler : MonoBehaviour
             {
                 curInteraction = hit.collider.gameObject;
 
-                //상호작용 처리
-                //IInteractable interactable;
-
-                //if(curInteraction.TryGetComponent<IInteractable>(out interactable))
-                //{
-                //    inputHandler.UseTrigger += interactable.Active;
-                //}
+                if (curInteraction.TryGetComponent<IInteractable>(out interactable))
+                {
+                    inputHandler.UseTrigger += interactable.Interact;
+                }
 
             }
         }
         else
         {
+            if (curInteraction != null && curInteraction.TryGetComponent<IInteractable>(out interactable))
+            {
+                inputHandler.UseTrigger -= interactable.Interact;
+            }
+            interactable = null;
             curInteraction = null;
         }
     }
