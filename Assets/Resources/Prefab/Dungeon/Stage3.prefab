@@ -824,6 +824,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4394675639701774987}
+  - component: {fileID: 662577392877677538}
   m_Layer: 0
   m_Name: Stage3
   m_TagString: Untagged
@@ -856,6 +857,18 @@ Transform:
   - {fileID: 8006876858523344971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &662577392877677538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5508491653142414287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932f4389e19b1ea4bb009a590780d6d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5839347828183209591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,6 +1619,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4394675639701774987}
     m_Modifications:
+    - target: {fileID: 732971707734371715, guid: aca5f4968013598498405ebfd3bb7887, type: 3}
+      propertyPath: openObject
+      value: 
+      objectReference: {fileID: 3557923254993024136}
     - target: {fileID: 2690305439895198221, guid: aca5f4968013598498405ebfd3bb7887, type: 3}
       propertyPath: m_Name
       value: DoorOpen
@@ -5724,6 +5741,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4812415815453657200, guid: a336b55a969133846bf33b34b415b3c6, type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 3482547246071765302}
     - target: {fileID: 8427271412424716199, guid: a336b55a969133846bf33b34b415b3c6, type: 3}
       propertyPath: m_Name
       value: ResetButton
@@ -6701,6 +6722,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed4c20da59d0f904dbde7d06085d33f5, type: 3}
+--- !u!1 &3482547246071765302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7523088662736454391, guid: ed4c20da59d0f904dbde7d06085d33f5, type: 3}
+  m_PrefabInstance: {fileID: 6355457598098217921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5393651124110676764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1362627086441990365, guid: ed4c20da59d0f904dbde7d06085d33f5, type: 3}

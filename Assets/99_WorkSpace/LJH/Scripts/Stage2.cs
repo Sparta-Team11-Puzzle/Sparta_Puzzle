@@ -10,9 +10,9 @@ public class Stage2 : BaseRoom
     public MaterialChanger[] materialChanger;
     public GameObject invisibleWall;
 
-    public override void InitRoom(DungeonManager manager)
+    public override void InitRoom(DungeonSystem system)
     {
-        base.InitRoom(manager);
+        base.InitRoom(system);
 
         // 이벤트 넘겨주기
         platformTrigger.InitObject(ShowPlotform, HidePlatform);
