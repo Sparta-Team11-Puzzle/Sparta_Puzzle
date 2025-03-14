@@ -189,6 +189,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4394675639701774987, guid: d1dc4a1c47a09a14fb10ce63d224fa42, type: 3}
   m_PrefabInstance: {fileID: 314672358}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &314672360 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 662577392877677538, guid: d1dc4a1c47a09a14fb10ce63d224fa42, type: 3}
+  m_PrefabInstance: {fileID: 314672358}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932f4389e19b1ea4bb009a590780d6d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &394179946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1230,13 +1241,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1752852384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee152b352b5a34745ae9cb6c7c6b9661, type: 3}
+  m_Script: {fileID: 11500000, guid: 99b5cd21004afb74eab75ee11d508860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseRooms:
   - {fileID: 1799488188}
   - {fileID: 6027653773358267485}
-  currentRoom: {fileID: 0}
+  - {fileID: 314672360}
 --- !u!1001 &1792236331
 PrefabInstance:
   m_ObjectHideFlags: 0
