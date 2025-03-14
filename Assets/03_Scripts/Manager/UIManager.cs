@@ -38,7 +38,7 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
     {
         AudioManager.Instance.AddSFXAudioSource(audioSource);
     }
-    
+
     private void OnDestroy()
     {
         UIList.Clear();
@@ -110,7 +110,7 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
         var ui = GetComponentInChildren<T>(true);
         if (ui == null)
         {
-            var prefab = Resources.Load<GameObject>("Prefab/UI/" +  typeof(T).Name);
+            var prefab = Resources.Load<GameObject>("Prefab/UI/" + typeof(T).Name);
             var go = Instantiate(prefab);
             ui = go.GetComponent<T>();
             go.transform.SetParent(transform, false);
@@ -138,15 +138,27 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
         {
             case 0:
                 UIList.Clear();
-                LobbyUI = InitUI<LobbyUI>();
-                SettingUI = InitUI<SettingUI>();
+                if (LobbyUI == null)
+                {
+                    LobbyUI = InitUI<LobbyUI>();
+                }
+                if (SettingUI == null)
+                {
+                    SettingUI = InitUI<SettingUI>();
+                }
                 InitFader();
                 ChangeUIState(UIType.Lobby);
                 break;
             case 1:
                 UIList.Clear();
-                MainUI = InitUI<MainUI>();
-                SettingUI = InitUI<SettingUI>();
+                if (MainUI == null)
+                {
+                    MainUI = InitUI<MainUI>();
+                }
+                if (SettingUI == null)
+                {
+                    SettingUI = InitUI<SettingUI>();
+                }
                 InitFader();
                 ChangeUIState(UIType.Main);
                 break;
