@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject pushingObject;
     [SerializeField] private bool isPushing;
 
+    private bool startJump;
+
     /// <summary>
     /// 플레이어의 정면 방향을 반환
     /// </summary>
@@ -92,7 +94,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        GroundCheck();
+        isGround = GroundCheck();
+
+        startJump = inputHandler.InputJump;
     }
 
     private void FixedUpdate()
@@ -117,20 +121,27 @@ public class PlayerController : MonoBehaviour
             TPSLook();
     }
 
-    void GroundCheck()
+    bool GroundCheck()
     {
-        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+        Ray[] rays = new Ray[4]
+            {
+            new Ray(transform.position  + (transform.forward * 0.2f) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.2f) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.2f) + Vector3.up * 0.1f, Vector3.down),
+            new Ray(transform.position + (transform.right * 0.2f) + Vector3.up * 0.1f, Vector3.down)
+            };
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
+        foreach (Ray ray in rays)
         {
-            isGround = true;
+            if (Physics.Raycast(ray, out hit, distanceToGround, groundLayer))
+            {
+               return true;
+            }
         }
-        else
-        {
-            isGround = false;
-        }
+
+        return false;
     }
 
     void FPSMove(Vector2 movementInput)
@@ -263,9 +274,8 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        if (inputHandler.InputJump && isGround && canMove)
+        if (startJump && isGround && canMove)
         {
-            Debug.Log(inputHandler.InputJump);
 
             if(!readyToJump)
             {
@@ -280,7 +290,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    
     void Jump()
     {
         rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
