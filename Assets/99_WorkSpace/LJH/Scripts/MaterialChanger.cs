@@ -11,6 +11,8 @@ public class MaterialChanger : MonoBehaviour
         objectRenderer = GetComponent<Renderer>();
     }
 
+   
+
     public void ChangeMaterialTemporarily()
     {
         // Ghost·Î º¯°æ
