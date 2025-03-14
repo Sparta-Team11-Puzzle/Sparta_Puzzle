@@ -5,11 +5,11 @@ using UnityEngine;
 public class PushAction : MonoBehaviour
 {
     [Header("Push Info")]
-    [SerializeField] float pushPower;
+    [SerializeField] float pushPower = 10f;
     [SerializeField] private GameObject pushingObject;
     [SerializeField] private bool isPushing;
-    [SerializeField] private float pushingDistance;
- 
+    [SerializeField] private float pushingDistance = 4f;
+
     void Update()
     {
         HandlePushing();
