@@ -5,6 +5,9 @@ using DataDeclaration;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// UI 관리 클래스(싱글톤)
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 {

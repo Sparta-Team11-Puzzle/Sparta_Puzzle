@@ -1,6 +1,9 @@
 using DataDeclaration;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 전반적인 게임 관리 클래스(싱글톤)
+/// </summary>
 public class GameManager : Singleton<GameManager>, IOnSceneLoaded
 {
     private UIManager uiManager;

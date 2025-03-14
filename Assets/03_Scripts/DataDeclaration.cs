@@ -59,6 +59,8 @@ namespace DataDeclaration
 
     /// <summary>
     /// 씬 전환 완료 후 로직 실행 기능
+    /// <para>등록: SceneManager.sceneLoaded += OnSceneLoaded</para>
+    /// <para>해제: SceneManager.sceneLoaded -= OnSceneLoaded</para>
     /// </summary>
     public interface IOnSceneLoaded
     {

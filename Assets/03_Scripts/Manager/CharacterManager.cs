@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/// <summary>
+/// 캐릭터 관리 클래스(싱글톤)
+/// </summary>
 public class CharacterManager : Singleton<CharacterManager>
 {
-    private Player player;
-    public Player Player
-    {
-        get { return player; }
-        set { player = value; }
-    }
+    public Player Player { get; set; }
 }
