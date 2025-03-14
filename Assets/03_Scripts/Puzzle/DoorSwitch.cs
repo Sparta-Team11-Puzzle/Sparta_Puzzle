@@ -22,6 +22,7 @@ public class DoorSwitch : MonoBehaviour, IInteractable
         if (targetObject == null)
             return;
 
+        targetEvent = new IEventTrigger[targetObject.Length];
         for(int i = 0; i < targetObject.Length; i++)
         {
             targetObject[i].TryGetComponent(out targetEvent[i]);
