@@ -23,6 +23,7 @@ namespace DataDeclaration
         Lobby,
         Setting,
         InGame,
+        Pause,
     }
 
     /// <summary>
