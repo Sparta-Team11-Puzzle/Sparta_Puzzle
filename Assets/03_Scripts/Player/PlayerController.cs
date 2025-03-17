@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //마우스 입력에 따라 변경된 카메라 회전 값에 따라 Forward와 Right를 구한 방향으로 이동 방향을 구함
-            Vector3 moveDirection = (transform.forward * movementInput.y + transform.right * -movementInput.x).normalized;
+            Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
             //해당 방향으로 이동
             rigidbody.velocity = moveDirection * playerData.Speed;
         }
