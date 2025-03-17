@@ -12,6 +12,7 @@ namespace DataDeclaration
     {
         Lobby,
         Main,
+        Ending
     }
     
     /// <summary>

@@ -167,6 +167,14 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
                 InitFader();
                 ChangeUIState(UIType.InGame);
                 break;
+
+            case 2:
+                UIList.Clear();
+                Destroy(InGameUI.gameObject);
+                LobbyUI = null;
+                InGameUI = null;
+                InitFader();
+                break;
         }
     }
 }

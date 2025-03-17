@@ -44,6 +44,9 @@ public class GameManager : Singleton<GameManager>, IOnSceneLoaded
                 uiManager.Fade(1, 0, 5);
                 UIManager.ToggleCursor(false);
                 break;
+            case 2:
+                UIManager.ToggleCursor(false);
+                break;
         }
     }
 }
