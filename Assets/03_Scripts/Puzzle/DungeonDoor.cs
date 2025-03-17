@@ -15,8 +15,6 @@ public class DungeonDoor : MonoBehaviour, IEventTrigger
 
     public void EventTrigger()
     {
-        // 오브젝트 비활성화 ( 테스트 )
         doorObject.DORotate(openRotation, 2f);
-        //doorObject.gameObject.SetActive(false); 
     }
 }
