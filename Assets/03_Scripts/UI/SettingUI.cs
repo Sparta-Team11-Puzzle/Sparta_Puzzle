@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
 /// 환경 설정 클래스
 /// </summary>
-public class SettingUI : BaseUI
+public class SettingUI : BaseUI, IOnSceneLoaded
 {
     #region Field
 
@@ -26,13 +27,15 @@ public class SettingUI : BaseUI
     private SettingType curSettingType; // 현재 설정 종류
     private ISettingUI curSettingUI;
 
+    private Action closeBtnAction;
     private Action cancelBtnAction; // 취소 버튼 클릭 시 실행할 로직
     private Action applyBtnAction; // 적용 버튼 클릭 시 실행할 로직
-
     #endregion
 
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
         uiType = UIType.Setting;
 
         settingDict = new Dictionary<SettingType, GameObject>
@@ -51,6 +54,8 @@ public class SettingUI : BaseUI
 
     private void Start()
     {
+        closeBtnAction = () => uiManager.ChangeUIState(UIType.Lobby);
+        
         closeBtn.onClick.AddListener(OnCloseButtonClick);
 
         generalBtn.onClick.AddListener(OnGeneralButtonClick);
@@ -59,6 +64,11 @@ public class SettingUI : BaseUI
 
         cancelBtn.onClick.AddListener(() => cancelBtnAction?.Invoke());
         applyBtn.onClick.AddListener(() => applyBtnAction?.Invoke());
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public override void Init(UIManager manager)
@@ -76,7 +86,7 @@ public class SettingUI : BaseUI
     private void OnCloseButtonClick()
     {
         uiManager.PlayButtonSound();
-        uiManager.ChangeUIState(UIType.Lobby);
+        closeBtnAction();
     }
 
     private void OnGeneralButtonClick()
@@ -118,6 +128,19 @@ public class SettingUI : BaseUI
             {
                 setting.Value.SetActive(false);
             }
+        }
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.buildIndex)
+        {
+            case 0:
+                closeBtnAction = () => uiManager.ChangeUIState(UIType.Lobby);
+                break;
+            case 1:
+                closeBtnAction = () => uiManager.ChangeUIState(UIType.Pause);
+                break;
         }
     }
 }
