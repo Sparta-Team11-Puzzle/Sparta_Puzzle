@@ -98,9 +98,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!canMove || !isGround) return;
-        Jump();
+
         Move(inputHandler.MovementInput);
+        Jump();
+        
     }
 
     void LateUpdate()
@@ -154,17 +155,20 @@ public class PlayerController : MonoBehaviour
 
     void Move(Vector2 movementInput)
     {
+        //움직일 수 없는 상태에서는 움지이지 않도록 함
+        if (!canMove) return;
         //입력이 없으면 속도를 0이 되도록 함
         if (movementInput == Vector2.zero)
         {
-            rigidbody.velocity = Vector3.zero;
+            rigidbody.velocity = new Vector3(0f, rigidbody.velocity.y, 0f);
         }
         else
         {
             //마우스 입력에 따라 변경된 카메라 회전 값에 따라 Forward와 Right를 구한 방향으로 이동 방향을 구함
-            Vector3 moveDirection = (Forward * movementInput.y + Right * -movementInput.x).normalized;
+            Vector3 moveVelocity = (Forward * movementInput.y + Right * -movementInput.x).normalized * playerData.Speed;
+            moveVelocity.y = rigidbody.velocity.y;
             //해당 방향으로 이동
-            rigidbody.velocity = moveDirection * playerData.Speed;
+            rigidbody.velocity = moveVelocity;
         }
     }
 
@@ -251,7 +255,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //지면에 있으면서 startJump 입력이 있을 때 점프를 실행
-        if (startJump && isGround)
+        if (startJump && isGround && canMove)
         {
             if(!readyToJump)
             {
@@ -269,6 +273,7 @@ public class PlayerController : MonoBehaviour
     
     void OnJump()
     {
+        rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
         rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
     }
 
