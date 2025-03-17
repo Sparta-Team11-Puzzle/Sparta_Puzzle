@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private float camRotY; // 카메라 Y 회전
     private Camera camera; // 카메라 객체
     [SerializeField] private bool FPSMode;
+    [SerializeField] private bool mouseInputFlip;
     [SerializeField] private Transform cameraTransform; // 카메라 트랜스폼
     [SerializeField] private float cameraSensitivity; // 카메라 감도
     [Header("Camera Settings-FPS")]
@@ -191,8 +192,10 @@ public class PlayerController : MonoBehaviour
     {
         camera.cullingMask &= ~LayerMask.GetMask("Player");
 
-        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
-        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
+        int mouseFlip = mouseInputFlip ? -1 : 1;
+
+        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity * mouseFlip;
+        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity * mouseFlip;
 
         camRotY += mouseX;
         camRotX -= mouseY;
@@ -220,6 +223,7 @@ public class PlayerController : MonoBehaviour
     void TPSLook()
     {
         camera.cullingMask = -1;
+        int mouseFlip = mouseInputFlip ? -1 : 1;
 
         float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
         float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
@@ -264,6 +268,15 @@ public class PlayerController : MonoBehaviour
         camera.transform.eulerAngles = new Vector3(-tpsCameraRotX, tpsCameraRotY, 0f);
         transform.eulerAngles = new Vector3(0, tpsCameraRotY, 0f);
 
+    }
+
+    /// <summary>
+    /// 마우스 입력 반전을 관리
+    /// </summary>
+    /// <param name="value">이동 가능 상태 (true: 마우스 입력 반전, false: 마우스 입력 반전하지 않음)</param>
+    public void SetMouseInputFlip(bool value)
+    {
+        mouseInputFlip = value;
     }
 
     void OnJump()

@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: ae4f47f180725ee479832d07d4194ea8, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -293,9 +293,6 @@ MonoBehaviour:
   groundRayDistance: 0.4
   distanceToGround: 0.2
   isGround: 1
-  pushSpeed: 0
-  pushingObject: {fileID: 0}
-  isPushing: 0
 --- !u!114 &4144023858836463904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b0f94f0987dee429003ccfe7fdefa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 38621288314558403}
 --- !u!114 &489466721889134792
 MonoBehaviour:
   m_ObjectHideFlags: 0
