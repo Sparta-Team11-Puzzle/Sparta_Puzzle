@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (Cursor.lockState == CursorLockMode.None) return;
         //마우스 입력 반전을 적용
         int mouseFlipX = mouseInputFlipX ? -1 : 1;
         int mouseFlipY = mouseInputFlipY ? -1 : 1;
