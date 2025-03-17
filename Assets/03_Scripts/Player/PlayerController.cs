@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     private float camRotY; // 카메라 Y 회전
     private Camera camera; // 카메라 객체
     [SerializeField] private bool FPSMode;
-    [SerializeField] private bool mouseInputFlip;
+    [SerializeField] private bool mouseInputFlipX;
+    [SerializeField] private bool mouseInputFlipY;
     [SerializeField] private Transform cameraTransform; // 카메라 트랜스폼
     [SerializeField] private float cameraSensitivity; // 카메라 감도
     [Header("Camera Settings-FPS")]
@@ -104,6 +105,18 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
+        //마우스 입력 반전을 적용
+        int mouseFlipX = mouseInputFlipX ? -1 : 1;
+        int mouseFlipY = mouseInputFlipY ? -1 : 1;
+        //감도를 고려한 마우스 입력 값
+        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity * mouseFlipX;
+        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity * mouseFlipY;
+        //이를 회전 값에 적용
+        camRotY += mouseX;
+        camRotX -= mouseY;
+        //값이 360도 이내에 있도록 함
+        camRotY %= 360f;
+
         if (FPSMode)
             FPSLook();
         else
@@ -165,16 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         //Player 레이어를 보이지 않도록 함
         camera.cullingMask &= ~LayerMask.GetMask("Player");
-        //마우스 입력 반전을 적용
-        int mouseFlip = mouseInputFlip ? -1 : 1;
-        //감도를 고려한 마우스 입력 값
-        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity * mouseFlip;
-        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity * mouseFlip;
-        //이를 회전 값에 적용
-        camRotY += mouseX;
-        camRotX -= mouseY;
-        //값이 360도 이내에 있도록 함
-        camRotY %= 360f;
+
         //x축 회전은 일정 각도를 제한하여 적용
         camRotX = Mathf.Clamp(camRotX, minRotX, maxRotX);
 
@@ -200,16 +204,6 @@ public class PlayerController : MonoBehaviour
     {
         //모든 레이어를 볼 수 있도록 함
         camera.cullingMask = -1;
-        //마우스 입력 반전을 적용
-        int mouseFlip = mouseInputFlip ? -1 : 1;
-        //감도를 고려한 마우스 입력 값
-        float mouseX = inputHandler.MouseDelta.x * Time.deltaTime * cameraSensitivity;
-        float mouseY = inputHandler.MouseDelta.y * Time.deltaTime * cameraSensitivity;
-        //이를 회전 값에 적용
-        camRotY += mouseX;
-        camRotX -= mouseY;
-        //값이 360도 이내에 있도록 함
-        camRotY %= 360f;
         //x축 회전은 일정 각도를 제한하여 적용
         camRotX = Mathf.Clamp(camRotX, -100, 100);
         //TPS 카메라의 위치를 계산
@@ -254,15 +248,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 마우스 입력 반전을 관리
-    /// </summary>
-    /// <param name="value">이동 가능 상태 (true: 마우스 입력 반전, false: 마우스 입력 반전하지 않음)</param>
-    public void SetMouseInputFlip(bool value)
-    {
-        mouseInputFlip = value;
-    }
-
     void Jump()
     {
         //지면에 있으면서 startJump 입력이 있을 때 점프를 실행
@@ -300,6 +285,24 @@ public class PlayerController : MonoBehaviour
     public void SetCanMove(bool value)
     {
         canMove = value;
+    }
+
+    /// <summary>
+    /// 마우스 입력 반전을 관리
+    /// </summary>
+    /// <param name="axis">변경하려는 축 (0 : x축 , 1 : y축)</param>
+    /// <param name="value">이동 가능 상태 (true: 마우스 입력 반전, false: 마우스 입력 반전하지 않음)</param>
+    public void SetMouseInputFlip(int axis, bool value)
+    {
+        switch(axis)
+        {
+            case 0:
+                mouseInputFlipX = value;
+                break;
+            case 1:
+                mouseInputFlipY = value;
+                break;
+        }
     }
 
     private void OnDrawGizmos()
