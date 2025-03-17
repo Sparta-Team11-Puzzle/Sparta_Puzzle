@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
     private bool startJump;
 
+    private PlayerSFXController playerSFXController;
+
     /// <summary>
     /// 플레이어의 정면 방향을 반환
     /// </summary>
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
         inputHandler = GetComponent<InputHandler>();
         rigidbody = GetComponent<Rigidbody>();
         playerData = GetComponent<PlayerData>();
+        playerSFXController = GetComponent<PlayerSFXController>();
         rigidbody.freezeRotation = true;
         camera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
@@ -98,10 +101,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         Move(inputHandler.MovementInput);
         Jump();
-        
     }
 
     void LateUpdate()
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour
         if (movementInput == Vector2.zero)
         {
             rigidbody.velocity = new Vector3(0f, rigidbody.velocity.y, 0f);
+            playerSFXController.StopWalkSound();
         }
         else
         {
@@ -169,7 +171,9 @@ public class PlayerController : MonoBehaviour
             moveVelocity.y = rigidbody.velocity.y;
             //해당 방향으로 이동
             rigidbody.velocity = moveVelocity;
+            playerSFXController.PlayWalkSound();
         }
+        
     }
 
     //카메라 모드를 전환
@@ -263,6 +267,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerSFXController.PlayJumpSound();
                 readyToJump = false;
                 Invoke("ResetJump", jumpCooldown);
             }
@@ -280,7 +285,6 @@ public class PlayerController : MonoBehaviour
     void ResetJump()
     {
         readyToJump = true;
-
     }
 
     /// <summary>
