@@ -77,6 +77,6 @@ public class DungeonSystem : MonoBehaviour
     private void UpdateCurrentStage()
     {
         //  프로퍼티 private 접근 불가능.
-        // inGameUI.CurStage.Text
+        inGameUI.CurStage.text = $"현재 스테이지 : {(int)currentStage}";
     }
 }

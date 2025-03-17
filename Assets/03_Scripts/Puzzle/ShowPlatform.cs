@@ -8,10 +8,15 @@ public class ShowPlatform : MonoBehaviour
     private Action showPlatform;
     private Action hidePlatform;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+
     public void InitObject(Action showPlatform, Action hidePlatform)
     {
         this.showPlatform = showPlatform;
         this.hidePlatform = hidePlatform;
+
+        AudioManager.Instance.AddSFXAudioSource(audioSource);
     }
 
     void OnTriggerEnter(Collider other)
@@ -21,6 +26,7 @@ public class ShowPlatform : MonoBehaviour
             // 플레이어가 트리거에 진입 시 발동
             if(showPlatform != null)
             {
+                audioSource.Play();
                 StartCoroutine(OnPlatform());
             }
         }
