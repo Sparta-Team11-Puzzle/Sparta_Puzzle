@@ -46,4 +46,13 @@ public class GameManager : Singleton<GameManager>, IOnSceneLoaded
                 break;
         }
     }
+
+    public static void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
