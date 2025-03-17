@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FPSMode: 1
+  mouseInputFlip: 0
   cameraTransform: {fileID: 4792245113053924602}
   cameraSensitivity: 2
   maxRotX: 60
