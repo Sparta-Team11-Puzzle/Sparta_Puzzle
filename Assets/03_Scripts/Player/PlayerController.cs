@@ -43,11 +43,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float distanceToGround; // 바닥까지의 거리
     [SerializeField] private bool isGround; // 바닥에 닿아 있는지 여부
 
-    [Header("Push Info")]
-    [SerializeField] float pushSpeed;
-    [SerializeField] private GameObject pushingObject;
-    [SerializeField] private bool isPushing;
-
     private bool startJump;
 
     /// <summary>
@@ -160,8 +155,6 @@ public class PlayerController : MonoBehaviour
 
             rigidbody.velocity = transform.forward * playerData.Speed;
         }
-
-
 
     }
 
@@ -325,22 +318,4 @@ public class PlayerController : MonoBehaviour
             transform.position + (transform.right * groundRayDistance) + Vector3.down * distanceToGround);
     }
 
-    // 밀 수 있는 오브젝트와 접촉 시
-    private void OnTriggerEnter(Collider other)
-    {
-        // 밀 수 있는 오브젝트 태그
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = other.gameObject;
-        }
-    }
-
-    // 밀 수 있는 오브젝트와 미접촉 시
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = null;
-        }
-    }
 }
