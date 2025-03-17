@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
     public SettingUI SettingUI { get; private set; }
+    public PauseUI PauseUI { get; private set; }
     public InGameUI InGameUI { get; private set; }
 
     protected override void Awake()
@@ -154,8 +155,10 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
                 break;
             case 1:
                 UIList.Clear();
-                Destroy(LobbyUI.gameObject);
-                LobbyUI = null;
+                if (PauseUI == null)
+                {
+                    PauseUI = InitUI<PauseUI>();
+                }
                 if (InGameUI == null)
                 {
                     InGameUI = InitUI<InGameUI>();
