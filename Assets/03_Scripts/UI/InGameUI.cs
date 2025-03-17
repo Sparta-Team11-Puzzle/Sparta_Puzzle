@@ -16,7 +16,7 @@ public class InGameUI : BaseUI
     private int playTimeMin;
 
     public GameObject InteractGuide => interactGuide;
-    private TextMeshProUGUI CurStage => curStage;
+    public TextMeshProUGUI CurStage => curStage;
 
     private void Update()
     {
