@@ -35,7 +35,6 @@ public class Stage1 : BaseRoom
         base.InitRoom(system);
 
         // player 캐싱
-        player = CharacterManager.Instance.Player.transform;
         playerRigidbody = player.GetComponent<Rigidbody>();
 
         // 오브젝트 초기화
@@ -86,8 +85,8 @@ public class Stage1 : BaseRoom
         Vector3[] rayOffsets =
         {
             Vector3.zero,
-            new Vector3(direction.z, 0, direction.x) * 0.3f,
-            new Vector3(-direction.z, 0, -direction.x) * 0.3f
+            new Vector3(direction.z, 0, direction.x) * 0.45f,
+            new Vector3(-direction.z, 0, -direction.x) * 0.45f
         };
 
         foreach (Vector3 offset in rayOffsets)
@@ -113,8 +112,10 @@ public class Stage1 : BaseRoom
     /// <returns></returns>
     public Vector3 GetDirection(Transform target)
     {
+        PlayerController controller = target.GetComponent<PlayerController>();
+
         // target이 바라보는 방향의 Y축 회전값 ( -180 ~ 180 )
-        float angle = Mathf.Atan2(target.forward.x, target.forward.z) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(controller.Forward.x, controller.Forward.z) * Mathf.Rad2Deg;
 
         // 가장 가까운 각도 찾기
         float closestAngle = snapData[0].angle;
