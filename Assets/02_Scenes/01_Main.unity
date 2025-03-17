@@ -747,6 +747,7 @@ MonoBehaviour:
   - {fileID: 1799488188}
   - {fileID: 6027653773358267485}
   - {fileID: 314672360}
+  currentStage: 0
 --- !u!1001 &1799488187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -831,6 +832,22 @@ PrefabInstance:
     - target: {fileID: 1576987253646441192, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
       propertyPath: m_Name
       value: Stage2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287869651119309137, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287869651119309137, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287869651119309137, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287869651119309137, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9045147410290231570, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
       propertyPath: m_LocalPosition.x
