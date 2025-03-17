@@ -21,13 +21,22 @@ public class InputHandler : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        playerActionMap = playerInput.actions.FindActionMap("Player");
 
+        //외부에서 초기화를 실시할 경우 이는 삭제해야함
         Init();
     }
 
+    /// <summary>
+    /// C# Invoke 방식으로 사용할 때 인풋 입력을 초기화하는 함수
+    /// </summary>
     public void Init()
     {
+        //외부에서 PlayerAction을 할당할 경우 초기화하면서 PlayerAction을 확인하도록 함
+        if (playerInput.actions != null)
+            playerActionMap = playerInput.actions.FindActionMap("Player");
+        else
+            Debug.LogError("Actions in PlayerInput are Empty.");
+
         InputAction moveAction = playerActionMap.FindAction("Move");
         moveAction.performed += context => MovementInput = context.ReadValue<Vector2>();
         moveAction.canceled += context => MovementInput = Vector2.zero;
@@ -47,6 +56,7 @@ public class InputHandler : MonoBehaviour
         cameraAction.started += context => CameraChangeTrigger?.Invoke();
     }
 
+    //Unity Event를 사용할 때 각 이벤트에 할당하는 함수들
     public void OnMove(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Performed)
