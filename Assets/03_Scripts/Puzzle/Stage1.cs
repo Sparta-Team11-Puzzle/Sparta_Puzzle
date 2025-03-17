@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class Stage1 : BaseRoom
 
     // ===== Player =====
     private Rigidbody playerRigidbody;                      // 플레이어 RigidBody
+    private InputHandler inputHandler;                      // 플레이어 InputHandler
 
     // ===== Get / Set =====
     public Vector3 moveDirection { get; set; }
@@ -36,7 +38,7 @@ public class Stage1 : BaseRoom
 
         // player 캐싱
         playerRigidbody = player.GetComponent<Rigidbody>();
-
+        inputHandler = player.GetComponent<InputHandler>();
         // 오브젝트 초기화
         iceGround.InitObject(this, player);
         isSlide = false;
@@ -57,21 +59,33 @@ public class Stage1 : BaseRoom
             playerRigidbody.Sleep();
             isSlide = false;
         }
-
-        // 미끄러지는중이 아닐때 R 입력
-        else if(Input.GetKeyDown(KeyCode.R))
-        {
-            // 1. 방향구하기
-            moveDirection = GetDirection(player.transform);
-            // 2. 장애물 확인
-            if (CheckObstacle(player.transform, moveDirection))
-                return;
-
-            // 3. 장애물이없다면 AddForce
-            playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
-            isSlide = true;
-        }
     }
+
+    private void Silde()
+    {
+        if (isSlide)
+            return;
+
+        // 1. 방향구하기
+        moveDirection = GetDirection(player.transform);
+        // 2. 장애물 확인
+        if (CheckObstacle(player.transform, moveDirection))
+            return;
+
+        // 3. 장애물이없다면 AddForce
+        playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
+        isSlide = true;
+    }
+
+    public void ActionBinding(bool state)
+    {
+        if (state)
+            inputHandler.UseTrigger += Silde;
+
+        else
+            inputHandler.UseTrigger -= Silde;
+    }
+
 
     /// <summary>
     /// 이동방향 장애물 확인 함수
