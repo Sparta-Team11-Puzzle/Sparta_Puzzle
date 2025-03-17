@@ -1,36 +1,52 @@
+using DataDeclaration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] private InputActionAsset playerInput;
+    private InputActionAsset playerInput;  // 플레이어 InputAction 에셋
+    
+    public float mouseSensitivity;
+    
+    public InputActionAsset PlayerInput => playerInput;
 
-    public void Test()
+    protected override void Awake()
     {
-        // 불러오기
+        base.Awake();
+        playerInput = Resources.Load<InputActionAsset>("OJWTest");
+
+        LoadUserMouseSetting();
+        LoadUserKeySetting();
+    }
+
+    /// <summary>
+    /// 유저 키 세팅 불러오기
+    /// </summary>
+    public void LoadUserKeySetting()
+    {
         string loadDate = PlayerPrefs.GetString("bindingOverrides", "{}");
         playerInput.LoadBindingOverridesFromJson(loadDate);
         
-        var jumpAction = playerInput.FindAction("Jump");
-        jumpAction.ApplyBindingOverride("<Keyboard>/space");
+    }
+
+    /// <summary>
+    /// 유저 키 세팅 저장
+    /// </summary>
+    public void SaveUserKeySetting()
+    {
+        PlayerPrefs.GetFloat(Constant.MOUSE_SENSITIVITY, 0.1f);
         
-        var moveAction = playerInput.FindAction("Move");
-        
-        if (moveAction != null)
-        {
-            int upIndex = moveAction.GetBindingIndex(null,"<Keyboard>/w");
-            int downIndex = moveAction.GetBindingIndex(null,"<Keyboard>/s");
-            int leftIndex = moveAction.GetBindingIndex(null,"<Keyboard>/a");
-            int rightIndex = moveAction.GetBindingIndex(null,"<Keyboard>/d");
-        
-            moveAction.ApplyBindingOverride(upIndex, "<Keyboard>/upArrow");
-            moveAction.ApplyBindingOverride(downIndex, "<Keyboard>/downArrow");
-            moveAction.ApplyBindingOverride(leftIndex, "<Keyboard>/leftArrow");
-            moveAction.ApplyBindingOverride(rightIndex, "<Keyboard>/rightArrow");
-        }
-        
-        // 저장
         string saveData = playerInput.SaveBindingOverridesAsJson();
         PlayerPrefs.SetString("bindingOverrides", saveData);
+    }
+
+    public void LoadUserMouseSetting()
+    {
+        mouseSensitivity = PlayerPrefs.GetFloat(Constant.MOUSE_SENSITIVITY, 0.1f);
+    }
+
+    public void SaveUserMouseSetting()
+    {
+        PlayerPrefs.SetFloat(Constant.MOUSE_SENSITIVITY, mouseSensitivity);
     }
 }
