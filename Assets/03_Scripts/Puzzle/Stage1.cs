@@ -35,7 +35,6 @@ public class Stage1 : BaseRoom
         base.InitRoom(system);
 
         // player 캐싱
-        player = CharacterManager.Instance.Player.transform;
         playerRigidbody = player.GetComponent<Rigidbody>();
 
         // 오브젝트 초기화
