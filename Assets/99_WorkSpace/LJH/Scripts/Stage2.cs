@@ -25,6 +25,9 @@ public class Stage2 : BaseRoom
             for (int i = 0; i < materialChanger.Length; i++)
                 materialChanger[i].ChangeMaterialTemporarily();
         }
+
+        // 벽 활성화
+        ActivateInvisibleWall();
     }
 
     private void HidePlatform()
@@ -35,15 +38,24 @@ public class Stage2 : BaseRoom
                 materialChanger[i].RestoreMaterial();
         }
 
-        // 벽 삭제
-        RemoveInvisibleWall();
+        // 벽 비활성화
+        DeactivateInvisibleWall();
     }
 
-    private void RemoveInvisibleWall()
+   
+    private void ActivateInvisibleWall()
     {
         if (invisibleWall != null)
         {
-            Destroy(invisibleWall);  // InvisibleWall 삭제
+            invisibleWall.SetActive(true); // InvisibleWall 활성화
+        }
+    }
+
+    private void DeactivateInvisibleWall()
+    {
+        if (invisibleWall != null)
+        {
+            invisibleWall.SetActive(false); // InvisibleWall 비활성화
         }
     }
 }
