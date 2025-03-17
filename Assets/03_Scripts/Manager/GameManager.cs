@@ -42,6 +42,18 @@ public class GameManager : Singleton<GameManager>, IOnSceneLoaded
             case 1:
                 uiManager.Fade(1, 0, 5);
                 break;
+            case 2:
+                UIManager.ToggleCursor(false);
+                break;
         }
+    }
+
+    public static void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

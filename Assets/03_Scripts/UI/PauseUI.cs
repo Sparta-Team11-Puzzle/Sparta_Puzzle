@@ -44,10 +44,6 @@ public class PauseUI : BaseUI
 
     private void OnClickExitButton()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        GameManager.ExitGame();
     }
 }

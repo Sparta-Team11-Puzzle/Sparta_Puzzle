@@ -1,3 +1,4 @@
+using DataDeclaration;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,8 @@ public class DungeonComplete : MonoBehaviour, IInteractable
 
     private void EndGame()
     {
-        Cursor.lockState = CursorLockMode.None;
-        SceneManager.LoadScene(sceneNama);
+        //Cursor.lockState = CursorLockMode.None;
+        //SceneManager.LoadScene(sceneNama);
+        GameManager.ChangeScene(SceneType.Ending);
     }
 }
