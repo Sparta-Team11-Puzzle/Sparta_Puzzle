@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Plane
   - Fake
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -325,22 +325,22 @@ public class PlayerController : MonoBehaviour
             transform.position + (transform.right * groundRayDistance) + Vector3.down * distanceToGround);
     }
 
-    // 밀 수 있는 오브젝트와 접촉 시
-    private void OnTriggerEnter(Collider other)
-    {
-        // 밀 수 있는 오브젝트 태그
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = other.gameObject;
-        }
-    }
+    //// 밀 수 있는 오브젝트와 접촉 시
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    // 밀 수 있는 오브젝트 태그
+    //    if (other.CompareTag("Pushable"))
+    //    {
+    //        pushingObject = other.gameObject;
+    //    }
+    //}
 
-    // 밀 수 있는 오브젝트와 미접촉 시
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Pushable"))
-        {
-            pushingObject = null;
-        }
-    }
+    //// 밀 수 있는 오브젝트와 미접촉 시
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Pushable"))
+    //    {
+    //        pushingObject = null;
+    //    }
+    //}
 }
