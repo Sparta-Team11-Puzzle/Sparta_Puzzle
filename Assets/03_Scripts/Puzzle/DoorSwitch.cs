@@ -31,8 +31,6 @@ public class DoorSwitch : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log(gameObject.name + " on");
-
         leverTransform.DORotate(leverRotation, 2f);
         leverRotation *= -1;
 
