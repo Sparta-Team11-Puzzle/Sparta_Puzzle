@@ -34,8 +34,6 @@ public class InputManager : Singleton<InputManager>
     /// </summary>
     public void SaveUserKeySetting()
     {
-        PlayerPrefs.GetFloat(Constant.MOUSE_SENSITIVITY, 0.1f);
-        
         string saveData = playerInput.SaveBindingOverridesAsJson();
         PlayerPrefs.SetString("bindingOverrides", saveData);
     }

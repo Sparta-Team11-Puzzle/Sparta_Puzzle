@@ -24,21 +24,14 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
     {
         if (inputManager != null)
         {
-            inputManager.LoadUserMouseSetting();
-            mouseSensitivitySlider.value = inputManager.mouseSensitivity;
-            mouseSensitivityText.text = (mouseSensitivitySlider.value * 100f).ToString("N0");
-            
-            inputManager.LoadUserKeySetting();
-            foreach (KeyBindingUI keyBindingUI in keyBindingUIs)
-            {
-                keyBindingUI.UpdateUI();
-            }
+            InitUI();
         }
     }
 
     private void Start()
     {
         inputManager = InputManager.Instance;
+        InitUI();
         mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
     }
 
@@ -52,19 +45,33 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
         mouseSensitivityText.text = (value * 100f).ToString("N0");
     }
 
+    private void InitUI()
+    {
+        inputManager.LoadUserMouseSetting();
+        mouseSensitivitySlider.value = inputManager.mouseSensitivity;
+        mouseSensitivityText.text = (mouseSensitivitySlider.value * 100f).ToString("N0");
+
+        inputManager.LoadUserKeySetting();
+
+        foreach (KeyBindingUI keyBindingUI in keyBindingUIs)
+        {
+            keyBindingUI.UpdateUI();
+        }
+    }
+
     void ISettingUI.OnClickCancelButton()
     {
         UIManager.Instance.PlayButtonSound();
-        
+
         inputManager.LoadUserMouseSetting();
         mouseSensitivitySlider.value = inputManager.mouseSensitivity;
-        
+
         inputManager.LoadUserKeySetting();
         foreach (KeyBindingUI keyBindingUI in keyBindingUIs)
         {
             keyBindingUI.UpdateUI();
         }
-        
+
         Debug.Log("키 설정 취소 버튼");
     }
 

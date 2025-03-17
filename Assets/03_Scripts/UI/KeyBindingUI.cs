@@ -57,8 +57,10 @@ public class KeyBindingUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        bindingButtonText.text = action.bindings[bindingIndex].isComposite
-            ? action.GetBindingDisplayString((int)bindData.bindingIndex)
-            : action.GetBindingDisplayString();
+        //TODO: 버그 수정은 됐지만 왜 됨???
+        // bindingButtonText.text = action.bindings[bindingIndex].isComposite
+        //     ? action.GetBindingDisplayString((int)bindData.bindingIndex)
+        //     : action.GetBindingDisplayString();
+        bindingButtonText.text =  action.GetBindingDisplayString((int)bindData.bindingIndex);
     }
 }

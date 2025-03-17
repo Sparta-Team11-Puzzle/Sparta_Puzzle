@@ -67,9 +67,9 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
 
     void ISettingUI.OnClickApplyButton()
     {
-        PlayerPrefs.SetFloat("masterVol", masterVolSlider.value);
-        PlayerPrefs.SetFloat("bgmVol", bgmVolSlider.value);
-        PlayerPrefs.SetFloat("sfxVol", sfxVolSlider.value);
+        PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVolSlider.value);
+        PlayerPrefs.SetFloat(Constant.BGM_VOL, bgmVolSlider.value);
+        PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVolSlider.value);
         
         UIManager.Instance.PlayButtonSound();
     }
