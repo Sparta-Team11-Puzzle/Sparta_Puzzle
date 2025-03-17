@@ -18,6 +18,11 @@ public class InGameUI : BaseUI
     public GameObject InteractGuide => interactGuide;
     public TextMeshProUGUI CurStage => curStage;
 
+    private void OnEnable()
+    {
+        UIManager.ToggleCursor(false);
+    }
+    
     private void Update()
     {
         SetPlayTime();

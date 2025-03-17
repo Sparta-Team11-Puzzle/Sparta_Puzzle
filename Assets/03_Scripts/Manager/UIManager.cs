@@ -141,31 +141,53 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
         switch (scene.buildIndex)
         {
             case 0:
+                ChangeUIState(UIType.None);
                 UIList.Clear();
                 if (LobbyUI == null)
                 {
                     LobbyUI = InitUI<LobbyUI>();
                 }
+                else
+                {
+                    UIList.Add(LobbyUI);
+                }
                 if (SettingUI == null)
                 {
                     SettingUI = InitUI<SettingUI>();
+                }
+                else
+                {
+                    UIList.Add(SettingUI);
                 }
                 InitFader();
                 ChangeUIState(UIType.Lobby);
                 break;
             case 1:
+                ChangeUIState(UIType.None);
                 UIList.Clear();
                 if (PauseUI == null)
                 {
                     PauseUI = InitUI<PauseUI>();
                 }
+                else
+                {
+                    UIList.Add(PauseUI);
+                }
                 if (InGameUI == null)
                 {
                     InGameUI = InitUI<InGameUI>();
                 }
+                else
+                {
+                    UIList.Add(InGameUI);
+                }
                 if (SettingUI == null)
                 {
                     SettingUI = InitUI<SettingUI>();
+                }
+                else
+                {
+                    UIList.Add(SettingUI);
                 }
                 InitFader();
                 ChangeUIState(UIType.InGame);

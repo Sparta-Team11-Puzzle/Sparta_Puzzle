@@ -45,6 +45,7 @@ public class SettingUI : BaseUI
 
     private void OnEnable()
     {
+        UIManager.ToggleCursor(true);
         ToggleSetting(SettingType.General);
     }
 

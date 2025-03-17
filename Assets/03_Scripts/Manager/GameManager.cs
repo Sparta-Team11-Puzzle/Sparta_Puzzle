@@ -38,11 +38,9 @@ public class GameManager : Singleton<GameManager>, IOnSceneLoaded
         switch (scene.buildIndex)
         {
             case 0:
-                UIManager.ToggleCursor(true);
                 break;
             case 1:
                 uiManager.Fade(1, 0, 5);
-                UIManager.ToggleCursor(false);
                 break;
         }
     }

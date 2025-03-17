@@ -1,3 +1,4 @@
+using DataDeclaration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -54,6 +55,9 @@ public class InputHandler : MonoBehaviour
 
         InputAction cameraAction = playerActionMap.FindAction("CameraChange");
         cameraAction.started += context => CameraChangeTrigger?.Invoke();
+        
+        InputAction pauseAction = playerActionMap.FindAction("Pause");
+        pauseAction.started += context => OnPause(context);
     }
 
     //Unity Event를 사용할 때 각 이벤트에 할당하는 함수들
@@ -112,4 +116,11 @@ public class InputHandler : MonoBehaviour
             CameraChangeTrigger?.Invoke();
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            UIManager.Instance.ChangeUIState(UIType.Pause);
+        }
+    }
 }

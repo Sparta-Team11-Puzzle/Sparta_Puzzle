@@ -13,6 +13,11 @@ public class LobbyUI : BaseUI
 
     private Animator characterAnimator; // 배경에 있는 캐릭터의 애니메이터
 
+    private void OnEnable()
+    {
+        UIManager.ToggleCursor(true);
+    }
+
     private void Start()
     {
         startBtn.onClick.AddListener(OnClickStartButton);
