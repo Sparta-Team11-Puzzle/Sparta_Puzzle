@@ -42,6 +42,8 @@ public class InteractionHandler : MonoBehaviour
                     inputHandler.UseTrigger += interactable.Interact;
                 }
 
+                UIManager.Instance.InGameUI.ShowInteractOverlay();
+
             }
         }
         else
@@ -52,6 +54,7 @@ public class InteractionHandler : MonoBehaviour
             }
             interactable = null;
             curInteraction = null;
+            UIManager.Instance.InGameUI.HideInteractOverlay();
         }
     }
 
