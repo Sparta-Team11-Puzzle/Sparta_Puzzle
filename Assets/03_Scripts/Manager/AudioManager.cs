@@ -26,10 +26,12 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         sfxList = new List<AudioSource>();
 
         bgm = GetComponent<AudioSource>();
+        bgm.loop = true;
         bgmClipDict = new Dictionary<SceneType, AudioClip>
         {
             { SceneType.Lobby, Resources.Load<AudioClip>("Audio/ha-waterheater") },
-            { SceneType.Main, Resources.Load<AudioClip>("Audio/ha-suffocate") }
+            { SceneType.Main, Resources.Load<AudioClip>("Audio/Ash_and_Dust") },
+            { SceneType.Ending, Resources.Load<AudioClip>("Audio/The_Void") }
         };
         
         LoadUserAudioSetting();
@@ -133,6 +135,10 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
                 break;
             case 1:
                 bgm.clip = bgmClipDict[SceneType.Main];
+                bgm.Play();
+                break;
+            case 2:
+                bgm.clip = bgmClipDict[SceneType.Ending];
                 bgm.Play();
                 break;
         }
