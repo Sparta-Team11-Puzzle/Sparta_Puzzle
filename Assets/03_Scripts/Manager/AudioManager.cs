@@ -29,7 +29,7 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         bgm.loop = true;
         bgmClipDict = new Dictionary<SceneType, AudioClip>
         {
-            { SceneType.Lobby, Resources.Load<AudioClip>("Audio/ha-waterheater") },
+            { SceneType.Lobby, Resources.Load<AudioClip>("Audio/WindSound (2)") },
             { SceneType.Main, Resources.Load<AudioClip>("Audio/Ash_and_Dust") },
             { SceneType.Ending, Resources.Load<AudioClip>("Audio/The_Void") }
         };
