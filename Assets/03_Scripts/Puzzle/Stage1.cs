@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.HID;
+using static UnityEngine.GraphicsBuffer;
 
 public class Stage1 : BaseRoom
 {
@@ -27,6 +28,7 @@ public class Stage1 : BaseRoom
     // ===== Player =====
     private Rigidbody playerRigidbody;                      // 플레이어 RigidBody
     private InputHandler inputHandler;                      // 플레이어 InputHandler
+    PlayerController controller;
 
     // ===== Get / Set =====
     public Vector3 moveDirection { get; set; }
@@ -39,6 +41,8 @@ public class Stage1 : BaseRoom
         // player 캐싱
         playerRigidbody = player.GetComponent<Rigidbody>();
         inputHandler = player.GetComponent<InputHandler>();
+        controller = player.GetComponent<PlayerController>();
+
         // 오브젝트 초기화
         iceGround.InitObject(this, player);
         isSlide = false;
@@ -53,9 +57,11 @@ public class Stage1 : BaseRoom
         // 미끄러지는중
         if(isSlide)
         {
+            // 장애물과 충돌할때까지
             if (!CheckObstacle(player.transform, moveDirection))
                 return;
 
+            // 충돌시 플레이어 멈춤
             playerRigidbody.Sleep();
             isSlide = false;
         }
@@ -63,20 +69,26 @@ public class Stage1 : BaseRoom
 
     private void Silde()
     {
+        // 슬라이딩 상태
         if (isSlide)
             return;
 
-        // 1. 방향구하기
-        moveDirection = GetDirection(player.transform);
-        // 2. 장애물 확인
+        // 움직일 방향
+        moveDirection = GetDirection();
+
+        // 장애물 확인
         if (CheckObstacle(player.transform, moveDirection))
             return;
 
-        // 3. 장애물이없다면 AddForce
+        // 장애물이 없으면 AddForce로 미끄러지기
         playerRigidbody.AddForce(moveDirection * 10, ForceMode.Impulse);
         isSlide = true;
     }
 
+    /// <summary>
+    /// Silde 메서드 바인딩 함수
+    /// </summary>
+    /// <param name="state">메서드 바인딩 여부</param>
     public void ActionBinding(bool state)
     {
         if (state)
@@ -122,13 +134,10 @@ public class Stage1 : BaseRoom
     /// <summary>
     /// 가장 가까운 방향(4방향) 을 얻는 함수
     /// </summary>
-    /// <param name="target">대상 오브젝트</param>
-    /// <returns></returns>
-    public Vector3 GetDirection(Transform target)
+    /// <returns>방향 값</returns>
+    public Vector3 GetDirection()
     {
-        PlayerController controller = target.GetComponent<PlayerController>();
-
-        // target이 바라보는 방향의 Y축 회전값 ( -180 ~ 180 )
+        // 플레이어(카메라)가 바라보는 방향을 기준으로 한 y값
         float angle = Mathf.Atan2(controller.Forward.x, controller.Forward.z) * Mathf.Rad2Deg;
 
         // 가장 가까운 각도 찾기

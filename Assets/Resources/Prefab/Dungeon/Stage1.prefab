@@ -48122,7 +48122,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3a646c4e908868d4b8828e9c7b19f598, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -48354,7 +48354,7 @@ PrefabInstance:
       objectReference: {fileID: 2793060050442698267}
     - target: {fileID: 1011522708745249143, guid: c5d0bb9490a789c4bbeab51b3fa9c1d8, type: 3}
       propertyPath: targetObject.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1011522708745249143, guid: c5d0bb9490a789c4bbeab51b3fa9c1d8, type: 3}
       propertyPath: targetObject.Array.data[0]
@@ -48364,6 +48364,10 @@ PrefabInstance:
       propertyPath: targetObject.Array.data[1]
       value: 
       objectReference: {fileID: 3641696501594544417}
+    - target: {fileID: 1011522708745249143, guid: c5d0bb9490a789c4bbeab51b3fa9c1d8, type: 3}
+      propertyPath: targetObject.Array.data[2]
+      value: 
+      objectReference: {fileID: 967921488256021658}
     - target: {fileID: 2369857069680396457, guid: c5d0bb9490a789c4bbeab51b3fa9c1d8, type: 3}
       propertyPath: m_Name
       value: Switch

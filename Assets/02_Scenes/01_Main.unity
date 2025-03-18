@@ -665,6 +665,14 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7494460589821691867, guid: 083ef18690671d147bd5ab9de14f07af, type: 3}
+      propertyPath: targetObject.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7494460589821691867, guid: 083ef18690671d147bd5ab9de14f07af, type: 3}
+      propertyPath: targetObject.Array.data[2]
+      value: 
+      objectReference: {fileID: 1799488190}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -684,6 +692,11 @@ MonoBehaviour:
 --- !u!4 &1799488189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3910760378647656445, guid: 083ef18690671d147bd5ab9de14f07af, type: 3}
+  m_PrefabInstance: {fileID: 1799488187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1799488190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 967921488256021658, guid: 083ef18690671d147bd5ab9de14f07af, type: 3}
   m_PrefabInstance: {fileID: 1799488187}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

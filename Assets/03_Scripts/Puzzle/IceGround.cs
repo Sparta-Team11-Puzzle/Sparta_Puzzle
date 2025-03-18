@@ -9,7 +9,6 @@ public class IceGround : MonoBehaviour, IEventTrigger
 
     private Stage1 stage;
     private PlayerController playerController;
-    private InputHandler inputHandler;
     private Rigidbody playerRigidbody;
 
     public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
@@ -55,7 +54,7 @@ public class IceGround : MonoBehaviour, IEventTrigger
             playerRigidbody.velocity = Vector3.zero;
 
             // 입장 방향으로 AddForce
-            Vector3 force = stage.GetDirection(collision.transform);
+            Vector3 force = stage.GetDirection();
             stage.moveDirection = force;
             playerRigidbody.AddForce(force * 10, ForceMode.Impulse);
         }
