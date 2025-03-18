@@ -1,3 +1,4 @@
+using DataDeclaration;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;

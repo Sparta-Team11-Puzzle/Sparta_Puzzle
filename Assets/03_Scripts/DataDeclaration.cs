@@ -57,6 +57,16 @@ namespace DataDeclaration
     {
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode);
     }
+    
+    public interface IEventTrigger
+    {
+        public void EventTrigger();
+    }
+    
+    public interface IInteractable
+    {
+        public void Interact();
+    }
     #endregion
     
     /// <summary>
