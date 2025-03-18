@@ -72,14 +72,4 @@ public class InGameUI : BaseUI, IOnSceneLoaded
             Destroy(gameObject);
         }
     }
-
-    public void ShowInteractOverlay()
-    {
-        interactGuide.SetActive(true);
-    }
-
-    public void HideInteractOverlay()
-    {
-        interactGuide.SetActive(false);
-    }
 }
