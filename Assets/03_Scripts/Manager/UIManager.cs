@@ -138,11 +138,13 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ChangeUIState(UIType.None);
+        UIList.Clear();
+        InitFader();
+        
         switch (scene.buildIndex)
         {
             case 0:
-                ChangeUIState(UIType.None);
-                UIList.Clear();
                 if (LobbyUI == null)
                 {
                     LobbyUI = InitUI<LobbyUI>();
@@ -159,12 +161,9 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
                 {
                     UIList.Add(SettingUI);
                 }
-                InitFader();
                 ChangeUIState(UIType.Lobby);
                 break;
             case 1:
-                ChangeUIState(UIType.None);
-                UIList.Clear();
                 if (PauseUI == null)
                 {
                     PauseUI = InitUI<PauseUI>();
@@ -189,16 +188,7 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
                 {
                     UIList.Add(SettingUI);
                 }
-                InitFader();
                 ChangeUIState(UIType.InGame);
-                break;
-
-            case 2:
-                UIList.Clear();
-                Destroy(InGameUI.gameObject);
-                LobbyUI = null;
-                InGameUI = null;
-                InitFader();
                 break;
         }
     }
