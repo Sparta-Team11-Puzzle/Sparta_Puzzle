@@ -20,6 +20,7 @@ public class DungeonComplete : MonoBehaviour, IInteractable
     public void Interact()
     {
         saveEvent.EventTrigger();
+        CharacterManager.Instance.ClearEvent();
         UIManager.Instance.Fade(0, 1, 3, EndGame);
     }
 

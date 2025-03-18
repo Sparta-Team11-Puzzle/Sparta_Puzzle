@@ -382,7 +382,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC2A4\uD30C\uB974\uD0C4 \uB358\uC804"
+  m_text: "\uC2A4\uD30C\uB974\uD0C0 \uB358\uC804"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bb88e46d26bbd134ab1de0f6e8e1a1f2, type: 2}
   m_sharedMaterial: {fileID: -5556380027330949499, guid: bb88e46d26bbd134ab1de0f6e8e1a1f2, type: 2}
@@ -1279,7 +1279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b369047d5e8607d46a7dee7fc163242c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playTimeText: {fileID: 0}
 --- !u!111 &2059632100
 Animation:
   m_ObjectHideFlags: 0

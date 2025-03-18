@@ -19,7 +19,6 @@ public class InputHandler : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-
         //외부에서 초기화를 실시할 경우 이는 삭제해야함
         Init();
     }
@@ -70,5 +69,10 @@ public class InputHandler : MonoBehaviour
             //입력시 Pause UI를 활성화
             UIManager.Instance.ChangeUIState(UIType.Pause);
         }
+    }
+
+    public void ClearUseTrigger()
+    {
+        UseTrigger = null;
     }
 }
