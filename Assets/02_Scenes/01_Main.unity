@@ -548,6 +548,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stage2
       objectReference: {fileID: 0}
+    - target: {fileID: 4565607988563782675, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4565607988563782675, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f582c49b7a90c2a438d91aeb751f038a, type: 2}
     - target: {fileID: 9045147410290231570, guid: a6984302746b9a24eabb43d55c4c4751, type: 3}
       propertyPath: m_LocalPosition.x
       value: 70.78
