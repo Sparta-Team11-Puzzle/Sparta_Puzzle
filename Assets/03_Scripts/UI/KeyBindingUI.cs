@@ -22,10 +22,7 @@ public class KeyBindingUI : MonoBehaviour
         bindingIndex = action.GetBindingIndex();
 
         actionName.text = bindData.displayActionName;
-        bindingButtonText.text = action.bindings[bindingIndex].isComposite
-            ? action.GetBindingDisplayString((int)bindData.bindingIndex)
-            : action.GetBindingDisplayString();
-        
+        bindingButtonText.text = action.GetBindingDisplayString((int)bindData.bindingIndex);
         bindingButton.onClick.AddListener(StartRebind);
     }
 
@@ -45,11 +42,9 @@ public class KeyBindingUI : MonoBehaviour
         rebindOperation.Dispose();
         
         action.Enable();
-        
-        bindingButtonText.text = action.bindings[bindingIndex].isComposite
-            ? action.GetBindingDisplayString((int)bindData.bindingIndex)
-            : action.GetBindingDisplayString();
-        
+
+        bindingButtonText.text = action.GetBindingDisplayString((int)bindData.bindingIndex);
+
         waitForInputKey.SetActive(false);
 
         action.SaveBindingOverridesAsJson();
