@@ -1,17 +1,23 @@
 using DataDeclaration;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
 /// 로비 씬 UI 클래스
 /// </summary>
-public class LobbyUI : BaseUI
+public class LobbyUI : BaseUI, IOnSceneLoaded
 {
     [SerializeField] private Button startBtn;
     [SerializeField] private Button settingBtn;
     [SerializeField] private Button exitBtn;
 
     private Animator characterAnimator; // 배경에 있는 캐릭터의 애니메이터
+
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
     private void OnEnable()
     {
@@ -26,6 +32,11 @@ public class LobbyUI : BaseUI
 
         var character = GameObject.FindGameObjectWithTag("Player");
         characterAnimator = character.GetComponent<Animator>();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public override void Init(UIManager manager)
@@ -63,5 +74,13 @@ public class LobbyUI : BaseUI
     private void OnClickExitButton()
     {
         GameManager.ExitGame();
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex != (int)SceneType.Lobby)
+        {
+            Destroy(gameObject);
+        }
     }
 }
