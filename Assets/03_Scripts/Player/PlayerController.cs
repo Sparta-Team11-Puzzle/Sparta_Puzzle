@@ -1,9 +1,4 @@
-using DataDeclaration;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -85,36 +80,48 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        //컴포넌트를 변수에 할당
         inputHandler = GetComponent<InputHandler>();
         rigidbody = GetComponent<Rigidbody>();
         playerData = GetComponent<PlayerData>();
         playerSFXController = GetComponent<PlayerSFXController>();
+
+        // Rigidbody의 회전을 고정하여 물리적 회전을 방지
         rigidbody.freezeRotation = true;
+
+        // 메인 카메라를 가져와 camera 변수에 할당
         camera = Camera.main;
+        // InputManager의 인스턴스를 가져와 inputManager 변수에 할당
+        inputManager = InputManager.Instance;
+
+        // CameraChangeTrigger 이벤트에 CameraChange 메서드를 구독
         inputHandler.CameraChangeTrigger += CameraChange;
 
-        inputManager = InputManager.Instance;
+        // 마우스 감도 변경 이벤트에 OnChangeMouseSensitivity 메서드를 구독
         inputManager.OnChangeMouseSensitivity += OnChangeMouseSensitivity;
+
+        // InputManager에서 현재 마우스 감도를 가져와 cameraSensitivity에 할당
         cameraSensitivity = inputManager.mouseSensitivity;
     }
 
     private void Update()
     {
+        //플레이어가 현재 지면에 있는지 체크
         isGround = GroundCheck();
-
+        //InputHandler의 InputJump 값을 startJump 변수에 저장
         startJump = inputHandler.InputJump;
     }
 
     private void FixedUpdate()
     {
-        if (Cursor.lockState == CursorLockMode.None) return;
+        if (Cursor.lockState == CursorLockMode.None) return; //커서가 켜져 있을 때는 이동 불가
         Move(inputHandler.MovementInput);
         Jump();
     }
 
     void LateUpdate()
     {
-        if (Cursor.lockState == CursorLockMode.None) return;
+        if (Cursor.lockState == CursorLockMode.None) return; //커서가 켜져 있을 때는 카메라 회전 불가
         //마우스 입력 반전을 적용
         int mouseFlipX = mouseInputFlipX ? -1 : 1;
         int mouseFlipY = mouseInputFlipY ? -1 : 1;
@@ -140,6 +147,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         inputManager.OnChangeMouseSensitivity -= OnChangeMouseSensitivity;
+        inputHandler.CameraChangeTrigger -= CameraChange;
     }
 
     bool GroundCheck()
@@ -276,11 +284,12 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        //지면에 있으면서 startJump 입력이 있을 때 점프를 실행
+        //이동이 가능한 상태에 지면에 있으면서 startJump 입력이 있을 때 점프를 실행
         if (startJump && isGround && canMove)
         {
             if(!readyToJump)
             {
+                //readyToJumprk true가 될 때까지 힘을 적용
                 OnJump();
             }
             else
@@ -296,12 +305,15 @@ public class PlayerController : MonoBehaviour
     
     void OnJump()
     {
+        //기존 y축 속도를 초기화
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+        //위로 향하는 힘을 적용
         rigidbody.AddForce(transform.up * playerData.JumpForce, ForceMode.Impulse);
     }
 
     void ResetJump()
     {
+        //점프 상태를 바꿈
         readyToJump = true;
     }
 
