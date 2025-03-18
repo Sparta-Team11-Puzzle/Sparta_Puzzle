@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Cursor.lockState == CursorLockMode.None) return;
         Move(inputHandler.MovementInput);
         Jump();
     }
