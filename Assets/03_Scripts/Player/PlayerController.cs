@@ -1,3 +1,4 @@
+using DataDeclaration;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
+    private InputManager inputManager;
+    
     private InputHandler inputHandler;
     private Rigidbody rigidbody;
     private PlayerData playerData;
@@ -89,6 +92,10 @@ public class PlayerController : MonoBehaviour
         rigidbody.freezeRotation = true;
         camera = Camera.main;
         inputHandler.CameraChangeTrigger += CameraChange;
+
+        inputManager = InputManager.Instance;
+        inputManager.OnChangeMouseSensitivity += OnChangeMouseSensitivity;
+        cameraSensitivity = inputManager.mouseSensitivity;
     }
 
     private void Update()
@@ -127,6 +134,11 @@ public class PlayerController : MonoBehaviour
             TPSLook();
         }
             
+    }
+
+    private void OnDestroy()
+    {
+        inputManager.OnChangeMouseSensitivity -= OnChangeMouseSensitivity;
     }
 
     bool GroundCheck()
@@ -254,6 +266,11 @@ public class PlayerController : MonoBehaviour
         camera.transform.rotation = Quaternion.Euler(-tpsCameraRotX, tpsCameraRotY, 0f);
         transform.eulerAngles = new Vector3(0, tpsCameraRotY, 0f);
 
+    }
+
+    private void OnChangeMouseSensitivity(float value)
+    {
+        cameraSensitivity = value;
     }
 
     void Jump()

@@ -18,6 +18,9 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
     private void Awake()
     {
         keyBindingUIs = GetComponentsInChildren<KeyBindingUI>(true);
+
+        mouseSensitivitySlider.minValue = 0.1f;
+        mouseSensitivitySlider.maxValue = 3f;
     }
 
     private void OnEnable()
@@ -42,14 +45,14 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
     private void OnMouseSensitivityChanged(float value)
     {
         inputManager.mouseSensitivity = value;
-        mouseSensitivityText.text = (value * 100f).ToString("N0");
+        mouseSensitivityText.text = value.ToString("N2");
     }
 
     private void InitUI()
     {
         inputManager.LoadUserMouseSetting();
         mouseSensitivitySlider.value = inputManager.mouseSensitivity;
-        mouseSensitivityText.text = (mouseSensitivitySlider.value * 100f).ToString("N0");
+        mouseSensitivityText.text = mouseSensitivitySlider.value.ToString("N2");
 
         inputManager.LoadUserKeySetting();
 
