@@ -26,7 +26,7 @@ public class SettingUI : BaseUI, IOnSceneLoaded
 
     private SettingType curSettingType; // 현재 설정 종류
     private ISettingUI curSettingUI;
-
+    
     private Action closeBtnAction;
     private Action cancelBtnAction; // 취소 버튼 클릭 시 실행할 로직
     private Action applyBtnAction; // 적용 버튼 클릭 시 실행할 로직
@@ -55,8 +55,8 @@ public class SettingUI : BaseUI, IOnSceneLoaded
     private void Start()
     {
         closeBtnAction = () => uiManager.ChangeUIState(UIType.Lobby);
-        
-        closeBtn.onClick.AddListener(OnCloseButtonClick);
+        closeBtn.onClick.AddListener(uiManager.PlayButtonSound);
+        closeBtn.onClick.AddListener(() => closeBtnAction?.Invoke());
 
         generalBtn.onClick.AddListener(OnGeneralButtonClick);
         soundBtn.onClick.AddListener(OnSoundButtonClick);
@@ -83,12 +83,6 @@ public class SettingUI : BaseUI, IOnSceneLoaded
     }
 
     #region OnClickMethod
-    private void OnCloseButtonClick()
-    {
-        uiManager.PlayButtonSound();
-        closeBtnAction();
-    }
-
     private void OnGeneralButtonClick()
     {
         uiManager.PlayButtonSound();
