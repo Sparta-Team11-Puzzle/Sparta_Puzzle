@@ -8,17 +8,32 @@ using UnityEngine.UI;
 /// </summary>
 public class KeySettingUI : MonoBehaviour, ISettingUI
 {
+    private InputManager inputManager;
+
     [SerializeField] private Slider mouseSensitivitySlider;
-    [SerializeField] private TextMeshProUGUI  mouseSensitivityText;
+    [SerializeField] private TextMeshProUGUI mouseSensitivityText;
+    private KeyBindingUI[] keyBindingUIs;
+
+    private void Awake()
+    {
+        keyBindingUIs = GetComponentsInChildren<KeyBindingUI>(true);
+
+        mouseSensitivitySlider.minValue = 0.1f;
+        mouseSensitivitySlider.maxValue = 3f;
+    }
 
     private void OnEnable()
     {
-        // 유저 마우스 감도 세팅값으로 초기화
-        mouseSensitivitySlider.value = PlayerPrefs.GetFloat(Constant.MOUSE_SENSITIVITY);
+        if (inputManager != null)
+        {
+            InitUI();
+        }
     }
 
     private void Start()
     {
+        inputManager = InputManager.Instance;
+        InitUI();
         mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
     }
 
@@ -28,18 +43,45 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
     /// <param name="value">Slider.value</param>
     private void OnMouseSensitivityChanged(float value)
     {
-        mouseSensitivityText.text = (value * 100f).ToString("N0");
+        inputManager.mouseSensitivity = value;
+        mouseSensitivityText.text = value.ToString("N2");
+    }
+
+    private void InitUI()
+    {
+        inputManager.LoadUserMouseSetting();
+        mouseSensitivitySlider.value = inputManager.mouseSensitivity;
+        mouseSensitivityText.text = mouseSensitivitySlider.value.ToString("N2");
+
+        inputManager.LoadUserKeySetting();
+
+        foreach (KeyBindingUI keyBindingUI in keyBindingUIs)
+        {
+            keyBindingUI.UpdateUI();
+        }
     }
 
     void ISettingUI.OnClickCancelButton()
     {
         UIManager.Instance.PlayButtonSound();
+
+        inputManager.LoadUserMouseSetting();
+        mouseSensitivitySlider.value = inputManager.mouseSensitivity;
+
+        inputManager.LoadUserKeySetting();
+        foreach (KeyBindingUI keyBindingUI in keyBindingUIs)
+        {
+            keyBindingUI.UpdateUI();
+        }
+
         Debug.Log("키 설정 취소 버튼");
     }
 
     void ISettingUI.OnClickApplyButton()
     {
         UIManager.Instance.PlayButtonSound();
+        inputManager.SaveUserMouseSetting();
+        inputManager.SaveUserKeySetting();
         Debug.Log("키 설정 적용 버튼");
     }
 }

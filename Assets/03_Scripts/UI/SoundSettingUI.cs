@@ -21,14 +21,17 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
 
     private void OnEnable()
     {
-        masterVolSlider.value = PlayerPrefs.GetFloat(Constant.MASTER_VOL);
-        bgmVolSlider.value = PlayerPrefs.GetFloat(Constant.BGM_VOL);
-        sfxVolSlider.value = PlayerPrefs.GetFloat(Constant.SFX_VOL);
+        if (audioManager != null)
+        {
+            InitUI();
+        }
     }
 
     private void Start()
     {
         audioManager = AudioManager.Instance;
+
+        InitUI();
         
         masterVolSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
         bgmVolSlider.onValueChanged.AddListener(OnBGMVolumeChanged);
@@ -52,6 +55,20 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
         audioManager.ChangeSFXVol(value);
         sfxVolText.text = (value * 100f).ToString("N0");
     }
+    
+    private void InitUI()
+    {
+        audioManager.LoadUserAudioSetting();
+        
+        masterVolSlider.value = audioManager.masterVol;
+        masterVolText.text =  (masterVolSlider.value * 100f).ToString("N0");
+        
+        bgmVolSlider.value = audioManager.bgmVol;
+        bgmVolText.text =  (bgmVolSlider.value * 100f).ToString("N0");
+        
+        sfxVolSlider.value = audioManager.sfxVol;
+        sfxVolText.text =  (sfxVolSlider.value * 100f).ToString("N0");
+    }
 
     void ISettingUI.OnClickCancelButton()
     {
@@ -67,10 +84,7 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
 
     void ISettingUI.OnClickApplyButton()
     {
-        PlayerPrefs.SetFloat("masterVol", masterVolSlider.value);
-        PlayerPrefs.SetFloat("bgmVol", bgmVolSlider.value);
-        PlayerPrefs.SetFloat("sfxVol", sfxVolSlider.value);
-        
+        audioManager.SaveUserAudioSetting();
         UIManager.Instance.PlayButtonSound();
     }
 }

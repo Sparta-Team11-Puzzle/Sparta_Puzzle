@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
     public List<BaseUI> UIList { get; private set; }
     public LobbyUI LobbyUI { get; private set; }
     public SettingUI SettingUI { get; private set; }
+    public PauseUI PauseUI { get; private set; }
     public InGameUI InGameUI { get; private set; }
 
     protected override void Awake()
@@ -137,34 +138,56 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ChangeUIState(UIType.None);
+        UIList.Clear();
+        InitFader();
+        
         switch (scene.buildIndex)
         {
             case 0:
-                UIList.Clear();
                 if (LobbyUI == null)
                 {
                     LobbyUI = InitUI<LobbyUI>();
                 }
+                else
+                {
+                    UIList.Add(LobbyUI);
+                }
                 if (SettingUI == null)
                 {
                     SettingUI = InitUI<SettingUI>();
                 }
-                InitFader();
+                else
+                {
+                    UIList.Add(SettingUI);
+                }
                 ChangeUIState(UIType.Lobby);
                 break;
             case 1:
-                UIList.Clear();
-                Destroy(LobbyUI.gameObject);
-                LobbyUI = null;
+                if (PauseUI == null)
+                {
+                    PauseUI = InitUI<PauseUI>();
+                }
+                else
+                {
+                    UIList.Add(PauseUI);
+                }
                 if (InGameUI == null)
                 {
                     InGameUI = InitUI<InGameUI>();
                 }
+                else
+                {
+                    UIList.Add(InGameUI);
+                }
                 if (SettingUI == null)
                 {
                     SettingUI = InitUI<SettingUI>();
                 }
-                InitFader();
+                else
+                {
+                    UIList.Add(SettingUI);
+                }
                 ChangeUIState(UIType.InGame);
                 break;
         }

@@ -1,3 +1,4 @@
+using DataDeclaration;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ public class DoorSwitch : MonoBehaviour, IInteractable
     [SerializeField] private GameObject[] targetObject;
     private IEventTrigger[] targetEvent;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
 
     private Vector3 leverRotation;
 
@@ -27,12 +30,13 @@ public class DoorSwitch : MonoBehaviour, IInteractable
         {
             targetObject[i].TryGetComponent(out targetEvent[i]);
         }
+
+        AudioManager.Instance.AddSFXAudioSource(audioSource);
     }
 
     public void Interact()
     {
-        Debug.Log(gameObject.name + " on");
-
+        audioSource.Play();
         leverTransform.DORotate(leverRotation, 2f);
         leverRotation *= -1;
 

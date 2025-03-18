@@ -11,9 +11,9 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 {
     private List<AudioSource> sfxList; // SFX 볼륨 관리용 리스트
 
-    private float masterVol;
-    private float bgmVol;
-    private float sfxVol;
+    public float masterVol;
+    public float bgmVol;
+    public float sfxVol;
 
     private AudioSource bgm;
     private Dictionary<SceneType, AudioClip> bgmClipDict;
@@ -25,22 +25,17 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 
         sfxList = new List<AudioSource>();
 
-        masterVol = 0.8f;
-        bgmVol = 0.8f;
-        sfxVol = 0.8f;
-
         bgm = GetComponent<AudioSource>();
+        bgm.loop = true;
         bgmClipDict = new Dictionary<SceneType, AudioClip>
         {
-            { SceneType.Lobby, Resources.Load<AudioClip>("Audio/ha-waterheater") },
-            { SceneType.Main, Resources.Load<AudioClip>("Audio/ha-suffocate") }
+            { SceneType.Lobby, Resources.Load<AudioClip>("Audio/WindSound (2)") },
+            { SceneType.Main, Resources.Load<AudioClip>("Audio/Ash_and_Dust") },
+            { SceneType.Ending, Resources.Load<AudioClip>("Audio/The_Void") }
         };
         
+        LoadUserAudioSetting();
         bgm.volume = bgmVol * masterVol;
-
-        PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);
-        PlayerPrefs.SetFloat(Constant.BGM_VOL, bgmVol);
-        PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVol);
     }
 
     private void Start()
@@ -92,6 +87,20 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
             sfx.volume = sfxVol * masterVol;
         }
     }
+    
+    public void LoadUserAudioSetting()
+    {
+        masterVol = PlayerPrefs.GetFloat(Constant.MASTER_VOL, 0.8f);
+        bgmVol = PlayerPrefs.GetFloat(Constant.BGM_VOL, 0.8f);
+        sfxVol = PlayerPrefs.GetFloat(Constant.SFX_VOL, 0.8f);
+    }
+    
+    public void SaveUserAudioSetting()
+    {
+        PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);
+        PlayerPrefs.SetFloat(Constant.BGM_VOL, bgmVol);
+        PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVol);
+    }
 
     /// <summary>
     /// 씬에 올라간 SFX AudioSource 리스트에 저장
@@ -126,6 +135,10 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
                 break;
             case 1:
                 bgm.clip = bgmClipDict[SceneType.Main];
+                bgm.Play();
+                break;
+            case 2:
+                bgm.clip = bgmClipDict[SceneType.Ending];
                 bgm.Play();
                 break;
         }

@@ -1,3 +1,4 @@
+using DataDeclaration;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class IceGround : MonoBehaviour, IEventTrigger
 
     private Stage1 stage;
     private PlayerController playerController;
+    private InputHandler inputHandler;
     private Rigidbody playerRigidbody;
 
     public bool stayPlayer { get; private set; }    // 플레이어가 IceGround에 머물고있는 상태
@@ -42,7 +44,8 @@ public class IceGround : MonoBehaviour, IEventTrigger
         if (collision.gameObject.CompareTag(playerTag))
         {
             stayPlayer = true;      
-            stage.isSlide = true;   
+            stage.isSlide = true;
+            stage.ActionBinding(true);
 
             // 플레이어 움직임 제한
             playerController.SetCanMove(false);
@@ -67,6 +70,7 @@ public class IceGround : MonoBehaviour, IEventTrigger
         {
             stayPlayer = false;
             stage.isSlide = false;
+            stage.ActionBinding(false);
 
             // 플레이어 움직임 제한 해제
             playerController.SetCanMove(true);

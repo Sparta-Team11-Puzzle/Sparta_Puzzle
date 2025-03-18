@@ -38,12 +38,22 @@ public class GameManager : Singleton<GameManager>, IOnSceneLoaded
         switch (scene.buildIndex)
         {
             case 0:
-                UIManager.ToggleCursor(true);
                 break;
             case 1:
                 uiManager.Fade(1, 0, 5);
+                break;
+            case 2:
                 UIManager.ToggleCursor(false);
                 break;
         }
+    }
+
+    public static void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

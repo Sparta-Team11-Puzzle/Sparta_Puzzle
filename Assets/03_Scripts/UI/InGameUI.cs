@@ -1,11 +1,12 @@
 using DataDeclaration;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 인게임 UI 클래스
 /// </summary>
-public class InGameUI : BaseUI
+public class InGameUI : BaseUI, IOnSceneLoaded
 {
     [SerializeField] private GameObject interactGuide;
     [SerializeField] private GameObject keyGuide;
@@ -16,11 +17,26 @@ public class InGameUI : BaseUI
     private int playTimeMin;
 
     public GameObject InteractGuide => interactGuide;
-    private TextMeshProUGUI CurStage => curStage;
+    public TextMeshProUGUI CurStage => curStage;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnEnable()
+    {
+        UIManager.ToggleCursor(false);
+    }
+    
     private void Update()
     {
         SetPlayTime();
+    }
+    
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public override void Init(UIManager manager)
@@ -47,5 +63,13 @@ public class InGameUI : BaseUI
         }
         
         playTime.text = $"진행 시간 {playTimeMin:D2}:{Mathf.FloorToInt(playTimeSec):D2}";
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex != (int)SceneType.Main)
+        {
+            Destroy(gameObject);
+        }
     }
 }

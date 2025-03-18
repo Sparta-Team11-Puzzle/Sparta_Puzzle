@@ -12,6 +12,7 @@ namespace DataDeclaration
     {
         Lobby,
         Main,
+        Ending
     }
     
     /// <summary>
@@ -23,6 +24,7 @@ namespace DataDeclaration
         Lobby,
         Setting,
         InGame,
+        Pause,
     }
 
     /// <summary>
@@ -54,6 +56,16 @@ namespace DataDeclaration
     public interface IOnSceneLoaded
     {
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode);
+    }
+    
+    public interface IEventTrigger
+    {
+        public void EventTrigger();
+    }
+    
+    public interface IInteractable
+    {
+        public void Interact();
     }
     #endregion
     
