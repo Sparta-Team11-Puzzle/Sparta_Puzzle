@@ -11,7 +11,7 @@ public class DeadPlane : MonoBehaviour
     {
         controller = FindObjectOfType<PlayerSFXController>();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)  // 플레이어가 Plane에 닿으면 리스폰
     {
         if(other.CompareTag("Player"))
         {

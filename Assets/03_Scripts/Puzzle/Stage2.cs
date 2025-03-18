@@ -23,7 +23,7 @@ public class Stage2 : BaseRoom
         if (materialChanger != null)
         {
             for (int i = 0; i < materialChanger.Length; i++)
-                materialChanger[i].ChangeMaterialTemporarily();
+                materialChanger[i].ChangeMaterialTemporarily(); // 발판 색깔 일시적으로 변경
         }
 
         // 벽 활성화
@@ -35,7 +35,7 @@ public class Stage2 : BaseRoom
         if (materialChanger != null)
         {
             for (int i = 0; i < materialChanger.Length; i++)
-                materialChanger[i].RestoreMaterial();
+                materialChanger[i].RestoreMaterial(); // 원래 색으로 변경
         }
 
         // 벽 비활성화
