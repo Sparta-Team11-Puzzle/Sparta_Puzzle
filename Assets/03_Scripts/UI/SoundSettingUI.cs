@@ -56,6 +56,9 @@ public class SoundSettingUI : MonoBehaviour,  ISettingUI
         sfxVolText.text = (value * 100f).ToString("N0");
     }
     
+    /// <summary>
+    /// UI 변경 전 상태로 갱신
+    /// </summary>
     private void InitUI()
     {
         audioManager.LoadUserAudioSetting();

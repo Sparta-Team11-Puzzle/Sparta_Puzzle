@@ -33,17 +33,20 @@ public class PauseUI : BaseUI
 
     private void OnClickResumeButton()
     {
+        UIManager.Instance.PlayButtonSound();
         UIManager.ToggleCursor(false);
         uiManager.ChangeUIState(UIType.InGame);
     }
 
     private void OnClickSettingButton()
     {
+        UIManager.Instance.PlayButtonSound();
         uiManager.ChangeUIState(UIType.Setting);
     }
 
     private void OnClickExitButton()
     {
+        UIManager.Instance.PlayButtonSound();
         GameManager.ExitGame();
     }
 }

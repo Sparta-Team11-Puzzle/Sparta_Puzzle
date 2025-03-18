@@ -79,5 +79,7 @@ namespace DataDeclaration
         public const string SFX_VOL = "sfxVol";
         
         public const string MOUSE_SENSITIVITY = "mouseSensitivity";
+        
+        public const string KEY_MAP = "keyMap";
     }
 }

@@ -7,13 +7,17 @@ public class WalkBehaviour : StateMachineBehaviour
     private NavMeshAgent agent;
 
     private Vector3[] path; // AI 경로
-
     private int curPathIndex; // 현재 경로 인덱스
+    
     private bool isTrigger;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        agent = animator.GetComponent<NavMeshAgent>();
+        animator.TryGetComponent<NavMeshAgent>(out agent);
+        if (agent == null)
+        {
+            Debug.LogError("agent is null");
+        }
 
         path = new[]
         {

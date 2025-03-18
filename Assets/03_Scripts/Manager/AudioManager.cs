@@ -15,7 +15,7 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
     public float bgmVol;
     public float sfxVol;
 
-    private AudioSource bgm;
+    private AudioSource bgm;    // BGM 재생용 audioSource
     private Dictionary<SceneType, AudioClip> bgmClipDict;
 
     protected override void Awake()
@@ -77,6 +77,7 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 
     /// <summary>
     /// SFX 볼륨 조절 기능
+    /// <para>sfxList에 저장된 모든 sfx의 볼륨 조절</para>
     /// </summary>
     /// <param name="figure">0~1 사이 값</param>
     public void ChangeSFXVol(float figure)
@@ -88,6 +89,9 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         }
     }
     
+    /// <summary>
+    /// 유저 오디오 설정값 불러오기
+    /// </summary>
     public void LoadUserAudioSetting()
     {
         masterVol = PlayerPrefs.GetFloat(Constant.MASTER_VOL, 0.8f);
@@ -95,6 +99,9 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         sfxVol = PlayerPrefs.GetFloat(Constant.SFX_VOL, 0.8f);
     }
     
+    /// <summary>
+    /// 유저 오디오 설정값 저장하기
+    /// </summary>
     public void SaveUserAudioSetting()
     {
         PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);

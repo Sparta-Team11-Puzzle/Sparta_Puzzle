@@ -10,7 +10,7 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
 {
     private InputManager inputManager;
 
-    [SerializeField] private Slider mouseSensitivitySlider;
+    [SerializeField] private Slider mouseSensitivitySlider; // 마우스 민감도 조절 슬라이드
     [SerializeField] private TextMeshProUGUI mouseSensitivityText;
     private KeyBindingUI[] keyBindingUIs;
 
@@ -47,6 +47,9 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
         mouseSensitivityText.text = value.ToString("N2");
     }
 
+    /// <summary>
+    /// UI 변경 전 상태로 갱신
+    /// </summary>
     private void InitUI()
     {
         inputManager.LoadUserMouseSetting();
@@ -73,8 +76,6 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
         {
             keyBindingUI.UpdateUI();
         }
-
-        Debug.Log("키 설정 취소 버튼");
     }
 
     void ISettingUI.OnClickApplyButton()
@@ -82,6 +83,5 @@ public class KeySettingUI : MonoBehaviour, ISettingUI
         UIManager.Instance.PlayButtonSound();
         inputManager.SaveUserMouseSetting();
         inputManager.SaveUserKeySetting();
-        Debug.Log("키 설정 적용 버튼");
     }
 }

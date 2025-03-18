@@ -138,8 +138,8 @@ public class UIManager : Singleton<UIManager>, IOnSceneLoaded
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ChangeUIState(UIType.None);
-        UIList.Clear();
+        ChangeUIState(UIType.None); // 모든 UI 비활성화
+        UIList.Clear(); // UI 관리 리스트 비우기
         InitFader();
         
         switch (scene.buildIndex)
