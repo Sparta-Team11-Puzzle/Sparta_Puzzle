@@ -42,7 +42,7 @@ public class InteractionHandler : MonoBehaviour
                     inputHandler.UseTrigger += interactable.Interact;
                 }
 
-                UIManager.Instance.InGameUI.ShowInteractOverlay();
+                UIManager.Instance.InGameUI.InteractGuide.SetActive(true);
 
             }
         }
@@ -54,7 +54,7 @@ public class InteractionHandler : MonoBehaviour
             }
             interactable = null;
             curInteraction = null;
-            UIManager.Instance.InGameUI.HideInteractOverlay();
+            UIManager.Instance.InGameUI.InteractGuide.SetActive(false);
         }
     }
 
