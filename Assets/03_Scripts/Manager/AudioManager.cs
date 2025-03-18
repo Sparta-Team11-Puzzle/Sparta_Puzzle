@@ -11,9 +11,9 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 {
     private List<AudioSource> sfxList; // SFX 볼륨 관리용 리스트
 
-    private float masterVol;
-    private float bgmVol;
-    private float sfxVol;
+    public float masterVol;
+    public float bgmVol;
+    public float sfxVol;
 
     private AudioSource bgm;
     private Dictionary<SceneType, AudioClip> bgmClipDict;
@@ -25,10 +25,6 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
 
         sfxList = new List<AudioSource>();
 
-        masterVol = 0.8f;
-        bgmVol = 0.8f;
-        sfxVol = 0.8f;
-
         bgm = GetComponent<AudioSource>();
         bgmClipDict = new Dictionary<SceneType, AudioClip>
         {
@@ -36,11 +32,8 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
             { SceneType.Main, Resources.Load<AudioClip>("Audio/ha-suffocate") }
         };
         
+        LoadUserAudioSetting();
         bgm.volume = bgmVol * masterVol;
-
-        PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);
-        PlayerPrefs.SetFloat(Constant.BGM_VOL, bgmVol);
-        PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVol);
     }
 
     private void Start()
@@ -91,6 +84,20 @@ public class AudioManager : Singleton<AudioManager>, IOnSceneLoaded
         {
             sfx.volume = sfxVol * masterVol;
         }
+    }
+    
+    public void LoadUserAudioSetting()
+    {
+        masterVol = PlayerPrefs.GetFloat(Constant.MASTER_VOL, 0.8f);
+        bgmVol = PlayerPrefs.GetFloat(Constant.BGM_VOL, 0.8f);
+        sfxVol = PlayerPrefs.GetFloat(Constant.SFX_VOL, 0.8f);
+    }
+    
+    public void SaveUserAudioSetting()
+    {
+        PlayerPrefs.SetFloat(Constant.MASTER_VOL, masterVol);
+        PlayerPrefs.SetFloat(Constant.BGM_VOL, bgmVol);
+        PlayerPrefs.SetFloat(Constant.SFX_VOL, sfxVol);
     }
 
     /// <summary>
