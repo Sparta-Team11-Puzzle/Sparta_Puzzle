@@ -1,4 +1,5 @@
 using DataDeclaration;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class InputManager : Singleton<InputManager>
     private InputActionAsset playerInput;  // 플레이어 InputAction 에셋
     
     public float mouseSensitivity;
+    
+    public Action<float> OnChangeMouseSensitivity;
     
     public InputActionAsset PlayerInput => playerInput;
 
@@ -26,7 +29,6 @@ public class InputManager : Singleton<InputManager>
     {
         string loadDate = PlayerPrefs.GetString("bindingOverrides", "{}");
         playerInput.LoadBindingOverridesFromJson(loadDate);
-        
     }
 
     /// <summary>
@@ -46,5 +48,6 @@ public class InputManager : Singleton<InputManager>
     public void SaveUserMouseSetting()
     {
         PlayerPrefs.SetFloat(Constant.MOUSE_SENSITIVITY, mouseSensitivity);
+        OnChangeMouseSensitivity?.Invoke(mouseSensitivity);
     }
 }
