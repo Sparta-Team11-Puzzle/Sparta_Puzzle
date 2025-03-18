@@ -9,12 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class CreditsController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        UIManager.ToggleCursor(false);
-    }
-
     public void ActiveEndingCreditEffect()
     {
         UIManager.Instance.Fade(0f, 1f, 10f, LoadLobbyScene);
@@ -23,6 +17,5 @@ public class CreditsController : MonoBehaviour
     void LoadLobbyScene()
     {
         GameManager.ChangeScene(SceneType.Lobby);
-        UIManager.ToggleCursor(true);
     }
 }
