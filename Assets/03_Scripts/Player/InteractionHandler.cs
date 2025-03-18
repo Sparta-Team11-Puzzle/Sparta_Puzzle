@@ -80,7 +80,6 @@ public class InteractionHandler : MonoBehaviour
     {
         if (interactable != null)
         {
-            Debug.Log("상호작용 초기화");
             inputHandler.UseTrigger -= interactable.Interact;
             interactable = null;
         }
